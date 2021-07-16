@@ -5,8 +5,43 @@ declare(strict_types=1);
 // class pour gérer la connection à la base de donnée
 namespace App\Service;
 
+use PDO;
+
+class Database 
+{
+
+    private $dbname;
+    private $host;
+    private $username;
+    private $password;
+    private $pdo;
+
+    public function __construct(string $dbname, string $host, string $username, string $password ){
+        $this->dbname = $dbname;
+        $this->host = $host;
+        $this->username = $username;
+        $this->password = $password;
+
+    }
+    public function getPDO(): PDO
+    {
+        if($this->pdo === null){
+
+            $this->pdo = new PDO("mysql:{ $this->dbname};host={$this->host}", $this->username,$this->password);
+
+        }
+        return $this->pdo;
+    }
+
+}
+
+
+
+
+
+
 // *** exemple fictif d'accès à la base de données
-final class Database
+/*final class Database
 {
     private array $bdd;
     private string $table;
@@ -53,8 +88,8 @@ final class Database
         }
 
         return $this->bdd[$this->table];
-    }
+    }*/
 
 
-    /* A retirer - Fin */
+    /* A retirer - Fin */*/
 }

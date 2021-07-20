@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 16 juil. 2021 à 20:05
+-- Généré le : mar. 20 juil. 2021 à 10:38
 -- Version du serveur : 10.4.19-MariaDB
 -- Version de PHP : 8.0.7
 
@@ -40,12 +40,13 @@ CREATE TABLE `article` (
 --
 
 INSERT INTO `article` (`id`, `title`, `text`, `date`, `user_id`) VALUES
-(1, 'My new article', 'Cras mattis porta neque, eget tincidunt lorem dictum ac. Integer mollis augue in laoreet convallis. Nam vehicula libero lectus. Donec tempor urna vel odio elementum tristique. Ut non urna dolor. Etiam nec sapien velit. Aliquam bibendum mollis risus. Fusce condimentum magna at lectus sodales, sit amet cursus lorem ultricies. In hac habitasse platea dictumst.', '2021-07-16 19:48:25', 1),
-(2, 'Interesting article', 'Cras mattis porta neque, eget tincidunt lorem dictum ac. Integer mollis augue in laoreet convallis. Nam vehicula libero lectus. Donec tempor urna vel odio elementum tristique. Ut non urna dolor. Etiam nec sapien velit. Aliquam bibendum mollis risus. Fusce condimentum magna at lectus sodales, sit amet cursus lorem ultricies. In hac habitasse platea dictumst.', '2021-07-16 19:48:25', 5),
-(3, 'The important news', 'Cras mattis porta neque, eget tincidunt lorem dictum ac. Integer mollis augue in laoreet convallis. Nam vehicula libero lectus. Donec tempor urna vel odio elementum tristique. Ut non urna dolor. Etiam nec sapien velit. Aliquam bibendum mollis risus. Fusce condimentum magna at lectus sodales, sit amet cursus lorem ultricies. In hac habitasse platea dictumst.', '2021-07-16 19:51:01', 2),
-(4, 'Message for you ', 'Cras mattis porta neque, eget tincidunt lorem dictum ac. Integer mollis augue in laoreet convallis. Nam vehicula libero lectus. Donec tempor urna vel odio elementum tristique. Ut non urna dolor. Etiam nec sapien velit. Aliquam bibendum mollis risus. Fusce condimentum magna at lectus sodales, sit amet cursus lorem ultricies. In hac habitasse platea dictumst.', '2021-07-16 19:51:01', 6),
-(5, 'You can ', 'Cras mattis porta neque, eget tincidunt lorem dictum ac. Integer mollis augue in laoreet convallis. Nam vehicula libero lectus. Donec tempor urna vel odio elementum tristique. Ut non urna dolor. Etiam nec sapien velit. Aliquam bibendum mollis risus. Fusce condimentum magna at lectus sodales, sit amet cursus lorem ultricies. In hac habitasse platea dictumst.', '2021-07-16 19:52:46', NULL),
-(6, 'Very important', 'Cras mattis porta neque, eget tincidunt lorem dictum ac. Integer mollis augue in laoreet convallis. Nam vehicula libero lectus. Donec tempor urna vel odio elementum tristique. Ut non urna dolor. Etiam nec sapien velit. Aliquam bibendum mollis risus. Fusce condimentum magna at lectus sodales, sit amet cursus lorem ultricies. In hac habitasse platea dictumst.', '2021-07-16 19:52:47', 2);
+(1, 'My new article', 'Integer interdum ultrices nibh quis tincidunt. Suspendisse potenti. In bibendum mi ante, quis porttitor quam tempus at. Ut fermentum ante imperdiet sagittis sodales. Pellentesque quis euismod nisl. Duis consequat vitae nisl vel ornare. Aliquam ultrices convallis ante, quis fermentum dolor vulputate blandit. Nunc commodo sapien ac laoreet auctor.', '2021-07-20 10:27:15', 2),
+(2, 'Very interesting', 'Integer interdum ultrices nibh quis tincidunt. Suspendisse potenti. In bibendum mi ante, quis porttitor quam tempus at. Ut fermentum ante imperdiet sagittis sodales. Pellentesque quis euismod nisl. Duis consequat vitae nisl vel ornare. Aliquam ultrices convallis ante, quis fermentum dolor vulputate blandit. Nunc commodo sapien ac laoreet auctor.', '2021-07-20 10:27:15', 3),
+(3, 'Good news', 'Integer interdum ultrices nibh quis tincidunt. Suspendisse potenti. In bibendum mi ante, quis porttitor quam tempus at. Ut fermentum ante imperdiet sagittis sodales. Pellentesque quis euismod nisl. Duis consequat vitae nisl vel ornare. Aliquam ultrices convallis ante, quis fermentum dolor vulputate blandit. Nunc commodo sapien ac laoreet auctor.', '2021-07-20 10:28:53', 5),
+(4, 'Interesting ideas', 'Integer interdum ultrices nibh quis tincidunt. Suspendisse potenti. In bibendum mi ante, quis porttitor quam tempus at. Ut fermentum ante imperdiet sagittis sodales. Pellentesque quis euismod nisl. Duis consequat vitae nisl vel ornare. Aliquam ultrices convallis ante, quis fermentum dolor vulputate blandit. Nunc commodo sapien ac laoreet auctor.', '2021-07-20 10:28:54', 4),
+(5, 'Great place to work', 'Integer interdum ultrices nibh quis tincidunt. Suspendisse potenti. In bibendum mi ante, quis porttitor quam tempus at. Ut fermentum ante imperdiet sagittis sodales. Pellentesque quis euismod nisl. Duis consequat vitae nisl vel ornare. Aliquam ultrices convallis ante, quis fermentum dolor vulputate blandit. Nunc commodo sapien ac laoreet auctor.', '2021-07-20 10:30:44', NULL),
+(6, 'Holyday season', 'Integer interdum ultrices nibh quis tincidunt. Suspendisse potenti. In bibendum mi ante, quis porttitor quam tempus at. Ut fermentum ante imperdiet sagittis sodales. Pellentesque quis euismod nisl. Duis consequat vitae nisl vel ornare. Aliquam ultrices convallis ante, quis fermentum dolor vulputate blandit. Nunc commodo sapien ac laoreet auctor.', '2021-07-20 10:30:44', 2),
+(7, 'My live', 'Integer interdum ultrices nibh quis tincidunt. Suspendisse potenti. In bibendum mi ante, quis porttitor quam tempus at. Ut fermentum ante imperdiet sagittis sodales. Pellentesque quis euismod nisl. Duis consequat vitae nisl vel ornare. Aliquam ultrices convallis ante, quis fermentum dolor vulputate blandit. Nunc commodo sapien ac laoreet auctor.', '2021-07-20 10:32:51', 1);
 
 -- --------------------------------------------------------
 
@@ -67,11 +68,10 @@ CREATE TABLE `comment` (
 --
 
 INSERT INTO `comment` (`id`, `text_comment`, `date_comment`, `valid`, `article_id`, `users_profile_id`) VALUES
-(2, 'Cras mattis porta neque, eget tincidunt lorem dictum ac. Integer mollis augue in laoreet convallis. Nam vehicula libero lectus. Donec tempor urna vel odio elementum tristique. Ut non urna dolor. Etiam nec sapien velit. Aliquam bibendum mollis risus. Fusce condimentum magna at lectus sodales, sit amet cursus lorem ultricies. In hac habitasse platea dictumst.', '2021-07-16 19:54:37', '', 2, 2),
-(3, 'Cras mattis porta neque, eget tincidunt lorem dictum ac. Integer mollis augue in laoreet convallis. Nam vehicula libero lectus. Donec tempor urna vel odio elementum tristique. Ut non urna dolor. Etiam nec sapien velit. Aliquam bibendum mollis risus. Fusce condimentum magna at lectus sodales, sit amet cursus lorem ultricies. In hac habitasse platea dictumst.', '2021-07-16 19:58:20', '', 6, 2),
-(4, 'Cras mattis porta neque, eget tincidunt lorem dictum ac. Integer mollis augue in laoreet convallis. Nam vehicula libero lectus. Donec tempor urna vel odio elementum tristique. Ut non urna dolor. Etiam nec sapien velit. Aliquam bibendum mollis risus. Fusce condimentum magna at lectus sodales, sit amet cursus lorem ultricies. In hac habitasse platea dictumst.', '2021-07-16 19:58:20', '', 5, 1),
-(5, 'Cras mattis porta neque, eget tincidunt lorem dictum ac. Integer mollis augue in laoreet convallis. Nam vehicula libero lectus. Donec tempor urna vel odio elementum tristique. Ut non urna dolor. Etiam nec sapien velit. Aliquam bibendum mollis risus. Fusce condimentum magna at lectus sodales, sit amet cursus lorem ultricies. In hac habitasse platea dictumst.', '2021-07-16 19:58:57', '', 6, 3),
-(6, 'Cras mattis porta neque, eget tincidunt lorem dictum ac. Integer mollis augue in laoreet convallis. Nam vehicula libero lectus. Donec tempor urna vel odio elementum tristique. Ut non urna dolor. Etiam nec sapien velit. Aliquam bibendum mollis risus. Fusce condimentum magna at lectus sodales, sit amet cursus lorem ultricies. In hac habitasse platea dictumst.', '2021-07-16 19:58:57', '', 1, 6);
+(1, 'Integer interdum ultrices nibh quis tincidunt. Suspendisse potenti. In bibendum mi ante, quis porttitor quam tempus at. Ut fermentum ante imperdiet sagittis sodales. Pellentesque quis euismod nisl. Duis consequat vitae nisl vel ornare. Aliquam ultrices convallis ante, quis fermentum dolor vulputate blandit. Nunc commodo sapien ac laoreet auctor.', '2021-07-20 10:34:22', '', 4, 4),
+(3, 'Integer interdum ultrices nibh quis tincidunt. Suspendisse potenti. In bibendum mi ante, quis porttitor quam tempus at. Ut fermentum ante imperdiet sagittis sodales. Pellentesque quis euismod nisl. Duis consequat vitae nisl vel ornare. Aliquam ultrices convallis ante, quis fermentum dolor vulputate blandit. Nunc commodo sapien ac laoreet auctor.', '2021-07-20 10:34:53', '', 7, 5),
+(5, 'Integer interdum ultrices nibh quis tincidunt. Suspendisse potenti. In bibendum mi ante, quis porttitor quam tempus at. Ut fermentum ante imperdiet sagittis sodales. Pellentesque quis euismod nisl. Duis consequat vitae nisl vel ornare. Aliquam ultrices convallis ante, quis fermentum dolor vulputate blandit. Nunc commodo sapien ac laoreet auctor.', '2021-07-20 10:35:27', '', 6, 5),
+(6, 'Integer interdum ultrices nibh quis tincidunt. Suspendisse potenti. In bibendum mi ante, quis porttitor quam tempus at. Ut fermentum ante imperdiet sagittis sodales. Pellentesque quis euismod nisl. Duis consequat vitae nisl vel ornare. Aliquam ultrices convallis ante, quis fermentum dolor vulputate blandit. Nunc commodo sapien ac laoreet auctor.', '2021-07-20 10:35:27', '', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -92,11 +92,11 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password`, `role`) VALUES
-(1, 'Berni', 'berni@yahoo.fr', '$2y$12$4QEP8l/0QwawGQ52XE5NFO/ntzbdj2rqUozbbJUZkXX92cnuDdLY. ', 'Admin'),
-(2, 'Ola', 'ola@gmail.com', '$2y$12$24vw8c7T22x6qCvBut6aZu.e/3lNhEzbZCkd.AiF2jx0l/.uhCYiW ', 'Admin'),
-(3, 'Sasha', 'sah@gmail.com', '$2y$12$u4GeSY0bo/e1Vt6lQQp5iOvEZgK8zsjhTrLisCcUuLsinoxPHjwiu ', NULL),
-(5, 'Ernest', 'erni@live.fr', '$2y$12$g.kI4RKF80fkMVIrhevce.2D7UcSCFJhZcdGrOUiKgfpitXQA6KuC ', 'Admin'),
-(6, 'Anna', 'ania@gmail.com', '$2y$12$r502RxtmnptgQNfLOrHAROZ2HTit9iM1/mnBshsC63O3nhKsx05pK ', NULL);
+(1, 'Berni', 'berni@yahoo.fr', '$2y$12$K2Xn52G2QyZpuFX0P61yt.ldWF133Gg4M.8ZFEFqReSCISBRTae16 ', 'Admin'),
+(2, 'Ernest', 'erni@gmail.com', '$2y$12$mYL/EVFtXfm2KcTEvXmG4ehsN5hI83SoleCiPFcdwdtUiob9/.ZJe ', NULL),
+(3, 'Ola', 'ola@yahoo.fr', '$2y$12$HXDsFVZdwuq3JZaIM9oT7u5bvMPuUmAU56rIoz0SEoGxqv4/zIuhK ', 'Admin'),
+(4, 'Marcel', 'marc@gmail.com', '$2y$12$KZlFnUGbqY7CNj8o4kcP0.HfB28LEXrsWqFwDjFsqcKmnBT5V0fp6 ', NULL),
+(5, 'Ewa', 'ewa@live.fr', '$2y$12$5S.yxQn6HGycEwr0LP5Poec8YyVr4ABxwv7I2ecmigSoOhjjuIKuq ', 'Admin');
 
 --
 -- Index pour les tables déchargées
@@ -122,7 +122,8 @@ ALTER TABLE `comment`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email_UNIQUE` (`email`);
+  ADD UNIQUE KEY `email_UNIQUE` (`email`),
+  ADD UNIQUE KEY `username_UNIQUE` (`username`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -132,7 +133,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `article`
 --
 ALTER TABLE `article`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pour la table `comment`
@@ -160,7 +161,7 @@ ALTER TABLE `article`
 -- Contraintes pour la table `comment`
 --
 ALTER TABLE `comment`
-  ADD CONSTRAINT `fk_comment_article` FOREIGN KEY (`article_id`) REFERENCES `article` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_comment_article` FOREIGN KEY (`article_id`) REFERENCES `article` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_comment_users_profile1` FOREIGN KEY (`users_profile_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 COMMIT;
 

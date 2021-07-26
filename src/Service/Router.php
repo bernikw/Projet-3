@@ -18,19 +18,32 @@ use App\View\View;
 // TODO Le router ne devrait pas avoir la responsabilité de l'injection des dépendances
 final class Router
 {
-    private Database $database;
+    public $url;
+    
+    /*private Database $database;
     private View $view;
     private Request $request;
-    private Session $session;
+    private Session $session;*/
 
-    public function __construct(Request $request)
+    public function __construct($url)
+    {
+        $this->url = $url;
+    }
+
+    /*public function __construct(Request $request)
     {
         // dépendance
-        $this->database = new Database();
+        $this->database = new Database(); 
+        var_dump('Hello word');
         $this->session = new Session();
         $this->view = new View($this->session);
         $this->request = $request;
-    }
+    }*/
+
+
+
+
+
 
     public function run(): Response
     {

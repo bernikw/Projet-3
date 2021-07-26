@@ -16,7 +16,7 @@ final class View
     public function __construct(Session $session)
     {
         $loader = new FilesystemLoader('../templates');
-        $this->twig = new Environment($loader);
+        $this->twig = new Environment($loader, ['cache' => false,]);
         $this->session = $session;
     }
 

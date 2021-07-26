@@ -9,11 +9,11 @@ use App\Model\Entity\Interfaces\EntityObjectInterface;
 final class Comment
 {
     private int $id;
-    private string $pseudo; // TODO l'entity User serait plus approprié
+    private string $user; // TODO l'entity User serait plus approprié
     private string $text;
     private int $idPost;
 
-    public function __construct(int $id, string $pseudo, string $text, int $idPost)
+    public function __construct(int $id, string $user, string $text, int $idPost)
     {
         $this->id = $id;
         $this->pseudo = $pseudo;

@@ -6,42 +6,38 @@ namespace App\Service;
 
 use PDO;
 use PDOException;
+use Psr\Log\NullLogger;
 
 class Database
 {
 
-    private $db_name;
-    private $db_user;
-    private $db_pass;
-    private $db_host;
-    private $pdo;
+    private string $dbName;
+    private string $dbUser;
+    private string $dbPass;
+    private string $dbHost;
+    private \PDO $pdo;
   
-    public function __construct($db_host = 'localhost', $db_name = 'myblog', $db_user = 'root', $db_pass = 'root', )
+    public function __construct($dbHost = 'localhost', $dbName = 'myblog', $dbUser = 'root', $dbPass = '', )
     {
-        $this->db_host = $db_host;
-        $this->db_name = $db_name;
-        $this->db_user = $db_user;
-        $this->db_pass = $db_pass;
+        $this->dbHost = $dbHost;
+        $this->dbName = $dbName;
+        $this->dbUser = $dbUser;
+        $this->dbPass = $dbPass;
         
        
     }
 
-    private function getConnection(){
-        try{
+    public function getConnection(): \PDO
+    {
+    
+           $this->pdo = new \PDO('mysql:host=' . $this->dbHost . ';dbname=' . $this->dbName . ';charset=utf8', $this->dbUser, $this->dbPass);
 
-            $pdo = new PDO('mysql:dbname;host=localhost', 'root', 'root');
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+
+    
             return $this->pdo;
-        }
-
-        catch(PDOException $e){
-
-            die('Error:' . $e->getMessage());
-        }
-
-        $response = $pdo->query('SELECT * FROM myblog');
-
+         
 
 
     }

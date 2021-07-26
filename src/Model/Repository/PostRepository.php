@@ -39,7 +39,7 @@ final class PostRepository implements EntityRepositoryInterface
     public function findAll(): ?array
     {
         // SB ici faire l'hydratation des objets
-        $this->database->prepare('select * from post');
+        $this->database->prepare('SELECT * FROM article ORDER BY id DESC LIMIT 5);
         $data = $this->database->execute();
 
         if ($data === null) {

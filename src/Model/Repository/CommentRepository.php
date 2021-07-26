@@ -30,7 +30,7 @@ final class CommentRepository implements EntityRepositoryInterface
 
     public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): ?array
     {
-        $this->database->prepare('select * from comment where idPost=:idPost');
+        $this->database->prepare('SELECT * FROM comment WHERE article_id=:article_id');
         $data = $this->database->execute($criteria);
 
         if ($data === null) {

@@ -24,7 +24,4 @@ $response->send();
 echo $_GET['url'];
 
 
-$loader = new \Twig\Loader\FilesystemLoader(__DIR__.'/templates');
-$template = new \Twig\Environment($loader, ['cache' => false]);
 
-echo $template->render('base.html.twig', []);

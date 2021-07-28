@@ -1,19 +1,46 @@
-{% extends "/frontoffice/base.html.twig" %}
+{% extends "/frontoffice/layout.html.twig" %}
 
-{% block title %}Les articles{% endblock %}
+{% block title %}Les articles
+{% endblock %}
 
-{% block content %} 
-    <h2>Tous les posts</h2>
+{% block content %}
+	<h2>Tous les posts</h2>
 
-    <div class="card" style="width: 18rem;">
-    {% for post in posts %}
-        <article>
-            <h2>title = {{ post.title }}</h2>
-            <p>text = {{ post.text}}</p>
-            <p>id = {{ post.id}}</p>
-            <a href="index.php?action=post&id={{ post.id}}">Lire le post</a>
-            <hr>
-        </article>
-    {% endfor %}
-    </div>
+	<div class="row">
+		{% for post in posts %}
+			<div class="col-xs-4">
+				<div class="card" style="width: 18rem;">
+
+					<div class="card-body">
+						<h5 class="card-title">{{ post.title }}</h5>
+						<p class="card-text">{{ post.text}}</p>
+						<a href="index.php?action=post&id={{ post.id}}" class="btn btn-primary">Lire le post</a>
+					</div>
+				</div>
+			</div>
+
+		{% endfor %}
+	</div>
+
+
+	<nav aria-label="Page navigation example">
+		<ul class="pagination">
+			<li class="page-item">
+				<a class="page-link" href="#">Previous</a>
+			</li>
+			<li class="page-item">
+				<a class="page-link" href="#">1</a>
+			</li>
+			<li class="page-item">
+				<a class="page-link" href="#">2</a>
+			</li>
+			<li class="page-item">
+				<a class="page-link" href="#">3</a>
+			</li>
+			<li class="page-item">
+				<a class="page-link" href="#">Next</a>
+			</li>
+		</ul>
+	</nav>
+
 {% endblock %}

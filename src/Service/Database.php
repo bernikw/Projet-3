@@ -15,7 +15,7 @@ class Database
     private string $dbUser;
     private string $dbPass;
     private string $dbHost;
-    private \PDO $pdo;
+    private ?\PDO $pdo;
   
     public function __construct($dbHost = 'localhost', $dbName = 'myblog', $dbUser = 'root', $dbPass = '', )
     {
@@ -23,18 +23,20 @@ class Database
         $this->dbName = $dbName;
         $this->dbUser = $dbUser;
         $this->dbPass = $dbPass;
-        
-       
+        $this->pdo = null;
+          
     }
 
     public function getConnection(): \PDO
     {
-    
-           $this->pdo = new \PDO('mysql:host=' . $this->dbHost . ';dbname=' . $this->dbName . ';charset=utf8', $this->dbUser, $this->dbPass);
+        if ($this->pdo === null){
+
+            $this->pdo = new \PDO('mysql:host=' . $this->dbHost . ';dbname=' . $this->dbName . ';charset=utf8', $this->dbUser, $this->dbPass);
 
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
 
+        }
+           
     
             return $this->pdo;
          

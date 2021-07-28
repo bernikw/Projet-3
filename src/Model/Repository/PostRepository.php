@@ -14,7 +14,7 @@ final class PostRepository implements EntityRepositoryInterface
 
     public function __construct(Database $database)
     {
-        $this->database = $database->getConnection();
+        $this->database = $database;
     }
 
     public function find(int $id): ?Post
@@ -24,7 +24,7 @@ final class PostRepository implements EntityRepositoryInterface
 
     public function findOneBy(array $criteria, array $orderBy = null): ?Post
     {
-        $this->database->prepare('SELECT * FROM article ORDER BY date DESC LIMIT 10);
+        $this->database->getConnection()->prepare('SELECT * FROM article ORDER BY date DESC LIMIT 10');
 
         $data = $this->database->execute($criteria);
         // réfléchir à l'hydratation des entités;
@@ -39,8 +39,9 @@ final class PostRepository implements EntityRepositoryInterface
     public function findAll(): ?array
     {
         // SB ici faire l'hydratation des objets
-        $this->database->prepare('SELECT * FROM article ORDER BY id DESC LIMIT 5);
-        $data = $this->database->execute();
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM article ORDER BY id DESC LIMIT 5');
+        $statement->execute();
+        $data = $statement->fetchAll();
 
         if ($data === null) {
             return null;

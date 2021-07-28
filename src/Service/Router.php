@@ -6,6 +6,8 @@ namespace  App\Service;
 
 use App\Controller\Frontoffice\PostController;
 use App\Controller\Frontoffice\UserController;
+use App\Controller\Frontoffice\HomeController;
+use App\Controller\Frontoffice\RegistrationController;
 use App\Model\Repository\PostRepository;
 use App\Model\Repository\CommentRepository;
 use App\Model\Repository\UserRepository;
@@ -14,41 +16,31 @@ use App\Service\Http\Response;
 use App\Service\Http\Session\Session;
 use App\View\View;
 
-// TODO cette classe router est un exemple très basic. Cette façon de faire n'est pas optimale
-// TODO Le router ne devrait pas avoir la responsabilité de l'injection des dépendances
+
 final class Router
 {
-    public $url;
+  
     
-    /*private Database $database;
+    private Database $database;
     private View $view;
     private Request $request;
-    private Session $session;*/
+    private Session $session;
 
-    public function __construct($url)
-    {
-        $this->url = $url;
-    }
+   
 
-    /*public function __construct(Request $request)
+    public function __construct(Request $request)
     {
         // dépendance
         $this->database = new Database(); 
-        var_dump('Hello word');
         $this->session = new Session();
         $this->view = new View($this->session);
         $this->request = $request;
-    }*/
-
-
-
-
-
+    }
 
     public function run(): Response
     {
-        //On test si une action a été défini ? si oui alors on récupére l'action : sinon on mets une action par défaut (ici l'action posts)
-        $action = $this->request->query()->has('action') ? $this->request->query()->get('action') : 'posts';
+        
+        $action = $this->request->query()->has('action') ? $this->request->query()->get('action') : 'home';
 
         //Déterminer sur quelle route nous sommes // Attention algorithme naïf
 
@@ -83,6 +75,23 @@ final class Router
             $controller = new UserController($userRepo, $this->view, $this->session);
 
             return $controller->logoutAction();
+        
+         // *** @Route http://localhost:8000/?action=home ***
+        } elseif ($action === 'home') {
+            
+            $controller = new HomeController($this->view);
+
+            return $controller->displayHomeAction();
+        
+
+         // *** @Route http://localhost:8000/?action=registration ***
+        } elseif ($action === 'registration') {
+            
+            $controller = new RegistrationController($this->view);
+
+            return $controller->displayRegistrationAction();
+
+
         }
         
         return new Response("Error 404 - cette page n'existe pas<br><a href='index.php?action=posts'>Aller Ici</a>", 404);

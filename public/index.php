@@ -21,7 +21,7 @@ $router = new Router($request);
 $response = $router->run();
 $response->send();
 
-echo $_GET['url'];
+
 
 
 

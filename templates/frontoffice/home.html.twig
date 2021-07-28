@@ -1,0 +1,46 @@
+{% extends "/frontoffice/layout.html.twig" %}
+{% import '/frontoffice/form.html.twig' as form %}
+{% block content %}
+
+<!--Haeder-->
+<haeder>
+<div class="container">
+    <div class="card" style="width: 18rem;">
+        <img src="public/images/photoheader.png" class="card-img-top" height="30%" alt="...">
+    <div class="card-body">
+        <p class="card-text">"Parler est bon marché. Montrez-moi le code." - Linus Torvalds </p>
+  </div>
+    </div>
+</div>
+</haeder>
+
+
+<!--Section About Me-->
+<div class="container">
+  <div class="row">
+    <div class="col">
+     Bernadetta Sibe
+    </div>
+    <div class="col">
+      photo
+    </div>
+  </div>
+</div>
+
+<!--Section Form-->
+
+<div class="form-group text-center"
+         <h3>Me contacter</h3>
+	<form action="#" method="post">
+		{{ form.input('name','Votre nom') }}
+		{{ form.input('name','Votre email')}}
+		{{ form.textarea('name','Votre message') }}
+	</form>
+    
+     
+	<div class='form-group'>
+		<button type="submit" class="btn btn-primary">Envoyer</button>
+    </div>  
+</div>
+{% endblock %}
+ 

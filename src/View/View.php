@@ -8,6 +8,7 @@ use Twig\Environment;
 use App\Service\Http\Session\Session;
 use Twig\Loader\FilesystemLoader;
 
+
 final class View
 {
     private Environment $twig;
@@ -27,4 +28,6 @@ final class View
 
         return $this->twig->render("frontoffice/${data['template']}.html.twig", $data['data']);
     }
+   
 }
+

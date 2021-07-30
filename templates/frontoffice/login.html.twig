@@ -1,9 +1,11 @@
 {% extends "/frontoffice/layout.html.twig" %}
 
 {% block content %}
-<section id="login">
+
+	<section id="login">
 		<div class="container">
-			<h5 class="text-center text-uppercase text-secondary mb-0">Connectez-vous</h5>
+		<div class="row">
+			<h5 class="text-center text-uppercase text-secondary mb-0 my-5">Connectez-vous</h5>
 			<hr class="star-dark mb-5">
 			<div class="row">
 				<div class="col-lg-8 mx-auto">
@@ -18,12 +20,13 @@
 							<input type="password" class="form-control" id="exampleFormControlInput1" placeholder="Mot de passe">
 						</div>
 
-						<div class="d-grid gap-2 col-6 mx-auto">
-							<button type="submit" class="btn btn-primary" type="button">Se connecter</button>
+						<div class="d-grid gap-2 col-6 mx-auto my-5">
+							<button type="submit" class="btn btn-success" type="button">Se connecter</button>
 						</div>
 					</form>
 				</div>
 			</div>
+			</div>
 		</div>
-	</section>		
+	</section>
 {% endblock %}

@@ -22,13 +22,16 @@ final class PostRepository implements EntityRepositoryInterface
         return null;
     }
 
-    public function findOneBy(array $criteria, array $orderBy = null): ?Post
+    public function findOneBy(array $criteria, array $orderBy = null, ): ?Post
     {
-        $this->database->getConnection()->prepare('SELECT * FROM article ORDER BY date DESC LIMIT 10');
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM article WHERE id = id');
 
-        $data = $this->database->execute($criteria);
+        $statement->execute();
+        $data = $statement->setFetchMode();
+        
+       //$data = $this->database->execute($criteria);
         // réfléchir à l'hydratation des entités;
-        return $data === null ? $data : new Post($data['id'], $data['title'], $data['text']);
+        return $data === null ? $data : new Post((int)$data['id'], $data['title'], $data['text']);
     }
 
     public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): ?array
@@ -39,7 +42,8 @@ final class PostRepository implements EntityRepositoryInterface
     public function findAll(): ?array
     {
         // SB ici faire l'hydratation des objets
-        $statement = $this->database->getConnection()->prepare('SELECT * FROM article ORDER BY id DESC LIMIT 5');
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM article ORDER BY id DESC LIMIT 6');
+
         $statement->execute();
         $data = $statement->fetchAll();
 

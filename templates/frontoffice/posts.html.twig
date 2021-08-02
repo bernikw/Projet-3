@@ -1,46 +1,56 @@
 {% extends "/frontoffice/layout.html.twig" %}
 
-
 {% block content %}
 
-		<section class="blog">
-			<div class="container">
-				<div class="row">
-					{% for post in posts %}
-						<div class="col-sm-4">
-							<div class="card" >
-								<div class="card-body">
-									<h5 class="card-title">{{ post.title }}</h5>
-									<p class="card-text">{{ post.text}}</p>
-									<a href="index.php?action=post&id={{ post.id}}" class="btn btn-primary">Lire le post</a>
-								</div>
-							</div>
-						</div>
-
-					{% endfor %}
-
-
-					<nav aria-label="Page navigation example">
-						<ul class="pagination">
-							<li class="page-item">
-								<a class="page-link" href="#">Previous</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">1</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">2</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">3</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">Next</a>
-							</li>
-						</ul>
-					</nav>
+<!--Header section -->
+	<section class="blog">
+		<div class="container">
+			<div class="row">
+				<div class="p-4 p-md-5 mb-4 text-white rounded bg-secondary my-5">
+					<div class="col-md-8 px-0">
+						<h1 class="display-4">Blog développement web</h1>
+						<p class="lead my-3">Derniers articles</p>
+					</div>
 				</div>
 			</div>
-		</section>
+		</div>
+
+<!--Post section -->
+		<div class="container">
+			<div class="row">
+				{% for post in posts %}
+					<div class="col-sm-4 my-2">
+						<div class="card" style="width: 20rem;">
+							<div class="card-body">
+								<h5 class="card-title">{{ post.title }}</h5>
+								<p class="card-text">{{ post.text}}</p>
+								<a href="index.php?action=post&id={{ post.id}}" class="btn btn-success">Lire le post</a>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+<!--Pagination section -->
+				<nav class="text-center">
+					<ul class="pagination justify-content-center my-5">
+						<li class="page-item">
+							<a class="page-link link-secondary" href="#">Précédent</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link link-secondary" href="#">1</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link link-secondary" href="#">2</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link link-secondary" href="#">3</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link link-secondary" href="#">Suivant</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</section>
 
 {% endblock %}

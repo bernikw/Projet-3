@@ -4,78 +4,76 @@
 
 	<!--Section haeder-->
 	<div class="container">
-		<div class="row">
-			<haeder class="col-12 text-white text-center bg-secondary my-5 rounded-3">
-				<div class="p-5 text-center bg-secondary">
-					<h1 class="mb-3">Bernadetta Sibe</h1>
-					<h4 class="mb-3">Développeuse PHP qui prend soin de détalis.</h4>
-				</div>
-			</haeder>
+		<div class="p-4 p-md-5 mb-4 text-center text-white rounded bg-secondary my-5">
+			<div class="col-md-12 px-0">
+				<h1 class="display-4">Bernadetta Sibe</h1>
+				<p class="lead my-3">Développeuse PHP qui prends soin de détails.</p>
+			</div>
 		</div>
 	</div>
+</div>
 
-	<!--Section about -->
+<!--Section about -->
+<div class="container">
+	<div class="row align-items-md-stretch">
+		<div class="col-md-6">
+			<div class="h-100 p-5 text-white text-center bg-success rounded-3">
+				<p>J'ai découvert un monde de développement web il y a cinq ans. J'ai commencé à coder et très vite ça devenue ma passion. Issue de milieu d'enseignement j'ai eu l'envie d'en faire mon métier! Je me suis formé chez G2R formation et maintenant chez Openclassrooms.</p>
+				<div class="text-center my-4">
+					<a class="btn btn-xl btn-outline-light" href="/cv">
+						<i class="fas fa-download mr-2"></i>
+						Mon CV
+					</a>
+				</div>
+				<!-- Linkedin -->
+				<a class="btn btn-outline-light btn-floating m-1" href="#!" role="button">
+					<i class="bi bi-linkedin"></i>
+				</a>
+				<!-- Github -->
+				<a class="btn btn-outline-light text-center btn-floating m-1" href="#!" role="button">
+					<i class="bi bi-github"></i>
+				</a>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="h-100 bg-light border rounded-3">
+				<img src="public/images/bsibe.png" class="img-fluid img-thumbnail" alt="...">
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--Contact form -->
+<section id="contact-form">
 	<div class="container">
-		<div class="row align-items-md-stretch">
-			<div class="col-md-6">
-				<div class="h-100 p-5 text-white text-center bg-success rounded-3">
-					<p>J'ai découvert un monde de développement web il y a cinq ans. J'ai commencé à coder et très vite ça devenue ma passion. Issue de milieu d'enseignement j'ai eu l'envie d'en faire mon métier! Je me suis formé chez G2R formation et maintenant chez Openclassrooms.</p>
-					<div class="text-center my-4">
-						<a class="btn btn-xl btn-outline-light" href="/cv">
-							<i class="fas fa-download mr-2"></i>
-							Mon CV
-						</a>
-					</div>
-					<!-- Linkedin -->
-					<a class="btn btn-outline-light btn-floating m-1" href="#!" role="button">
-						<i class="bi bi-linkedin"></i>
-					</a>
-					<!-- Github -->
-					<a class="btn btn-outline-light text-center btn-floating m-1" href="#!" role="button">
-						<i class="bi bi-github"></i>
-					</a>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="h-100 bg-light border rounded-3">
-					<img src="public/images/bsibe.png" class="img-fluid img-thumbnail" alt="...">
+		<div class="row">
+			<h5 class="text-center text-uppercase text-secondary mb-0 my-5">Me contacter</h5>
+			<hr class="star-dark mb-5">
+			<div class="row">
+				<div class="col-lg-8 mx-auto">
+					<form action="#" method="post">
+						<div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label">Votre prénom</label>
+							<input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Jean">
+						</div>
+						<div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label">Votre nom</label>
+							<input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Dubois">
+						</div>
+						<div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label">Votre e-mail</label>
+							<input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+						</div>
+						<div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label">Message</label>
+							<textarea class="form-control" name="message" rows="5" placeholder="Message" required="required" data-validation-required-message="Veuillez entrer votre message."></textarea>
+						</div>
+						<div class="d-grid gap-2 col-6 mx-auto my-5">
+							<button type="submit" class="btn btn-success" type="button">Envoyer</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-
-	<!--Contact form -->
-	<section id="contact-form">
-		<div class="container">
-			<div class="row">
-				<h5 class="text-center text-uppercase text-secondary mb-0 my-5">Me contacter</h5>
-				<hr class="star-dark mb-5">
-				<div class="row">
-					<div class="col-lg-8 mx-auto">
-						<form action="#" method="post">
-							<div class="mb-3">
-								<label for="exampleFormControlInput1" class="form-label">Votre prénom</label>
-								<input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Jean">
-							</div>
-							<div class="mb-3">
-								<label for="exampleFormControlInput1" class="form-label">Votre nom</label>
-								<input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Dubois">
-							</div>
-							<div class="mb-3">
-								<label for="exampleFormControlInput1" class="form-label">Votre e-mail</label>
-								<input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-							</div>
-							<div class="mb-3">
-								<label for="exampleFormControlInput1" class="form-label">Message</label>
-								<textarea class="form-control" name="message" rows="5" placeholder="Message" required="required" data-validation-required-message="Veuillez entrer votre message."></textarea>
-							</div>
-							<div class="d-grid gap-2 col-6 mx-auto my-5">
-								<button type="submit" class="btn btn-success" type="button">Envoyer</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-{% endblock %}
+</section>{% endblock %}

@@ -1,35 +1,38 @@
 {% extends "/frontoffice/base.html.twig" %}
 
-{% block title %}post.title{% endblock %}
-
-{% block content %} 
-    <article>
-    <div class="container">
+{% block content %}
+	<!--Header section -->
+	<div class="container">
+		<div class="card bg-dark text-white">
+			<img src="public/images/article-1.jpg" class="card-img" alt="..."/>
+			<div class="card-img-overlay">
+				<h5 class="card-title">
+					<h2>{{ post.title }}</h2>
+				</h5>
+			</div>
+		</div>
+	</div>
+	<!--Content section -->
+	<div class="container">
     <div class="row">
-    <div class=""col-12>
-    <img src="https://mdbootstrap.com/img/new/slides/041.jpg" class="img-fluid" alt="..." />
-
-        <h2>{{ post.title }}</h2>
-        <p>{{ post.text }}</p>
+		<p>{{ post.text }}</p>
 
     </div>
-    </div>
-    </div>
-    </article>
-
-
-
-
-    <section>
-        <h3>Commentaires</h3>
-        {% if comments %}
-            {% for comment in comments %}
-                <p>id =  {{ comment.id }}<br>
-                pseudo = {{ comment.pseudo }}<br>
-                text = {{ comment.text }}</p>
-            {% endfor %}
-        {% else %}
-            <h4>Aucun commentaires</h4>
-        {% endif %}
-    </section>
+	</div>
+	<!--Comments section -->
+	<div class="container">
+		<h3>Commentaires</h3>
+		{% if comments %}
+			{% for comment in comments %}
+				<p>id =
+					{{ comment.id }}<br>
+					pseudo =
+					{{ comment.pseudo }}<br>
+					text =
+					{{ comment.text }}</p>
+			{% endfor %}
+		{% else %}
+			<h4>Aucun commentaires</h4>
+		{% endif %}
+	</div>
 {% endblock %}

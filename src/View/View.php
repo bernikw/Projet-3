@@ -21,12 +21,13 @@ final class View
         $this->session = $session;
     }
 
-    public function render(array $data): string
+    public function render(array $data, string $dir = 'frontoffice'): string
     {
         $data['data']['session'] = $this->session->toArray();
         $data['data']['flashes'] = $this->session->getFlashes();
 
-        return $this->twig->render("frontoffice/${data['template']}.html.twig", $data['data']);
+        return $this->twig->render("${dir}/${data['template']}.html.twig", $data['data']);
+    
     }
    
 }

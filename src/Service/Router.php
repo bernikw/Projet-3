@@ -8,6 +8,7 @@ use App\Controller\Frontoffice\PostController;
 use App\Controller\Frontoffice\UserController;
 use App\Controller\Frontoffice\HomeController;
 use App\Controller\Frontoffice\RegistrationController;
+use App\Controller\Backoffice\AdminController;
 use App\Model\Repository\PostRepository;
 use App\Model\Repository\CommentRepository;
 use App\Model\Repository\UserRepository;
@@ -91,6 +92,14 @@ final class Router
 
             return $controller->displayRegistrationAction();
 
+
+         // *** @Route http://localhost:8000/?action=admin ***
+        } elseif ($action === 'admin') {
+            
+            $controller = new AdminController($this->view);
+
+            return $controller->displayAdminAction();
+        
 
         }
         

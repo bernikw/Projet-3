@@ -30,14 +30,17 @@ final class CommentRepository implements EntityRepositoryInterface
 
     public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): ?array
     {
-        $this->database->getConnection()->prepare('SELECT * FROM comment WHERE article_id=article_id');
-        $data = $this->database->execute($criteria);
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM comment WHERE article_id = :article_id');
 
-        if ($data === null) {
+        $statement->execute($criteria);
+        $data = $statement->fetchAll();
+       
+
+        if ($data === false) {
             return null;
         }
 
-        // réfléchir à l'hydratation des entités;
+    
         $comments = [];
         foreach ($data as $comment) {
             $comments[] = new Comment((int)$comment['id'], $comment['pseudo'], $comment['text'], (int)$comment['idPost']);

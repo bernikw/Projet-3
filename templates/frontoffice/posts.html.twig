@@ -23,7 +23,7 @@
 						<div class="card" style="width: 20rem;">
 							<div class="card-body">
 								<h5 class="card-title">{{ post.title }}</h5>
-								<p class="card-text">{{ post.text}}</p>
+								<p class="card-text">{{ post.text |  striptags }}</p>
 								<a href="index.php?action=post&id={{ post.id}}" class="btn btn-success">Lire le post</a>
 							</div>
 						</div>
@@ -52,5 +52,4 @@
 			</div>
 		</div>
 	</section>
-
 {% endblock %}

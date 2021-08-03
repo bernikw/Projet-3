@@ -22,16 +22,14 @@ final class PostRepository implements EntityRepositoryInterface
         return null;
     }
 
-    public function findOneBy(array $criteria, array $orderBy = null, ): ?Post
+    public function findOneBy(array $criteria, array $orderBy = null): ?Post
     {
-        $statement = $this->database->getConnection()->prepare('SELECT * FROM article WHERE id = id');
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM article WHERE id = :id');
 
-        $statement->execute();
-        $data = $statement->setFetchMode();
-        
-       //$data = $this->database->execute($criteria);
-        // réfléchir à l'hydratation des entités;
-        return $data === null ? $data : new Post((int)$data['id'], $data['title'], $data['text']);
+        $statement->execute($criteria);
+        $data = $statement->fetch();
+     
+        return $data === false ? null : new Post((int)$data['id'], $data['title'], $data['text']);
     }
 
     public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): ?array
@@ -41,7 +39,7 @@ final class PostRepository implements EntityRepositoryInterface
 
     public function findAll(): ?array
     {
-        // SB ici faire l'hydratation des objets
+       
         $statement = $this->database->getConnection()->prepare('SELECT * FROM article ORDER BY id DESC LIMIT 6');
 
         $statement->execute();
@@ -51,7 +49,7 @@ final class PostRepository implements EntityRepositoryInterface
             return null;
         }
 
-        // réfléchir à l'hydratation des entités;
+       
         $posts = [];
         foreach ($data as $post) {
             $posts[] = new Post((int)$post['id'], $post['title'], $post['text']);

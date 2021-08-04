@@ -16,7 +16,7 @@ final class Comment
     public function __construct(int $id, string $user, string $text, int $idPost)
     {
         $this->id = $id;
-        $this->pseudo = $pseudo;
+        $this->user = $user;
         $this->text = $text;
         $this->idPost = $idPost;
     }
@@ -26,9 +26,9 @@ final class Comment
         return $this->id;
     }
 
-    public function getPseudo(): string
+    public function getUser(): string
     {
-        return $this->pseudo;
+        return $this->user;
     }
 
     public function getText(): string

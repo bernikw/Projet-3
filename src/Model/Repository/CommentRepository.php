@@ -43,7 +43,7 @@ final class CommentRepository implements EntityRepositoryInterface
     
         $comments = [];
         foreach ($data as $comment) {
-            $comments[] = new Comment((int)$comment['id'], $comment['pseudo'], $comment['text'], (int)$comment['idPost']);
+            $comments[] = new Comment((int)$comment['id'], (string) $comment['user'], (string) $comment['text'], (int)$comment['idPost']);
         }
 
         return $comments;

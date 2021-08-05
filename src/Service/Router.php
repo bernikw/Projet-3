@@ -9,6 +9,10 @@ use App\Controller\Frontoffice\UserController;
 use App\Controller\Frontoffice\HomeController;
 use App\Controller\Frontoffice\RegistrationController;
 use App\Controller\Backoffice\AdminController;
+use App\Controller\Backoffice\AddpostController;
+use App\Controller\Backoffice\EditpostController;
+use App\Controller\Backoffice\EditcommentController;
+use App\Controller\Backoffice\DeletecommentController;
 use App\Model\Repository\PostRepository;
 use App\Model\Repository\CommentRepository;
 use App\Model\Repository\UserRepository;
@@ -99,7 +103,35 @@ final class Router
             $controller = new AdminController($this->view);
 
             return $controller->displayAdminAction();
-        
+
+        // *** @Route http://localhost:8000/?action=addpost ***
+    } elseif ($action === 'addpost') {
+            
+        $controller = new AddpostController($this->view);
+
+        return $controller->displayAddpostAction();
+
+         // *** @Route http://localhost:8000/?action=editpost ***
+    } elseif ($action === 'editpost') {
+            
+        $controller = new EditpostController($this->view);
+
+        return $controller->displayEditpostAction();
+
+         // *** @Route http://localhost:8000/?action=editcomment ***
+    } elseif ($action === 'editcomment') {
+            
+        $controller = new EditcommentController($this->view);
+
+        return $controller->displayEditcommentAction();
+
+          // *** @Route http://localhost:8000/?action=deletecomment ***
+    } elseif ($action === 'deletecomment') {
+            
+        $controller = new DeletecommentController($this->view);
+
+        return $controller->displayDeletecommentAction();
+
 
         }
         

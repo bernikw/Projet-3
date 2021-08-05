@@ -3,16 +3,17 @@
 {% block content %}
 <!--Header section -->
 
-<div class="container my-5">
-	<div class="card bg-dark text-white">
-		<img src="images/article-1.jpg" class="card-img" alt="..."/>
-			<div class="card-img-overlay text-center mt-5">
-				<h5 class="card-title">
-				<h2>{{ post.title }}</h2>
-			</h5>
+	<section class="blog">
+		<div class="container">
+			<div class="row">
+				<div class="p-4 p-md-5 mb-4 text-white rounded bg-secondary my-5">
+					<div class="col-md-8 px-0">
+						<h1 class="display-4">{{ post.title }}</h1>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
-</div>
+
 	<!--Content section -->
 	<div class="container">
     <div class="row">
@@ -23,18 +24,22 @@
 	</div>
 	<!--Comments section -->
 	<div class="container">
+	<div class="row"
 		<h4>Commentaires</h4>
-		{% if comments %}
-			{% for comment in comments %}
+		    {% if comments %}
+			    {% for comment in comments %}
 				<p>id =
 					{{ comment.id }}<br>
-					pseudo =
-					{{ comment.pseudo }}<br>
+					user =
+					{{ comment.user }}<br>
 					text =
 					{{ comment.text }}</p>
 			{% endfor %}
 		{% else %}
 			<h6>Aucun commentaires</h6>
 		{% endif %}
+		
+
+	</div>
 	</div>
 {% endblock %}

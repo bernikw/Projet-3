@@ -7,63 +7,62 @@
 			<div class="row">
 				<div class="p-4 p-md-5 mb-4 text-center text-white rounded bg-secondary my-5">
 					<div class="col-md-12 px-0">
-						<h1 class="display-4">Interface Admin</h1>
+						<h1 class="display-4">Admin interface</h1>
 					</div>
 				</div>
 			</div>
 		</div>
 
-        <main>
+    <section>
+        <div class="container">
+        <div class="row">
+        <div class="col-md-2">
+        
+                <p>
+                    <a href="http://localhost:8000/?action=addpost" class="btn btn-success">Ajouter un article</a>
+                </p>
 
-        <!--Siedbar section -->
-   <div class="container">
-    <div class="row">
-
-  <div class="d-flex flex-column flex-shrink-0 rounded p-3 text-white bg-success" style="width: 280px;">
-    <a href="/" class="align-items-center mb-3 mb-md-0 me-md-auto text-white text-center text-decoration-none">
-     
-      <span class="fs-4 ">Sidebar</span>
-    </a>
-    <hr>
-    <ul class="nav nav-pills flex-column mb-auto">
-      <li class="nav-item">
-        <a href="#" class="nav-link active" aria-current="page">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"/></svg>
-          Home
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link text-white">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
-          Dashboard
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link text-white">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
-          Orders
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link text-white">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
-          Products
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link text-white">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-          Customers
-        </a>
-      </li>
-    </ul>
-    <hr>
-       
-    </div>
-  </div>
-
-  
-  </div>
-  </div>
-
+                 <p>
+                    <a href="http://localhost:8000/?action=editpost" class="btn btn-success">Modifier un article</a>
+                </p>
+                <p>
+                    <a href="http://localhost:8000/?action=editcomment" class="btn btn-success">Modifier commentaire</a>
+                </p>
+                <p>
+                    <a href="http://localhost:8000/?action=addpost" class="btn btn-success">Ajouter un article</a>
+                </p>
+         </div>  
+            <div class="col-md-10">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>Titre</td>
+                        <td>Dernière modification</td>
+                        <td>Action</td>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                    </tbody>
+                </table>
+      
+           
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>ID</td>
+                            <td>Auteur</td>
+                            <td>Commentaire</td>
+                            <td>Action</td>
+                        </tr>
+                    </thead>
+                       <tbody>
+                        
+                        </tbody>
+                    </table>
+                    </div>
+                  </div>
+                </div>
+            </section>
     {% endblock %}

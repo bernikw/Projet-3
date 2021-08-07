@@ -23,7 +23,8 @@
 						<div class="card" style="width: 20rem;">
 							<div class="card-body">
 								<h5 class="card-title">{{ post.title }}</h5>
-								<p class="card-text">{{ post.text |  striptags }}</p>
+								<p>{{ post.dateCreation|date ("m/d/Y") }}</p>
+								<p class="card-text">{{ post.chapo |  striptags }}</p>
 								<a href="index.php?action=post&id={{ post.id}}" class="btn btn-success">Lire le post</a>
 							</div>
 						</div>

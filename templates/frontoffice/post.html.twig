@@ -16,7 +16,7 @@
 	<!--Content section -->
 	<div class="container">
     <div class="row">
-		<p>{{ post.published_at|date("m/d/Y") }}</p>
+		<p>{{ post.post|date("m/d/Y") }}</p>
 		<p>{{ post.text }}</p>
 
     </div>
@@ -37,8 +37,7 @@
 		{% else %}
 			<h6>Aucun commentaires</h6>
 		{% endif %}
-		
+	</div>
+	</div>
 
-	</div>
-	</div>
 {% endblock %}

@@ -1,7 +1,8 @@
 {
     "name": "bernadetta/projet3",
     "require": {
-        "composer-plugin-api": "^2.1"
+        "composer-plugin-api": "^2.1",
+        "swiftmailer/swiftmailer": "^6.2"
     },
     "authors": [
         {

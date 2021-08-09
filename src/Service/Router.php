@@ -125,14 +125,6 @@ final class Router
 
         return $controller->displayEditcommentAction();
 
-          // *** @Route http://localhost:8000/?action=deletecomment ***
-    } elseif ($action === 'deletecomment') {
-            
-        $controller = new DeletecommentController($this->view);
-
-        return $controller->displayDeletecommentAction();
-
-
         }
         
         return new Response("Error 404 - cette page n'existe pas<br><a href='index.php?action=posts'>Aller Ici</a>", 404);

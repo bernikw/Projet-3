@@ -56,19 +56,19 @@
 					<form action="#" method="post">
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">Votre prénom</label>
-							<input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Jean">
+							<input type="text" class="form-control" name="firstname" required="required">
 						</div>
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">Votre nom</label>
-							<input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Dubois">
+							<input type="text" class="form-control" name="name" required="required>
 						</div>
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">Votre e-mail</label>
-							<input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+							<input type="mail" class="form-control" name="email" required="required">
 						</div>
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">Message</label>
-							<textarea class="form-control" name="message" rows="5" placeholder="Message" required="required" data-validation-required-message="Veuillez entrer votre message."></textarea>
+							<textarea class="form-control" name="message" rows="5"  required="required" data-validation-required-message="Veuillez entrer votre message."></textarea>
 						</div>
 						<div class="d-grid gap-2 col-6 mx-auto my-5">
 							<button type="submit" class="btn btn-success" type="button">Envoyer</button>

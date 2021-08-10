@@ -30,7 +30,9 @@ final class CommentRepository implements EntityRepositoryInterface
 
     public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): ?array
     {
-        $statement = $this->database->getConnection()->prepare('SELECT * FROM comment WHERE article_id = :article_id');
+        $statement = $this->database->getConnection()->prepare('SELECT comment.*,user.username
+        FROM comment 
+        INNER JOIN user ON user.id = comment.user_profile_id WHERE article_id = :article_id AND valid = 1');
 
         $statement->execute($criteria);
         $data = $statement->fetchAll();
@@ -43,7 +45,7 @@ final class CommentRepository implements EntityRepositoryInterface
     
         $comments = [];
         foreach ($data as $comment) {
-            $comments[] = new Comment((int)$comment['id'], (string) $comment['user'], (string) $comment['text'], (int)$comment['idPost']);
+            $comments[] = new Comment((int)$comment['id'], (string) $comment['username'], (string) $comment['text_comment'], (int)$comment['article_id']);
         }
 
         return $comments;

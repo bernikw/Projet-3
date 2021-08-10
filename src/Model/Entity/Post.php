@@ -17,7 +17,7 @@ final class Post
     public function __construct(int $id, string $title, string $dateCreation, string $chapo, string $text)
     {
         $this->id = $id;
-        $this->chapo = $dateCreation;
+        $this->dateCreation = $dateCreation;
         $this->title = $title;
         $this->chapo = $chapo;
         $this->text = $text;

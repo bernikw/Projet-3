@@ -9,14 +9,14 @@ use App\Model\Entity\Interfaces\EntityObjectInterface;
 final class Comment
 {
     private int $id;
-    private string $user; // TODO l'entity User serait plus approprié
+    private string $pseudo; 
     private string $text;
     private int $idPost;
 
-    public function __construct(int $id, string $user, string $text, int $idPost)
+    public function __construct(int $id, string $pseudo, string $text, int $idPost)
     {
         $this->id = $id;
-        $this->user = $user;
+        $this->pseudo = $pseudo;
         $this->text = $text;
         $this->idPost = $idPost;
     }
@@ -26,11 +26,18 @@ final class Comment
         return $this->id;
     }
 
-    public function getUser(): string
+    public function getPseudo(): string
     {
-        return $this->user;
+        return $this->pseudo;
     }
 
+    public function setPseudo(string $pseudo): self
+    {
+       $this->pseudo = $pseudo;
+       return $this;
+    }
+
+        
     public function getText(): string
     {
         return $this->text;

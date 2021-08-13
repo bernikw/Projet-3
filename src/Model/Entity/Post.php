@@ -11,14 +11,18 @@ final class Post
     private int $id;
     private string $title;
     private string $dateCreation;
+    private string $dateUpdate;
+    private string $pseudo;
     private string $chapo;
     private string $text;
 
-    public function __construct(int $id, string $title, string $dateCreation, string $chapo, string $text)
+    public function __construct(int $id, string $title, string $dateCreation, string $dateUpdate, string $pseudo, string $chapo, string $text)
     {
         $this->id = $id;
-        $this->dateCreation = $dateCreation;
         $this->title = $title;
+        $this->dateCreation = $dateCreation;
+        $this->dateUpdate = $dateUpdate;
+        $this->pseudo = $pseudo;
         $this->chapo = $chapo;
         $this->text = $text;
     }
@@ -47,6 +51,28 @@ final class Post
     public function setDateCreation(string $dateCreation): self
     {
         $this->dateCreation = $dateCreation;
+        return $this;
+    }
+
+    public function getUpdate(): string
+    {
+        return $this->update;
+    }
+
+    public function setUpdate(string $update = null): self
+    {
+        $this->update = $update;
+        return $this;
+    }
+
+    public function getPseudo(): string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
         return $this;
     }
 

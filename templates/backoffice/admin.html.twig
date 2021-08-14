@@ -11,25 +11,18 @@
 				</div>
 			</div>
 		</div>
-
+<!--List post section -->
     <section>
         <div class="container">
         <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-12">
         
                 <p>
                     <a href="http://localhost:8000/?action=addpost" class="btn btn-success">Ajouter un article</a>
                 </p>
-
-                 <p>
-                    <a href="http://localhost:8000/?action=editpost" class="btn btn-success">Modifier un article</a>
-                </p>
-                <p>
-                    <a href="http://localhost:8000/?action=editcomment" class="btn btn-success">Modifier commentaire</a>
-                </p>
-                
+               
          </div>  
-            <div class="col-md-10">
+            <div class="col-md-12">
             <p>
             <table class="table">
                 <thead>
@@ -41,8 +34,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                   
-                    </tbody>
+               {% for post in posts %}
+                   <tr>
+                        <td>{{ post.id }}</td>
+                        <td>{{ post.title }}</td>
+                        <td>{{ post.dateCreate |date ("d/m/Y") }}</td>
+                        <td><a href="http://localhost:8000/?action=editpost" class="btn btn-success">Modifier</a>
+                        <a href="http://localhost:8000/?action=editpost" class="btn btn-danger">Supprimer</a></td>
+                    </tr>
+                   {% endfor %} 
+                </tbody>
+
                 </table>
                 </p>
                 <p>
@@ -56,7 +58,7 @@
                         </tr>
                     </thead>
                        <tbody>
-                        
+                          
                         </tbody>
                     </table>
                     <p>

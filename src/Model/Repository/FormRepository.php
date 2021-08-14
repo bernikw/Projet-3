@@ -17,7 +17,7 @@ class FormRepository
 
             $mailer = new Swift_Mailer($transport);
 
-            $message = (new Swift_Message('Message ' .nom. ' '.firstname.'' ))
+            $message = (new Swift_Message('Message ' .$name. ' '.$firstname.'' ))
             ->setFrom($email)
             ->setTo($data['email'])
             ->setBody($message);

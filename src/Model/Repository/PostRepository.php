@@ -30,7 +30,7 @@ final class PostRepository implements EntityRepositoryInterface
         $data = $statement->fetch();
 
      
-        return $data === false ? null : new Post((int)$data['id'], $data['title'], $data['date_creation'], $data['date_update'],$data['user_id'], $data['chapo'], $data['text']);
+        return $data === false ? null : new Post((int)$data['id'], $data['title'], $data['date_creation'], (string)$data['date_update'],$data['user_id'], $data['chapo'], $data['text']);
     }
 
     public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): ?array
@@ -41,7 +41,7 @@ final class PostRepository implements EntityRepositoryInterface
     public function findAll(): ?array
     {
        
-        $statement = $this->database->getConnection()->prepare('SELECT * FROM article ');
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM article');
 
         $statement->execute();
         $data = $statement->fetchAll();
@@ -53,7 +53,7 @@ final class PostRepository implements EntityRepositoryInterface
        
         $posts = [];
         foreach ($data as $post) {
-            $posts[] = new Post((int)$post['id'], $post['title'], $post['date_creation'], $post['date_update'], $post['user_id'], $post['chapo'], $post['text']);
+            $posts[] = new Post((int)$post['id'], $post['title'], $post['date_creation'], (string)$post['date_update'], $post['user_id'], $post['chapo'], $post['text']);
         }
 
         return $posts;

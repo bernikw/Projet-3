@@ -12,7 +12,6 @@ use App\Controller\Backoffice\AdminController;
 use App\Controller\Backoffice\AddpostController;
 use App\Controller\Backoffice\EditpostController;
 use App\Controller\Backoffice\EditcommentController;
-use App\Controller\Backoffice\DeletecommentController;
 use App\Model\Repository\PostRepository;
 use App\Model\Repository\CommentRepository;
 use App\Model\Repository\UserRepository;

@@ -54,14 +54,14 @@ final class Post
         return $this;
     }
 
-    public function getUpdate(): string
+    public function getDateUpdate(): string
     {
-        return $this->update;
+        return $this->dateUpdate;
     }
 
-    public function setUpdate(string $update = null): self
+    public function setDateUpdate(string $dateUpdate = null): self
     {
-        $this->update = $update;
+        $this->dateUpdate = $dateUpdate;
         return $this;
     }
 

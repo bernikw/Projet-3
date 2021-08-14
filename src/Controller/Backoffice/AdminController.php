@@ -8,6 +8,7 @@ use App\View\View;
 use App\Service\Http\Response;
 
 
+
 final class AdminController
 {
     private View $view;
@@ -27,5 +28,6 @@ final class AdminController
             'template' => 'admin',
             'data' => [],
         ],'backoffice'));
-    }
+    }  
+    
 }

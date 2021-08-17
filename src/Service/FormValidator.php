@@ -11,7 +11,7 @@ class FormValidator
 
     public static function clean($data) {
 
-        if ((isset($data) && ($data !='') && strlen($data < 255)){
+        if ((isset($data) && (!empty($data)) && strlen($data < 255)){
 
             $data = trim($data);
             $data = stripslashes($data);
@@ -24,7 +24,7 @@ class FormValidator
 
     public static function cleanContent($data){
 
-        if (isset($data) && ($data !='')){
+        if (isset($data) && (!empty($data)){
 
             return $data; 
         }
@@ -32,18 +32,17 @@ class FormValidator
 
     public static function checkName($value){
 
-        if (!preg_match("/^[a-zA-Z-' ]*$/", $value) && !empty($value){
+        if (!preg_match("/^[a-zA-Z-' ]*$/", $value)) && (!empty($value)){
 
             return true;
         } 
 
-
     }
-
 
     public static function checkEmail($value){
 
-        if (filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($value)) {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) && (!empty($value)) 
+        {
             return true; 
         }
       }

@@ -4,44 +4,49 @@ declare(strict_types=1);
 
 namespace App\Controller\Frontoffice;
 
-use PHP_CodeSniffer\Config;
+
 
 class FormController
 {
 
-    public function formService($name, $firstname, $email, $message) 
+    public function formService($name, $email, $message) 
     
     {
-        $data = require __DIR__ '/../Config/mail.php';
-        $transport = (new Swift_SmtpTransport($data['SMTP'], 443, 'ssl'))
-            ->setUsername($data['email'])
-            ->setPassword($data['password']);
+        $config = require_once"emailconfig.php";
+    
+       
+        $transport = (new \Swift_SmtpTransport($config['emeilServer'], $config['port']))
+            ->setUsername($config['email'])
+            ->setPassword($config['password']);
 
-            $mailer = new Swift_Mailer($transport);
+            $mailer = (new \Swift_Mailer($transport));
 
-            $message = (new Swift_Message('Message ' .$name. ' '.$firstname.'' ))
+            $message = (new \Swift_Message($name . 'Votre message a été envoyée'))
             ->setFrom($email)
-            ->setTo($data['email'])
+            ->setTo($config['myemail'])
             ->setBody($message);
 
 
             $mailer->send($message);
+
     }
 
-    public function registerService($username, $email) 
+    public function registerService($email, $username) 
     
     {
-        $data = require_once __DIR__ '/../Config/mail.php';
-        $transport = (new Swift_SmtpTransport($data['SMTP'], 443, 'ssl'))
-            ->setUsername($data['email'])
-            ->setPassword($data['password']);
+        $config = require_once"emailconfig.php";
+       
 
-            $mailer = new Swift_Mailer($transport);
+        $transport = (new \Swift_SmtpTransport($config['emeilServer'], $config['port']))
+            ->setUsername($config['email'])
+            ->setPassword($config['password']);
 
-            $message = (new Swift_Message('Confirmer votre inscription'  .$username.'' ))
+            $mailer = (new \Swift_Mailer($transport));
+
+            $message = (new \Swift_Message('Confirmation de votre inscription' . $username))
             ->setFrom($email)
-            ->setTo($data['email'])
-            ->setBody('Inscription a été enregistrée');
+            ->setTo($config['myemail'])
+            ->setBody('Votre inscription a bien été prise en compte');
 
 
             $mailer->send($message);

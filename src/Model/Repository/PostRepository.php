@@ -30,7 +30,7 @@ final class PostRepository implements EntityRepositoryInterface
         $data = $statement->fetch();
 
      
-        return $data === false ? null : new Post((int)$data['id'], $data['title'], $data['date_creation'], (string)$data['date_update'],$data['user_id'], $data['chapo'], $data['text']);
+        return $data === false ? null : new Post((int)$data['id'], $data['title'], $data['date_creation'], (string)$data['date_update'], $data['user_id'], $data['chapo'], $data['text']);
     }
 
     public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): ?array

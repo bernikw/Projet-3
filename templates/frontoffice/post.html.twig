@@ -53,10 +53,11 @@
 			{{ comment.text }}
             </p>
           </div>
-		  {% endfor %}
-		{% else %}			
+		  {% endfor %}	
 		{% endif %}
-          <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
+
+		{% if session %}
+          <div class="card-footer py-3 border-0" 	style="background-color: #f8f9fa;">
             <div class="d-flex flex-start w-100">   
               <div class="form-outline w-100">
 			  <label class="form-label">Ajouter un commentaire</label>
@@ -71,6 +72,7 @@
               <button type="button" class="btn btn-success btn-sm">Soumettre</button>
             </div>
           </div>
+		{% endif %}
         </div>
       </div>
     </div>

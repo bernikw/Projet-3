@@ -6,18 +6,15 @@ namespace  App\Controller\Backoffice;
 
 use App\View\View;
 use App\Service\Http\Response;
-use App\Model\Repository\PostRepository;
-
 
 
 final class AdminController
 {
-    private PostRepository $postRepository;
     private View $view;
 
-    public function __construct(PostRepository $postRepository, View $view)
+    public function __construct(View $view)
     {
-        $this->postRispository = $postRepository;
+    
         $this->view = $view;
     }   
 
@@ -29,5 +26,6 @@ final class AdminController
             'data' => [],
         ],'backoffice'));
     }  
+    
     
 }

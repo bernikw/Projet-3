@@ -10,13 +10,13 @@ final class User
 {
     private int $id;
     private string $email;
-    private string $pseudo;
+    private string $username;
     private string $password;
 
-    public function __construct(int $id, string $pseudo, string $email, string $password)
+    public function __construct(int $id, string $username, string $email, string $password)
     {
         $this->id = $id;
-        $this->pseudo = $pseudo;
+        $this->username = $username;
         $this->email = $email;
         $this->password = $password;
     }
@@ -26,14 +26,14 @@ final class User
         return $this->id;
     }
 
-    public function getPseudo(): string
+    public function getUsername(): string
     {
-        return $this->pseudo;
+        return $this->username;
     }
 
-    public function setPseudo(string $pseudo): self
+    public function setUsername(string $username): self
     {
-        $this->pseudo = $pseudo;
+        $this->username = $username;
         return $this;
     }
 

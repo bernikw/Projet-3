@@ -99,8 +99,7 @@ final class Router
          // *** @Route http://localhost:8000/?action=admin ***
         } elseif ($action === 'admin') {
 
-            $postRepo = new PostRepository($this->database);
-            $controller = new AdminController($postRepo, $this->view);
+            $controller = new AdminController($this->view);
 
             return $controller->displayAdminAction();
 

@@ -3,4 +3,3 @@ var/
 .php_cs.cache
 .env
 
-emailconfig.php

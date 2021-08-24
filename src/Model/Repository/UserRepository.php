@@ -25,11 +25,14 @@ final class UserRepository implements EntityRepositoryInterface
 
     public function findOneBy(array $criteria, array $orderBy = null): ?User
     {
-        $this->database->getConnection()->prepare('SELECT id, username, email, password, role FROM user WHERE email=:email ORDER BY');
-        $data = $this->database->execute($criteria);
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE email= :email, username = :username');
+
+
+        $statement->execute($criteria);
+        $data = $statement->fetch();
 
         // réfléchir à l'hydratation des entités;
-        return $data === null ? null : new user((int)$data['id'], $data['pseudo'], $data['email'], $data['password']);
+        return $data === false ? null : new User((int)$data['id'], $data['username'], $data['email'], $data['password']);
     }
 
     public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): ?array

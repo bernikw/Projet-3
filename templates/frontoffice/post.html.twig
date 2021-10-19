@@ -16,12 +16,10 @@
 	<!--Content section -->
 	<div class="container">
     <div class="row">
-		<p>  {% if post.dateUpdate == true %} 
-			 {{post.dateUpdate|date("d/m/Y")}}
-			  {% else %} 
-			  {{post.dateCreation|date("d/m/Y")}}
-			  {% endif %}
-			  par {{ post.pseudo }}
+
+		<p>  
+			 	{{ post.dateUpdate|date("d/m/Y") }}	  	
+			  	par {{ post.pseudo }}
 		 </p>
 
 		<p class='lead'>{{ post.chapo }}</p>

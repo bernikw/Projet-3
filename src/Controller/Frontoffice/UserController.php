@@ -9,6 +9,7 @@ use App\Service\Http\Request;
 use App\Service\Http\Response;
 use App\Service\Http\Session\Session;
 use App\Model\Repository\UserRepository;
+use App\Service\Validator\LoginValidator;
 
 
 final class UserController
@@ -17,23 +18,22 @@ final class UserController
     private View $view;
     private Session $session;
 
-    // TODO => ne doit pas resté dans le controller, voir comment on peut en faire 
-    // un service générique de validation
-    private function isValidLoginForm(?array $infoUser): bool
+    /*private function isValidLoginForm(?array $infoUser): bool
     {
-        if (isset($infoUser === null) {
+        if ($infoUser === null) {
             return false;
         }
-        
-        $user = $this->userRepository->findOneBy(['email' => $infoUser['email']);
-       
-        /*if ($user === null || $infoUser['password'] !== $user->getPassword()) {
-             return false;
-        }*/
+
+        $user = $this->userRepository->findOneBy(['email' => $infoUser['email']]);
+
+        if ($user === null || $infoUser['password'] !== $user->getPassword()) {
+            return false;
+        }
 
         $this->session->set('user', $user);
+
         return true;
-    }
+    }*/
 
     public function __construct(UserRepository $userRepository, View $view, Session $session)
     {
@@ -42,16 +42,21 @@ final class UserController
         $this->session = $session;
     }
 
-    public function loginAction(Request $request): Response
+    public function loginAction(LoginValidator $loginValidator, Request $request): Response
     {
-        
-        
-        if ($request->getMethod() === 'POST') {  
-           
-            if ($this->isValidLoginForm($request->request()->all())) {
-                return new Response($this->view->render(['template' => 'home', 'data'=>[]]));
+
+        if ($request->getMethod() === 'POST') {
+
+            if ($infoUser = $loginValidator->isValidLoginForm($request->request()->all())){
+                if ($infoUser) {
+                    // if ($user role)
+                    return new Response('', 303, ['redirect' => 'posts'], 404);
+                }else{
+
+                     $this->session->addFlashes('error', 'Mauvais identifiants');
+                }
             }
-            $this->session->addFlashes('error', 'Mauvais identifiants');
+           
         }
         return new Response($this->view->render(['template' => 'login', 'data' => []]));
     }
@@ -59,7 +64,6 @@ final class UserController
     public function logoutAction(): Response
     {
         $this->session->remove('user');
-        return new Response($this->view->render(['template' => 'home', 'data'=>[]]));
+        return new Response('', 303, ['redirect' => 'home']);
     }
-
 }

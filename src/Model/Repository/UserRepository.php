@@ -25,7 +25,8 @@ final class UserRepository implements EntityRepositoryInterface
 
     public function findOneBy(array $criteria, array $orderBy = null): ?User
     {
-        $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE email= :email, username = :username');
+        
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE email= :email');
 
 
         $statement->execute($criteria);
@@ -46,8 +47,21 @@ final class UserRepository implements EntityRepositoryInterface
     }
 
     public function create(object $user): bool
-    {
-        return false;
+
+    {   
+        $statement = $this->database->getConnection()->prepare('INSERT INTO user (username, email, password, role)VALUE (:username, :email, :password, :role');
+
+        $statement->execute();
+        $user = $statement->fetch();
+
+        $pass_hash = password_hash($user->getPassword(), PASSWORD_ARGON2I);
+
+        return $user = [':username' => $user->getUsername(),
+                ':email' => $user->getEmail(), 
+                ':password' => $pass_hash,
+                ':role' => 'MEMBER'          
+    ];
+  
     }
 
     public function update(object $user): bool

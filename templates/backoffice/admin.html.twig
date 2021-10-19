@@ -38,9 +38,9 @@
                    <tr>
                         <td>{{ post.id }}</td>
                         <td>{{ post.title }}</td>
-                        <td>{{ post.dateCreate |date ("d/m/Y") }}</td>
+                        <td>{{ post.dateUpdate|date("d/m/Y") }}</td>
                         <td><a href="http://localhost:8000/?action=editpost" class="btn btn-success">Modifier</a>
-                        <a href="http://localhost:8000/?action=editpost" class="btn btn-danger">Supprimer</a></td>
+                        <a href="#" class="btn btn-danger">Supprimer</a></td>
                     </tr>
                    {% endfor %} 
                 </tbody>
@@ -58,7 +58,13 @@
                         </tr>
                     </thead>
                        <tbody>
-                          
+                        {% for comment in comments %}
+                        <td>{{ user_profile_id }}</td>
+                        <td>{{ text_comment }}</td>
+                        <td>{{ date_comment|date("d/m/Y") }}</td>
+                        <td><a href="http://localhost:8000/?action=editpost" class="btn btn-success">Modifier</a>
+                        <a href="http://localhost:8000/?action=deletepost" class="btn btn-danger">Supprimer</a></td>
+                     {% endfor %} 
                         </tbody>
                     </table>
                     <p>

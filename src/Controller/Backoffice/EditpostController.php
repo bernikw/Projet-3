@@ -6,6 +6,7 @@ namespace  App\Controller\Backoffice;
 
 use App\View\View;
 use App\Service\Http\Response;
+use App\Model\Repository\PostRepository;
 
 
 final class EditpostController
@@ -22,7 +23,8 @@ final class EditpostController
 
     public function displayEditpostAction(): Response
     {
-     
+        
+
         return new Response($this->view->render([
             'template' => 'editpost',
             'data' => [],

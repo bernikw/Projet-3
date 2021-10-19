@@ -9,9 +9,10 @@ use App\Model\Entity\Interfaces\EntityObjectInterface;
 final class User
 {
     private int $id;
-    private string $email;
     private string $username;
+    private string $email;
     private string $password;
+   private array $role;
 
     public function __construct(int $id, string $username, string $email, string $password)
     {
@@ -58,4 +59,18 @@ final class User
         $this->password = $password;
         return $this;
     }
+
+    public function getRole(): array
+    {
+        $role = $this->role;
+        $role[] = 'MEMBER';
+        return array_unique($role);
+
+    }
+
+    public function setRole(array $role): self
+    {
+        $this->role = $role;
+        return $this;
+   }
 }

@@ -58,7 +58,22 @@ final class CommentRepository implements EntityRepositoryInterface
 
     public function create(object $comment): bool
     {
-        return false ;
+        if ($comment){
+           $statement = $this->database->getConnection()->prepare('INSERT INTO comment(text_comment, date_comment VALUES (:text_comment, DATE(NOW()) )'); 
+
+           $data = [':text_comment' => $comment['text_comment']
+                    
+        ];
+            $statement->execute($comment);
+       
+            return new Comment((int)$data['id'], (string) $data['pseudo'],(string) $data['text_comment'], $data['date_creation'], $data ['article_id'], $data['user_profil_id']);
+      
+
+        }else{
+
+             return false ; 
+        }
+        
     }
 
     public function update(object $comment): bool
@@ -68,6 +83,22 @@ final class CommentRepository implements EntityRepositoryInterface
 
     public function delete(object $comment): bool
     {
-        return false;
-    }
+        
+        if ($comment){
+        $statement = $this->database->getConnection()->prepare('DELATE FROM comment WHERE comment_id = :id'); 
+
+        $data = [':text_comment' => $comment['text_comment']
+                 
+     ];
+         $statement->execute($comment);
+    
+         return new Comment((int)$data['id'], (string) $data['pseudo'],(string) $data['text_comment'], $data['date_creation'], $data ['article_id'], $data['user_profil_id']);
+   
+
+     }else{
+
+          return false ; 
+     }
+     
+}
 }

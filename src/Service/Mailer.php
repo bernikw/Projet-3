@@ -36,6 +36,7 @@ class Mailer
                 return true;
             }
             return false;
+            
         } catch (Swift_TransportException $e) {
             return false;
         }

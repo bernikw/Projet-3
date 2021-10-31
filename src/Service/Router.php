@@ -19,8 +19,8 @@ use App\Service\Http\Request;
 use App\Service\Http\Response;
 use App\Service\Http\Session\Session;
 use App\Service\Validator\ContactValidator;
+use App\Service\Validator\LoginValidator;
 use App\Service\Validator\RegisterValidator;
-Use App\Service\Validator\LoginValidator;
 use App\View\View;
 
 
@@ -72,10 +72,12 @@ final class Router
             // *** @Route http://localhost:8000/?action=login ***
         } elseif ($action === 'login') {
             $userRepo = new UserRepository($this->database);
+            $loginValidator = new LoginValidator;
             $controller = new UserController($userRepo, $this->view, $this->session);
-            $loginValidator = new LoginValidator();
 
-            return $controller->loginAction($loginValidator, $this->request);
+
+
+            return $controller->loginAction($this->request, $loginValidator);
 
             // *** @Route http://localhost:8000/?action=logout ***
         } elseif ($action === 'logout') {
@@ -87,8 +89,17 @@ final class Router
             // *** @Route http://localhost:8000/?action=home ***
         } elseif ($action === 'home') {
 
-            $controller = new HomeController($this->view);
+            $controller = new HomeController($this->view, $this->session);
             $contactValidator = new ContactValidator();
+
+            $setting = [
+                "smtp" => "smtp://localhost",
+                "smtp_port" => 1025,
+                "from" => "bw@blog.fr",
+                "sender" => "Bernadetta"
+            ];
+
+            $mailer = new Mailer($setting);
 
             return $controller->displayHomeAction($this->request, $contactValidator);
 
@@ -98,13 +109,14 @@ final class Router
 
             $userRepository = new UserRepository($this->database);
             $controller = new RegistrationController($this->view, $this->session, $userRepository);
-            $registerValidator = new RegisterValidator; 
-            
+            $registerValidator = new RegisterValidator;
+
 
             $setting = [
-                "smtp" => "127.0.0.1:1025",
-                "smtp_port" => 1025,
-                "from" => "bw@blog.fr",
+                "smtp" => "mail-serwer70424.lh.pl",
+                "smtp_port" => 465,
+                "from" => "kontakt@bernadettasibe.com",
+                "password" => "Wiktoria1978",
                 "sender" => "Bernadetta"
             ];
 
@@ -136,7 +148,7 @@ final class Router
 
             return $controller->displayEditpostAction();
 
-             // *** @Route http://localhost:8000/?action=deletepost ***
+            // *** @Route http://localhost:8000/?action=deletepost ***
         } elseif ($action === 'deletepost') {
 
             $postRepo = new PostRepository($this->database);

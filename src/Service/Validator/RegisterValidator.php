@@ -10,37 +10,63 @@ class RegisterValidator extends BaseValidator
    private $datas = [];
 
 
-   public function isValidDatas(array $datas): bool
+   public function isValid(array $datas): bool
    {
       $result = true;
 
-      if (!$this->isValidName($datas['firstname'])) {
+      if (!$this->isValidInput($datas['username'])) {
 
-         $this->errors['firstname'] = 'Ce prenom n\'est pas valide';
+         $this->errors = 'Ce données ne sont pas valide';
          $result = false;
       }
 
-      if (!$this->isValidName($datas['name'])) {
+      if (!$this->isValidInput($datas['email'])) {
 
-         $this->errors['name'] = 'Ce nom de famille n\'est pas valide';
+         $this->errors = 'Ces données ne sont pas valides';
+         $result = false;
+      }
+      if (!$this->isValidInput($datas['password'])) {
+
+         $this->errors = 'Ces données ne sont pas valides';
+         $result = false;
+      }
+      if (!$this->isValidInput($datas['password_confirm'])) {
+
+         $this->errors = 'Ces données ne sont pas valides';
+         $result = false;
+      }
+
+      if (!$this->isValidDatas($datas['username'])) {
+
+         $this->errors['username'] = 'Ces données ne sont pas valides';
          $result = false;
       }
 
       if (!$this->isValidEmail($datas['email'])) {
 
-         $this->errors['email'] = 'Ce email n\'est pas valide';
+         $this->errors['email'] = 'Ces données ne sont pas valides';
          $result = false;
       }
 
-      if (!$this->isValidPassword($datas['password'], $datas['password_confirm'])) {
+      if (!$this->isValidUsername($datas['username'])) {
 
-         $this->errors['password'] = 'Le mot de passe doit contenir entre 8 et 15 caractères';
+         $this->errors['username'] = 'Ces données ne sont pas valides';
+         $result = false;
+      }
 
-         if($datas['password']!= $datas['password_confirm']){
+      if (!$this->isValidPassword($datas['password'])) {
 
-             $this->errors['password'] = 'Les mots de passe ne sont pas les mêmes';
-         }
+         $this->errors['password'] = 'Ces données ne sont pas valides';        
+      }
 
+      if (!$this->isValidPassword($datas['password_confirm'])) {
+
+         $this->errors['password_confirm'] = 'Ces données ne sont pas valides';  
+      }
+
+      if (!$this->isValidPassConfirm($datas['password'], $datas ['password_confirm'])) {
+
+         $this->errors['password_confirm'] = 'Ces mots de passe ne sont pas le mêmes';       
       }
 
       return $result;

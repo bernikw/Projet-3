@@ -55,7 +55,7 @@ final class Comment
         return $this->dateComment;
     }
 
-    public function setDateComment(string $dateCommment): self
+    public function setDateComment(string $dateComment): self
     {
        $this->dateComment = $dateComment;
        return $this;
@@ -65,4 +65,11 @@ final class Comment
     {
         return $this->idPost;
     }
+
+    public function setIdPost(string $idPost): self
+    {
+       $this->idPost = $idPost;
+       return $this;
+    }
+
 }

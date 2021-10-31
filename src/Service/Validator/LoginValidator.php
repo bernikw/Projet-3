@@ -3,29 +3,37 @@
 declare(strict_types=1);
 
 namespace App\Service\Validator;
-use App\Model\Repository\UserRepository;
+
 
 class LoginValidator extends BaseValidator
 {
     private $datas = [];
-   
-   
-    public function isValidLoginForm(?array $infoUser, UserRepository $userRepository): bool
+
+
+    public function isValid(array $infoUser): bool
     {
 
+        $result = true;
 
-        if ($infoUser === null) {
-            return false;
+        if (!$this->isValidInput($infoUser['email'])) {
+
+            $this->errors = 'Ces données ne sont pas valides';
+            $result = false;
         }
 
-        $user = $userRepository->findOneBy(['email' => $infoUser['email']]);
+        if (!$this->isValidEmail($infoUser['email'])) {
 
-        if ($user === null || $infoUser['password'] !== $user->getPassword()) {
-            return false;
+            $this->errors['email'] = 'Ces données ne sont pas valides';
+            $result = false;
         }
 
-        $this->session->set('user', $user);
+        if (!$this->isValidPassword($infoUser['password'])) {
 
-        return true;
+            $this->errors['password'] = 'Ces données ne sont pas valides';
+            $result = false;
+        }
+
+
+        return $result;
     }
 }

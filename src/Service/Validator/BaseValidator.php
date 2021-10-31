@@ -10,16 +10,37 @@ abstract class BaseValidator
 
     protected  $errors = [];
 
-    protected function isValidName(string $name): bool
+    protected function isValidInput(string $name): bool
     {
-        if ($this->isEmpty($name) || $name === 'toto') {
+        if (!trim($name) && !stripslashes($name) && !htmlspecialchars($name, ENT_QUOTES, 'UTF-8')) {
+
             return false;
+        }
+
+        return true;
+    }
+
+    protected function isValidDatas(string $name): bool
+    {
+        if (!isset($name) && $this->isEmpty($name)) {
+
+            return false;
+
         } elseif (!preg_match('/^[a-zA-Z0-9]{3,12}$/', $name)) {
 
             return false;
         }
 
         return true;
+    }
+
+    protected function isValidUsername(string $username): bool{
+
+    if (!strlen($username) <= 255 ){
+
+            return false;
+        }
+        return true; 
     }
 
     protected function isValidEmail(string $email): bool
@@ -33,24 +54,29 @@ abstract class BaseValidator
         return true;
     }
 
-    protected function isValidInput(string $datas): bool
+    protected function isValidPassword(string $password)
     {
-        if (!trim($datas) && stripslashes($datas) && htmlspecialchars($datas)) {
+
+        if (!isset($password) && $this->isEmpty($password) && !strlen($password) < 5 || !strlen($password) > 12) {
+            return false;
+        } elseif (!preg_match('/^[a-zA-Z0-9]{3,12}$/', $password) || !ctype_alnum($password)) {
 
             return false;
-        }
+        } 
+        
 
         return true;
     }
 
-    protected function isValidPassword(string $password){
+   protected function isValidPassConfirm(string $password): bool
+    {
 
-        if(!strlen($password)<8 || !strlen($password)> 15){
-
+        if (!$password === $password) {
             return false;
         }
         return true;
     }
+
 
     protected function isEmpty(string $data): bool
     {
@@ -59,9 +85,9 @@ abstract class BaseValidator
     }
 
 
-    public function getErrors(): array
+    public function getErrors($errors): array
     {
-
-        return $this->errors;
+        if ($errors)
+            return $this->errors;
     }
 }

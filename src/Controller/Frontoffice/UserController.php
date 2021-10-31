@@ -18,23 +18,6 @@ final class UserController
     private View $view;
     private Session $session;
 
-    /*private function isValidLoginForm(?array $infoUser): bool
-    {
-        if ($infoUser === null) {
-            return false;
-        }
-
-        $user = $this->userRepository->findOneBy(['email' => $infoUser['email']]);
-
-        if ($user === null || $infoUser['password'] !== $user->getPassword()) {
-            return false;
-        }
-
-        $this->session->set('user', $user);
-
-        return true;
-    }*/
-
     public function __construct(UserRepository $userRepository, View $view, Session $session)
     {
         $this->userRepository = $userRepository;
@@ -42,23 +25,48 @@ final class UserController
         $this->session = $session;
     }
 
-    public function loginAction(LoginValidator $loginValidator, Request $request): Response
+    public function loginAction(Request $request, LoginValidator $loginValidator): Response
     {
 
         if ($request->getMethod() === 'POST') {
 
-            if ($infoUser = $loginValidator->isValidLoginForm($request->request()->all())){
-                if ($infoUser) {
-                    // if ($user role)
-                    return new Response('', 303, ['redirect' => 'posts'], 404);
-                }else{
+            $infoUser = $loginValidator->isValid($request->request()->all());
 
-                     $this->session->addFlashes('error', 'Mauvais identifiants');
-                }
-            }
-           
+            if (!$infoUser) {
+              return false;
+           }
+
+            $user = $this->userRepository->findOneBy(['email' => $infoUser['email']]);
+
+            if (!isset($user) || !password_verify($infoUser['password'], $user->getPassword())) {
+                
+               return false;
+
+            }    
+        
+                $this->session->set('user', $user);
+
+                return new Response('', 303, ['redirect' => 'posts'], 404);
+            
         }
+        
         return new Response($this->view->render(['template' => 'login', 'data' => []]));
+    }
+
+    private function isLogged(): bool
+    {
+        if ($this->session->set('username', $username))
+        {
+            return true; 
+        }
+    }
+
+
+   private function isAdmin(): bool
+   {
+
+            return true;
+       
     }
 
     public function logoutAction(): Response

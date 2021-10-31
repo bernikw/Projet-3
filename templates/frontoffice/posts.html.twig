@@ -23,11 +23,12 @@
 						<div class="card" style="width: 20rem;">
 							<div class="card-body">
 								<h5 class="card-title">{{ post.title }}</h5>
-								{% if post.dateUpdate %} 
-			 					{{ post.dateUpdate|date("d/m/Y") }}
-			  					{% else %} 
+				 			<p>
+							 Date de création:
+			 					{{ post.dateUpdate|date("d/m/Y") }} </br>
+			  				Date de modification:  
 			  					{{ post.dateCreation|date("d/m/Y") }}
-			  					{% endif %}
+			  				</p>
 								<p class="card-text">{{ post.chapo |  striptags }}</p>
 								<a href="index.php?action=post&id={{ post.id}}" class="btn btn-success">Lire le post</a>
 							</div>

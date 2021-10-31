@@ -12,16 +12,17 @@ final class User
     private string $username;
     private string $email;
     private string $password;
-   private array $role;
+    private string $role;
 
-    public function __construct(int $id, string $username, string $email, string $password)
+    public function __construct(int $id, string $username, string $email, string $password, string $role)
     {
         $this->id = $id;
         $this->username = $username;
         $this->email = $email;
         $this->password = $password;
+        $this->role = $role;
     }
-
+ 
     public function getId(): int
     {
         return $this->id;
@@ -60,15 +61,13 @@ final class User
         return $this;
     }
 
-    public function getRole(): array
+    public function getRole(): string
     {
-        $role = $this->role;
-        $role[] = 'MEMBER';
-        return array_unique($role);
-
+        return $this->role;
+        
     }
 
-    public function setRole(array $role): self
+    public function setRole(string $role): self
     {
         $this->role = $role;
         return $this;

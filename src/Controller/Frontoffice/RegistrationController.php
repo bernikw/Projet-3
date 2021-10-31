@@ -14,7 +14,6 @@ use App\Model\Entity\User;
 use App\Service\Validator\RegisterValidator;
 
 
-
 final class RegistrationController
 {
     private View $view;
@@ -32,12 +31,23 @@ final class RegistrationController
     {
 
         if ($request->getMethod() === 'POST') {
+ 
+            $datas = $request->request()->all();
+            //var_dump($datas);
+            //die();
+            if ($registerValidator->isValid($datas)) 
+            {
 
-            $datas = $registerValidator->isValidDatas($request->request()->all());
-            if ($datas) {
+               
+                $this->userRepository->findOneBy(['username' => $datas['username']],['email' => $datas['email']]);
+ 
 
-                // faire la validation des datas
-                $user = new User($datas['username'], $datas['email'], $datas['password'], $datas['role']);
+        
+                $hash = password_hash($datas['password'], PASSWORD_BCRYPT);
+
+               
+
+                $user = new User(0, $datas['username'], $datas['email'], $datas['password'], 'MEMBER');
 
                 $this->userRepository->create($user);
 
@@ -54,9 +64,9 @@ final class RegistrationController
                 );
 
                 $this->session->addFlashes('success', 'Votre compte a été crée');
-                return new Response('', 303, ['redirect' => 'home']);
+                return new Response('', 303, ['redirect' => 'login']);
 
-            } else {
+                } else {
 
                 $this->session->addFlashes(' ', 'Votre compte n\'a pas été crée');
                 return new Response('', 303, ['redirect' => 'registration']);

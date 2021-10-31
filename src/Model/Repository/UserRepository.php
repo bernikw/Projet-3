@@ -25,15 +25,15 @@ final class UserRepository implements EntityRepositoryInterface
 
     public function findOneBy(array $criteria, array $orderBy = null): ?User
     {
-        
-        $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE email= :email');
 
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE email= :email');
 
         $statement->execute($criteria);
         $data = $statement->fetch();
+        $row = $statement->rowCount();
 
         // réfléchir à l'hydratation des entités;
-        return $data === false ? null : new User((int)$data['id'], $data['username'], $data['email'], $data['password']);
+        return $data === false ? null : new User((int)$data['id'], $data['username'], $data['email'], $data['password'], $data['role']);
     }
 
     public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): ?array
@@ -48,20 +48,18 @@ final class UserRepository implements EntityRepositoryInterface
 
     public function create(object $user): bool
 
-    {   
-        $statement = $this->database->getConnection()->prepare('INSERT INTO user (username, email, password, role)VALUE (:username, :email, :password, :role');
+    {
+       /* $statement = $this->database->getConnection()->prepare('INSERT INTO user (username, email, password, role) VALUES (:username, :email, :password, :role');
 
-        $statement->execute();
-        $user = $statement->fetch();
 
-        $pass_hash = password_hash($user->getPassword(), PASSWORD_ARGON2I);
-
-        return $user = [':username' => $user->getUsername(),
-                ':email' => $user->getEmail(), 
-                ':password' => $pass_hash,
-                ':role' => 'MEMBER'          
-    ];
-  
+        $statement->execute([
+            ':id' => $user->getId(),
+            ':username' => $user->getUsername(),
+            ':email' => $user->getEmail(),
+            ':password' => $user->getPassword(),
+            ':role' => $user->getRole()
+        ]);*/
+        return false;
     }
 
     public function update(object $user): bool

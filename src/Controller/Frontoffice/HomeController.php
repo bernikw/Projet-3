@@ -8,6 +8,7 @@ use App\Service\Http\Request;
 use App\View\View;
 use App\Service\Http\Response;
 use App\Service\Validator\ContactValidator;
+use App\Service\Http\Session\Session;
 
 
 
@@ -15,11 +16,12 @@ use App\Service\Validator\ContactValidator;
 final class HomeController
 {
     private View $view;
-    
+    private Session $session;
 
-    public function __construct(View $view)
+    public function __construct(View $view, Session $session)
     {
         $this->view = $view;
+        $this->session = $session;
     }
 
 
@@ -27,21 +29,27 @@ final class HomeController
     {
 
         if ($request->getMethod() === 'POST') {
-            $result = $contactValidator->isValid
-            ($request->request()->all());
+            $result = $contactValidator->isValid($request->request()->all());
             if($result){
 
-            
-                var_dump('formulaire ok');
+
+                $content = $this->view->render([
+                    "template" => "home",
+     
+                ]);
+
+
+               $this->session->addFlashes('success', 'Votre message a été énvoyé');
 
             }else{
-               
-                var_dump($contactValidator->getErrors());
+                  
+                $this->session->addFlashes('', 'Tous les champs ne sont pas remplis ou ne sont pas corrects');
+                return new Response('', 303, ['redirect' => 'home']);
+            
         
             }
-            die();
+        
         }
-
 
         return new Response($this->view->render([
             'template' => 'home',

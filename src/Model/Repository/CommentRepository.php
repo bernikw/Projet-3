@@ -53,26 +53,39 @@ final class CommentRepository implements EntityRepositoryInterface
 
     public function findAll(): ?array
     {
-        return null;
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM comment');
+
+        $statement->execute();
+        $data = $statement->fetchAll();
+
+        if ($data === null) {
+            return null;
+        }
+
+        $comments = [];
+        foreach ($data as $comment) {
+            $comments[] = new Comment((int)$comment['id'], $comment['text_comment'], $comment['date_comment'], $comment['valid'], $comment['article_id'], $comment['user_profile_id']);
+        }
+
+        return $comments;
     }
 
     public function create(object $comment): bool
     {
-        if ($comment){
-           $statement = $this->database->getConnection()->prepare('INSERT INTO comment(text_comment, date_comment VALUES (:text_comment, DATE(NOW()) )'); 
+        
+           $statement = $this->database->getConnection()->prepare('INSERT INTO comment(text_comment, date_comment VALUES (:text, DATE(NOW()) )'); 
 
-           $data = [':text_comment' => $comment['text_comment']
                     
-        ];
-            $statement->execute($comment);
+            $statement->execute([
+                ':id' => $comment->getId(),
+                ':pseudo' => $comment->getPseudo(),
+                ':text' => $comment->getText(),
+                ':dateComment' => $comment->getDateComment(),
+                ':idPost' => $comment->getIdPost()
+            ]);
        
-            return new Comment((int)$data['id'], (string) $data['pseudo'],(string) $data['text_comment'], $data['date_creation'], $data ['article_id'], $data['user_profil_id']);
-      
-
-        }else{
-
-             return false ; 
-        }
+            return true;
+     
         
     }
 

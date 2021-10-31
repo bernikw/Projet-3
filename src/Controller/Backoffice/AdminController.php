@@ -26,30 +26,9 @@ final class AdminController
         $this->session = $session;
     }   
 
-    public function roles(){
-        if ($this->isAdmin()){
-
-            return new Response($this->view->render([
-                'template' => 'admin',
-                'data' => ['posts' => $posts],
-            ],'backoffice'));
-
-        }else{
-
-        }
-    }
-
-    /*private function isAdmin(){
-
-        if (isset($this->session->get('user') && in_array('ADMIN', $this->session->get('user', ['role']))){
-            return true;
-        }else {
-
-        }
-    }*/
-
     public function displayAllPosts(): Response
     {
+      
         $posts = $this->postRepository->findAll();
 
         return new Response($this->view->render([
@@ -58,9 +37,9 @@ final class AdminController
         ],'backoffice'));
     }
 
-    public function deletePost()
+   /* public function deletePost(): void
     {
-        $posts = $this->postRepository->find();
+        $posts = $this->postRepository->find($id);
         $result = $posts->delete();
 
         if($result){
@@ -69,18 +48,17 @@ final class AdminController
         }
 
 
-    }
+    }*/
     
     public function displayAllComments(): Response
     {
-        $comments = $this->commentRepository->findBy();
+        
+        $comments = $this->commentRepository->findAll();
 
       return new Response($this->view->render(
             [
-            'template' => 'post',
-            'data' => [
-                'comments' => $comments,
-                ],
+            'template' => 'admin',
+            'data' => ['comments' => $comments],
             ],'backoffice'));
     
     } 

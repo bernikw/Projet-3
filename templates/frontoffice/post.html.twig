@@ -18,6 +18,9 @@
     <div class="row">
 
 		<p>  
+		Date de création:
+				{{ post.dateCreation|date("d/m/Y") }}
+		Date de modification:
 			 	{{ post.dateUpdate|date("d/m/Y") }}	  	
 			  	par {{ post.pseudo }}
 		 </p>
@@ -30,7 +33,7 @@
 	<!--Comments section -->
 	<div class="container">
 	<div class="row py-5">
-	<h5 class="text-center text-uppercase text-secondary mb-0 my-5"> 	  		Commentaires</h5>
+	<h5 class="text-center text-uppercase text-secondary mb-0 my-5">Commentaires</h5>
 	<hr class="star-dark mb-5">
 		<div class="container my-3 py-3">
     	<div class="row d-flex justify-content-center">

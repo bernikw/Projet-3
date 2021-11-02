@@ -30,17 +30,22 @@ final class CommentRepository implements EntityRepositoryInterface
 
     public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): ?array
     {
-        $this->database->prepare('select * from comment where idPost=:idPost');
-        $data = $this->database->execute($criteria);
+        $statement = $this->database->getConnection()->prepare('SELECT comment.*,user.username
+        FROM comment 
+        INNER JOIN user ON user.id = comment.user_profile_id WHERE article_id = :article_id AND valid = 1');
 
-        if ($data === null) {
+        $statement->execute($criteria);
+        $data = $statement->fetchAll();
+       
+
+        if ($data === false) {
             return null;
         }
 
-        // réfléchir à l'hydratation des entités;
+    
         $comments = [];
         foreach ($data as $comment) {
-            $comments[] = new Comment((int)$comment['id'], $comment['pseudo'], $comment['text'], (int)$comment['idPost']);
+            $comments[] = new Comment((int)$comment['id'], (string) $comment['username'], (string) $comment['text_comment'], (string) $comment['date_comment'],(int)$comment['article_id']);
         }
 
         return $comments;
@@ -48,12 +53,40 @@ final class CommentRepository implements EntityRepositoryInterface
 
     public function findAll(): ?array
     {
-        return null;
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM comment');
+
+        $statement->execute();
+        $data = $statement->fetchAll();
+
+        if ($data === null) {
+            return null;
+        }
+
+        $comments = [];
+        foreach ($data as $comment) {
+            $comments[] = new Comment((int)$comment['id'], $comment['text_comment'], $comment['date_comment'], $comment['valid'], $comment['article_id'], $comment['user_profile_id']);
+        }
+
+        return $comments;
     }
 
     public function create(object $comment): bool
     {
-        return false ;
+        
+           $statement = $this->database->getConnection()->prepare('INSERT INTO comment(text_comment, date_comment VALUES (:text, DATE(NOW()) )'); 
+
+                    
+            $statement->execute([
+                ':id' => $comment->getId(),
+                ':pseudo' => $comment->getPseudo(),
+                ':text' => $comment->getText(),
+                ':dateComment' => $comment->getDateComment(),
+                ':idPost' => $comment->getIdPost()
+            ]);
+       
+            return true;
+     
+        
     }
 
     public function update(object $comment): bool
@@ -63,6 +96,22 @@ final class CommentRepository implements EntityRepositoryInterface
 
     public function delete(object $comment): bool
     {
-        return false;
-    }
+        
+        if ($comment){
+        $statement = $this->database->getConnection()->prepare('DELATE FROM comment WHERE comment_id = :id'); 
+
+        $data = [':text_comment' => $comment['text_comment']
+                 
+     ];
+         $statement->execute($comment);
+    
+         return new Comment((int)$data['id'], (string) $data['pseudo'],(string) $data['text_comment'], $data['date_creation'], $data ['article_id'], $data['user_profil_id']);
+   
+
+     }else{
+
+          return false ; 
+     }
+     
+}
 }

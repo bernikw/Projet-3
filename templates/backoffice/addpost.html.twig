@@ -1,0 +1,61 @@
+ {% extends "/frontoffice/layout.html.twig" %}
+
+ {% block content %}
+
+<!--Header section -->
+<header>
+    <div class="container">
+	<div class="row">
+				<div class="p-4 p-md-5 mb-4 text-center text-white rounded bg-secondary my-5">
+					<div class="col-md-12 px-0">
+						<h1 class="display-4">Admin Interface</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+    </header>
+<!--Add post section -->
+<section id="addpost">
+    <div class="container">
+    <h5 class="text-center text-uppercase text-secondary mb-0">Ajouter un article</h5>
+        <hr class="star-dark mb-5">
+         <div class="row">
+            <div class="col-lg-8 mx-auto">
+            <form action="admin-addPost" method="post">
+            <div class="control-group">
+            <div class="form-group floating-label-form-group controls mb-0 pb-2">
+            <label>Titre</label>
+                    <input class="form-control" id="titre" name="title"  type="text">
+                        <p class="help-block text-danger"></p>
+                        </div>
+                        </div>
+                        <div class="control-group">
+                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                        <label>Contenu de l'article</label>
+                        <textarea class="form-control" id="message" name="content" rows="10"></textarea>
+                        <p class="help-block text-danger"></p>
+                    </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                        <label>Aperçu de l'article</label>
+                            <textarea class="form-control" id="message" name="chapo"  rows="5"></textarea>
+                        <p class="help-block text-danger"></p>
+                        </div>
+                        </div>
+                        <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                         <label class="input-group-text" >Auteur<label>
+                        </div>
+                        </div>
+                        <div class="d-grid gap-2 col-6 mx-auto my-5">
+                        <button class="btn btn-success" type="button" type="submit">Envoyer</button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>        
+
+{% endblock %}

@@ -6,22 +6,34 @@ namespace  App\Service;
 
 use App\Controller\Frontoffice\PostController;
 use App\Controller\Frontoffice\UserController;
+use App\Controller\Frontoffice\HomeController;
+use App\Controller\Frontoffice\RegistrationController;
+use App\Controller\Backoffice\AdminController;
+use App\Controller\Backoffice\AddpostController;
+use App\Controller\Backoffice\EditpostController;
+use App\Controller\Backoffice\EditcommentController;
 use App\Model\Repository\PostRepository;
 use App\Model\Repository\CommentRepository;
 use App\Model\Repository\UserRepository;
 use App\Service\Http\Request;
 use App\Service\Http\Response;
 use App\Service\Http\Session\Session;
+use App\Service\Validator\ContactValidator;
+use App\Service\Validator\LoginValidator;
+use App\Service\Validator\RegisterValidator;
 use App\View\View;
 
-// TODO cette classe router est un exemple très basic. Cette façon de faire n'est pas optimale
-// TODO Le router ne devrait pas avoir la responsabilité de l'injection des dépendances
+
 final class Router
 {
+
+
     private Database $database;
     private View $view;
     private Request $request;
     private Session $session;
+
+
 
     public function __construct(Request $request)
     {
@@ -34,8 +46,8 @@ final class Router
 
     public function run(): Response
     {
-        //On test si une action a été défini ? si oui alors on récupére l'action : sinon on mets une action par défaut (ici l'action posts)
-        $action = $this->request->query()->has('action') ? $this->request->query()->get('action') : 'posts';
+
+        $action = $this->request->query()->has('action') ? $this->request->query()->get('action') : 'home';
 
         //Déterminer sur quelle route nous sommes // Attention algorithme naïf
 
@@ -47,7 +59,7 @@ final class Router
 
             return $controller->displayAllAction();
 
-        // *** @Route http://localhost:8000/?action=post&id=5 ***
+            // *** @Route http://localhost:8000/?action=post&id=5 ***
         } elseif ($action === 'post' && $this->request->query()->has('id')) {
             //injection des dépendances et instanciation du controller
             $postRepo = new PostRepository($this->database);
@@ -57,21 +69,101 @@ final class Router
 
             return $controller->displayOneAction((int) $this->request->query()->get('id'), $commentRepo);
 
-        // *** @Route http://localhost:8000/?action=login ***
+            // *** @Route http://localhost:8000/?action=login ***
         } elseif ($action === 'login') {
             $userRepo = new UserRepository($this->database);
+            $loginValidator = new LoginValidator;
             $controller = new UserController($userRepo, $this->view, $this->session);
 
-            return $controller->loginAction($this->request);
 
-        // *** @Route http://localhost:8000/?action=logout ***
+
+            return $controller->loginAction($this->request, $loginValidator);
+
+            // *** @Route http://localhost:8000/?action=logout ***
         } elseif ($action === 'logout') {
             $userRepo = new UserRepository($this->database);
             $controller = new UserController($userRepo, $this->view, $this->session);
 
             return $controller->logoutAction();
+
+            // *** @Route http://localhost:8000/?action=home ***
+        } elseif ($action === 'home') {
+
+            $controller = new HomeController($this->view, $this->session);
+            $contactValidator = new ContactValidator();
+
+            $setting = [
+                "smtp" => "smtp://localhost",
+                "smtp_port" => 1025,
+                "from" => "bw@blog.fr",
+                "sender" => "Bernadetta"
+            ];
+
+            $mailer = new Mailer($setting);
+
+            return $controller->displayHomeAction($this->request, $contactValidator);
+
+
+            // *** @Route http://localhost:8000/?action=registration ***
+        } elseif ($action === 'registration') {
+
+            $userRepository = new UserRepository($this->database);
+            $controller = new RegistrationController($this->view, $this->session, $userRepository);
+            $registerValidator = new RegisterValidator;
+
+
+            $setting = [
+                "smtp" => "mail-serwer70424.lh.pl",
+                "smtp_port" => 465,
+                "from" => "kontakt@bernadettasibe.com",
+                "password" => "Wiktoria1978",
+                "sender" => "Bernadetta"
+            ];
+
+            $mailer = new Mailer($setting);
+
+            return $controller->displayRegistrationAction($this->request, $mailer, $registerValidator);
+
+
+
+            // *** @Route http://localhost:8000/?action=admin ***
+        } elseif ($action === 'admin') {
+
+            $postRepo = new PostRepository($this->database);
+            $controller = new AdminController($this->view, $postRepo, $this->session);
+
+            return $controller->displayAllPosts();
+
+            // *** @Route http://localhost:8000/?action=addpost ***
+        } elseif ($action === 'addpost') {
+
+            $controller = new AddpostController($this->view);
+
+            return $controller->displayAddpostAction();
+
+            // *** @Route http://localhost:8000/?action=editpost ***
+        } elseif ($action === 'editpost') {
+
+            $controller = new EditpostController($this->view);
+
+            return $controller->displayEditpostAction();
+
+            // *** @Route http://localhost:8000/?action=deletepost ***
+        } elseif ($action === 'deletepost') {
+
+            $postRepo = new PostRepository($this->database);
+            $controller = new AdminController($this->view, $postRepo, $this->session);
+
+            return $controller->deletePost();
+
+            // *** @Route http://localhost:8000/?action=editcomment ***
+        } elseif ($action === 'editcomment') {
+
+            $controller = new EditcommentController($this->view);
+
+            return $controller->displayEditcommentAction();
         }
-        
-        return new Response("Error 404 - cette page n'existe pas<br><a href='index.php?action=posts'>Aller Ici</a>", 404);
+
+        return new Response('', 303, ['redirect' => 'posts'], 404);
     }
 }

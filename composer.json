@@ -1,0 +1,23 @@
+{
+    "name": "bernadetta/projet3",
+    "require": {
+        "composer-plugin-api": "^2.1",
+        "swiftmailer/swiftmailer": "^6.2",
+        "twig/twig": "^3.3",
+        "vlucas/phpdotenv": "^5.3"
+    },
+    "authors": [
+        {
+            "name": "Bernadetta Sibe",
+            "email": "bernikw@gmail.com"
+        }
+    ],
+    "autoload":{
+        "psr-4" : {"App\\" : "src/"}
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.6",
+        "phpstan/phpstan": "^0.12.91",
+        "filp/whoops": "^2.13"
+    }
+}

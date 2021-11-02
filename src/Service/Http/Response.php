@@ -8,9 +8,9 @@ final class Response
 {
     private string $content;
     private int $status;
-    private array $headers;
+    private ?array $headers;
 
-    function __construct(string $content = '', int $status = 200, array $headers = [])
+    function __construct(string $content = '', int $status = 200, array $headers = null)
     {
         $this->content = $content;
         $this->status = $status;
@@ -19,7 +19,12 @@ final class Response
 
     public function send(): void
     {
-        // TODO Il faut renvoyer aussi le status de la réponse
-        echo $this->content;
+        if ($this->headers === null) {
+            echo $this->content;
+        } elseif ($this->headers !== null) {
+
+            header('Location: index.php?action=' . $this->headers['redirect'], true, $this->status);
+            exit;
+        }
     }
 }

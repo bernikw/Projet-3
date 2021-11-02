@@ -8,6 +8,7 @@ use Twig\Environment;
 use App\Service\Http\Session\Session;
 use Twig\Loader\FilesystemLoader;
 
+
 final class View
 {
     private Environment $twig;
@@ -16,15 +17,18 @@ final class View
     public function __construct(Session $session)
     {
         $loader = new FilesystemLoader('../templates');
-        $this->twig = new Environment($loader);
+        $this->twig = new Environment($loader, ['cache' => false,]);
         $this->session = $session;
     }
 
-    public function render(array $data): string
+    public function render(array $data, string $dir = 'frontoffice'): string
     {
         $data['data']['session'] = $this->session->toArray();
         $data['data']['flashes'] = $this->session->getFlashes();
 
-        return $this->twig->render("frontoffice/${data['template']}.html.twig", $data['data']);
+        return $this->twig->render("${dir}/${data['template']}.html.twig", $data['data']);
+    
     }
+   
 }
+

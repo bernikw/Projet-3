@@ -9,31 +9,33 @@ use App\Model\Entity\Interfaces\EntityObjectInterface;
 final class User
 {
     private int $id;
+    private string $username;
     private string $email;
-    private string $pseudo;
     private string $password;
+    private string $role;
 
-    public function __construct(int $id, string $pseudo, string $email, string $password)
+    public function __construct(int $id, string $username, string $email, string $password, string $role)
     {
         $this->id = $id;
-        $this->pseudo = $pseudo;
+        $this->username = $username;
         $this->email = $email;
         $this->password = $password;
+        $this->role = $role;
     }
-
+ 
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function getPseudo(): string
+    public function getUsername(): string
     {
-        return $this->pseudo;
+        return $this->username;
     }
 
-    public function setPseudo(string $pseudo): self
+    public function setUsername(string $username): self
     {
-        $this->pseudo = $pseudo;
+        $this->username = $username;
         return $this;
     }
 
@@ -58,4 +60,16 @@ final class User
         $this->password = $password;
         return $this;
     }
+
+    public function getRole(): string
+    {
+        return $this->role;
+        
+    }
+
+    public function setRole(string $role): self
+    {
+        $this->role = $role;
+        return $this;
+   }
 }

@@ -1,0 +1,102 @@
+{% extends "/frontoffice/layout.html.twig" %}
+
+{% block content %}
+
+	<!--Section haeder-->
+	<div class="container">
+		<div class="p-4 p-md-5 mb-4 text-center text-white rounded bg-secondary my-5">
+			<div class="col-md-12 px-0">
+				<h1 class="display-4">Bernadetta Sibe</h1>
+				<p class="lead my-3">Développeuse PHP qui prends soin de détails.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--Section about -->
+<div class="container">
+	<div class="row align-items-md-stretch">
+		<div class="col-md-6">
+			<div class="h-100 p-5 text-white text-center bg-success rounded-3">
+
+				<h3>BS</h3>
+				<p>J'ai découvert un monde de développement web il y a cinq ans. J'ai commencé à coder et très vite ça devenue ma passion. Issue de milieu d'enseignement j'ai eu l'envie d'en faire mon métier! Je me suis formé chez G2R formation et maintenant chez Openclassrooms.</p>
+				<div class="text-center my-4">
+					<a class="btn btn-xl btn-outline-light" href="pdf/cvsibe.pdf">
+						<i class="fas fa-download mr-2"></i>
+						Mon CV
+					</a>
+				</div>
+				<!-- Linkedin -->
+				<a class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/in/bernadetta-kwa%C5%9Bniak-sib%C3%A9-b07a5954/" target=_blank role="button">
+					<i class="bi bi-linkedin"></i>
+				</a>
+				<!-- Github -->
+				<a class="btn btn-outline-light text-center btn-floating m-1" href="https://github.com/" target=_blank role="button">
+					<i class="bi bi-github"></i>
+				</a>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="h-100 bg-light border rounded-3">
+				<img src="images/bprojet.jpg" class="img-fluid img-thumbnail" alt="...">
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--Contact form -->
+<section id="contact-form">
+	<div class="container">
+		<div class="row">
+			<h5 class="text-center text-uppercase text-secondary mb-0 my-5">Me contacter</h5>
+			<hr class="star-dark mb-5">
+			<div class="row">
+				<div class="col-lg-8 mx-auto">
+					<form method="POST">
+					
+						<div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label">Votre prénom</label>
+							<input type="text" class="form-control" name="firstname" required="required"  value="{{ app.session.get('firstname') }}">
+						</div>
+						{% if errors is defined %}
+                         {% for error in errors %}
+                        <p>{{ error.message }}</p>
+                        {% endfor %}
+                        {% endif %}
+						<div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label">Votre nom</label>
+							<input type="text" class="form-control" name="name" required="required" value="{{ session.name }}">
+						</div>
+						{% if errors is defined %}
+                         {% for error in errors %}
+                        <p>{{ error.message }}</p>
+                        {% endfor %}
+                        {% endif %}
+						<div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label">Votre e-mail</label>
+							<input type="email" class="form-control" name="email" required="required"  value="{{ session.email }}">
+						</div>
+						{% if errors is defined %}
+                         {% for error in errors %}
+                        <p>{{ error.message }}</p>
+                        {% endfor %}
+                        {% endif %}
+						<div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label">Message</label>
+							<textarea class="form-control" name="message" rows="5"  required="required"></textarea>
+						</div>
+						 {% if errors is defined %}
+                         {% for error in errors %}
+                        <p>{{ error.message }}</p>
+                        {% endfor %}
+                        {% endif %}
+						<div class="d-grid gap-2 col-6 mx-auto my-5">
+							<button type="submit" class="btn btn-success" type="button">Envoyer</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>{% endblock %}

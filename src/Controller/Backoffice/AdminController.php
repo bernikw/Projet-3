@@ -36,19 +36,19 @@ final class AdminController
             'data' => ['posts' => $posts],
         ],'backoffice'));
     }
-
-   /* public function deletePost(): void
+    public function deletePost(): bool  
     {
-        $posts = $this->postRepository->find($id);
-        $result = $posts->delete();
+       
+        $posts = $this->postRepository->delete();
 
-        if($result){
-            $this->session->addFlashes('success', 'Votre article a été supprimée');
-            return new Response('', 303, ['redirect' => 'admin']);
-        }
+            $this->session->addFlashes('success', ['Votre article a été supprimée']);
 
-
-    }*/
+            return new Response($this->view->render([
+                'template' => 'admin',
+                'data' => ['posts' => $posts],
+            ],'backoffice'));
+     
+    }
     
     public function displayAllComments(): Response
     {

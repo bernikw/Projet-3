@@ -32,6 +32,7 @@ final class Router
     private View $view;
     private Request $request;
     private Session $session;
+    private Mailer $mailer;
 
 
 
@@ -42,6 +43,15 @@ final class Router
         $this->session = new Session();
         $this->view = new View($this->session);
         $this->request = $request;
+
+        $setting = [
+            "smtp" => "127.0.0.1:1025",
+            "smtp_port" => 1025,
+            "from" => "bw@blog.fr",
+            "sender" => "Bernadetta"
+        ];
+ 
+        $this->mailer = new Mailer($setting);
     }
 
     public function run(): Response
@@ -92,14 +102,14 @@ final class Router
             $controller = new HomeController($this->view, $this->session);
             $contactValidator = new ContactValidator();
 
-            $setting = [
-                "smtp" => "smtp://localhost",
-                "smtp_port" => 1025,
+            /*$setting = [
+                "smtp" => "localhost",
+                "smtp_port" => 8000,
                 "from" => "bw@blog.fr",
                 "sender" => "Bernadetta"
             ];
 
-            $mailer = new Mailer($setting);
+            $mailer = new Mailer($setting);*/
 
             return $controller->displayHomeAction($this->request, $contactValidator);
 
@@ -112,17 +122,7 @@ final class Router
             $registerValidator = new RegisterValidator;
 
 
-            $setting = [
-                "smtp" => "mail-serwer70424.lh.pl",
-                "smtp_port" => 465,
-                "from" => "kontakt@bernadettasibe.com",
-                "password" => "Wiktoria1978",
-                "sender" => "Bernadetta"
-            ];
-
-            $mailer = new Mailer($setting);
-
-            return $controller->displayRegistrationAction($this->request, $mailer, $registerValidator);
+            return $controller->displayRegistrationAction($this->request, $this->mailer, $registerValidator);
 
 
 

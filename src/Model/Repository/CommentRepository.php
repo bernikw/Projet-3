@@ -97,21 +97,11 @@ final class CommentRepository implements EntityRepositoryInterface
     public function delete(object $comment): bool
     {
         
-        if ($comment){
         $statement = $this->database->getConnection()->prepare('DELATE FROM comment WHERE comment_id = :id'); 
 
-        $data = [':text_comment' => $comment['text_comment']
-                 
-     ];
-         $statement->execute($comment);
-    
-         return new Comment((int)$data['id'], (string) $data['pseudo'],(string) $data['text_comment'], $data['date_creation'], $data ['article_id'], $data['user_profil_id']);
-   
-
-     }else{
-
-          return false ; 
-     }
+        $statement->execute([':text_comment' => $comment->getTextComment()]);
+      
+         return true;   
      
 }
 }

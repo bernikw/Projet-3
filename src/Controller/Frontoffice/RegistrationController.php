@@ -29,25 +29,31 @@ final class RegistrationController
 
     public function displayRegistrationAction(Request $request, Mailer $mailer, RegisterValidator $registerValidator): Response
     {
-
+            $datas = [];
+            
         if ($request->getMethod() === 'POST') {
- 
+
             $datas = $request->request()->all();
             //var_dump($datas);
             //die();
-            if ($registerValidator->isValid($datas)) 
-            {
 
-               
-                $this->userRepository->findOneBy(['username' => $datas['username']],['email' => $datas['email']]);
- 
+            if ($registerValidator->isValid($datas)) {
 
-        
-                $hash = password_hash($datas['password'], PASSWORD_BCRYPT);
 
-               
+                $result = $this->userRepository->findOneBy(['username' => $datas['username']]);
 
-                $user = new User(0, $datas['username'], $datas['email'], $datas['password'], 'MEMBER');
+                if ($result >= 1) {
+                    return false;
+                }
+
+                $result = $this->userRepository->findOneBy(['email' => $datas['email']]);
+
+                if ($result >= 1) {
+                    return false;
+                }
+
+
+                $user = new User(0, $datas['username'], $datas['email'], $datas[password_hash($datas['password'], PASSWORD_BCRYPT)], $datas['role']);
 
                 $this->userRepository->create($user);
 
@@ -63,21 +69,19 @@ final class RegistrationController
                     $datas['email'],
                 );
 
-                $this->session->addFlashes('success', 'Votre compte a été crée');
+                $this->session->addFlashes('success', ['Votre compte a été crée']);
                 return new Response('', 303, ['redirect' => 'login']);
 
-                } else {
+            } else {
 
-                $this->session->addFlashes(' ', 'Votre compte n\'a pas été crée');
-                return new Response('', 303, ['redirect' => 'registration']);
+                $this->session->addFlashes(' ',$registerValidator->getErrors());
             }
-
         }
 
-       
+
         return new Response($this->view->render([
             'template' => 'registration',
-            'data' => [],
+            'data' => ['datassaisi'=>$datas],
         ]));
     }
 }

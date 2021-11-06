@@ -16,57 +16,57 @@ class RegisterValidator extends BaseValidator
 
       if (!$this->isValidInput($datas['username'])) {
 
-         $this->errors = 'Ce données ne sont pas valide';
+         $this->errors = 'Ce nom contient des caractères non autorisés';
          $result = false;
       }
 
       if (!$this->isValidInput($datas['email'])) {
 
-         $this->errors = 'Ces données ne sont pas valides';
+         $this->errors = 'Ce email n\'est pas correct';
          $result = false;
       }
       if (!$this->isValidInput($datas['password'])) {
 
-         $this->errors = 'Ces données ne sont pas valides';
+         $this->errors = 'Le mot de passe doit contenir des lettres et des chiffres';
          $result = false;
       }
       if (!$this->isValidInput($datas['password_confirm'])) {
 
-         $this->errors = 'Ces données ne sont pas valides';
+         $this->errors = 'Le mot de passe doit contenir des lettres et des chiffres';
          $result = false;
       }
 
       if (!$this->isValidDatas($datas['username'])) {
 
-         $this->errors['username'] = 'Ces données ne sont pas valides';
+         $this->errors['username'] = 'Le nom d\'utilisateur contient des caractères non autorisés';
          $result = false;
       }
 
       if (!$this->isValidEmail($datas['email'])) {
 
-         $this->errors['email'] = 'Ces données ne sont pas valides';
+         $this->errors['email'] = 'Ce email n\'est pas correct';
          $result = false;
       }
 
       if (!$this->isValidUsername($datas['username'])) {
 
-         $this->errors['username'] = 'Ces données ne sont pas valides';
+         $this->errors['username'] = 'Ce nom d\'utilisateur contient des caractères non autorisés';
          $result = false;
       }
 
       if (!$this->isValidPassword($datas['password'])) {
 
-         $this->errors['password'] = 'Ces données ne sont pas valides';        
+         $this->errors['password'] = 'Le mot de passe contient des caractères non autorisés';        
       }
 
       if (!$this->isValidPassword($datas['password_confirm'])) {
 
-         $this->errors['password_confirm'] = 'Ces données ne sont pas valides';  
+         $this->errors['password_confirm'] = 'Le mot de passe contient des caractères non autorisés';  
       }
 
       if (!$this->isValidPassConfirm($datas['password'], $datas ['password_confirm'])) {
 
-         $this->errors['password_confirm'] = 'Ces mots de passe ne sont pas le mêmes';       
+         $this->errors['password_confirm'] = 'Les deux mots de passes ne sont pas identiques';       
       }
 
       return $result;

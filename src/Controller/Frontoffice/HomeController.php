@@ -11,8 +11,6 @@ use App\Service\Validator\ContactValidator;
 use App\Service\Http\Session\Session;
 
 
-
-
 final class HomeController
 {
     private View $view;
@@ -29,26 +27,24 @@ final class HomeController
     {
 
         if ($request->getMethod() === 'POST') {
-            $result = $contactValidator->isValid($request->request()->all());
-            if($result){
 
+            $datasForm = $request->request()->all();
 
+            if ($contactValidator->isValid($datasForm)) {
                 $content = $this->view->render([
                     "template" => "home",
-     
+
                 ]);
 
+                $this->session->addFlashes(
+                    'success',
+                    ['Votre message a été énvoyé']
+                );
+            } else {
 
-               $this->session->addFlashes('success', 'Votre message a été énvoyé');
-
-            }else{
-                  
-                $this->session->addFlashes('', 'Tous les champs ne sont pas remplis ou ne sont pas corrects');
+                $this->session->addFlashes('', $contactValidator->getErrors());
                 return new Response('', 303, ['redirect' => 'home']);
-            
-        
             }
-        
         }
 
         return new Response($this->view->render([

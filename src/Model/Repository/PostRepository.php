@@ -62,56 +62,43 @@ final class PostRepository implements EntityRepositoryInterface
 
     public function create(object $post): bool
     {
-
-        if ($post) {
-
             $statement = $this->database->getConnection()->prepare('INSERT INTO article(title, chapo, text, date_creation, date_update)VALUE (:titre, :chapo, :text, DATE(NOW()), DATE(NOW())');
 
-            $data = [
-                ':id' => $post['article_id'],
-                ':title' => $post['title'],
-                ':chapo' => $post['chapo'],
-                ':text' => $post['text']
-            ];
+           $statement->execute ([
+               ':id' => $post->getId(),
+                ':title' => $post->getTitle(),
+                ':chapo' => $post->getChapo(),
+                ':text' => $post->getText()
+            ]);
 
-            $statement->execute($post);
+            return true;
+            
 
-            return new Post((int)$data['id'], $data['title'], $data['chapo'], $data['text'], $data['date_creation'], (string)$data['date_update'], $data['user_id']);
-        } else {
-
-            return false;
-        }
     }
 
     public function update(object $post): bool
     {
-        if ($post) {
 
             $statement = $this->database->getConnection()->prepare('UPDATE article SET (title, chapo, text, date_creation, date_update) VALUES (:tite, :chapo, :text, DATE (NOW()), DATE(NOW())');
 
-            $data = [
-                ':title' => $post['title'],
-                ':chapo' => $post['chapo'],
-                ':text' => $post['text']
-            ];
+           $statement->execute ([
+                ':title' => $post->getTitle(),
+                ':chapo' => $post->getChapo(),
+                ':text' => $post->getText()
+            ]);
 
-            $statement->execute($post);
-
-            return new Post((int)$data['id'], $data['title'], $data['chapo'], $data['text'], $data['date_creation'], (string)$data['date_update'], $data['user_id']);
-        } else {
-
-            return false;
-        }
+            
+            return true;
+        
     }
 
     public function delete(object $post): bool
     {
-        if($post) {
-            $statement = $this->database->getConnection()->prepare('DELATE FROM article WHERE article.id = :id');
-            $statement->execute();
-            $statement->fetch();
-        }
-        return false; 
+        
+        $statement = $this->database->getConnection()->prepare('DELETE FROM article WHERE id = :id');
+        $statement->execute(['id'=> $post->getId()]);
+        
+        return true; 
        
     }
 }

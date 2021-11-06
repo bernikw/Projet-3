@@ -68,10 +68,10 @@ abstract class BaseValidator
         return true;
     }
 
-   protected function isValidPassConfirm(string $password): bool
+   protected function isValidPassConfirm(string $password, string $passwordConfirm): bool
     {
 
-        if (!$password === $password) {
+        if ($password !== $passwordConfirm) {
             return false;
         }
         return true;
@@ -85,9 +85,9 @@ abstract class BaseValidator
     }
 
 
-    public function getErrors($errors): array
+    public function getErrors(): array
     {
-        if ($errors)
-            return $this->errors;
+        
+        return $this->errors;
     }
 }

@@ -30,7 +30,7 @@ final class UserRepository implements EntityRepositoryInterface
 
         $statement->execute($criteria);
         $data = $statement->fetch();
-        $row = $statement->rowCount();
+        
 
         // réfléchir à l'hydratation des entités;
         return $data === false ? null : new User((int)$data['id'], $data['username'], $data['email'], $data['password'], $data['role']);
@@ -49,17 +49,17 @@ final class UserRepository implements EntityRepositoryInterface
     public function create(object $user): bool
 
     {
-       /* $statement = $this->database->getConnection()->prepare('INSERT INTO user (username, email, password, role) VALUES (:username, :email, :password, :role');
+        $statement = $this->database->getConnection()->prepare('INSERT INTO user (username, email, password, role) VALUES (:username, :email, :password, :role');
 
 
         $statement->execute([
-            ':id' => $user->getId(),
             ':username' => $user->getUsername(),
             ':email' => $user->getEmail(),
             ':password' => $user->getPassword(),
             ':role' => $user->getRole()
-        ]);*/
-        return false;
+        ]);
+
+       return true;
     }
 
     public function update(object $user): bool

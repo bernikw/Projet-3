@@ -36,7 +36,6 @@ final class RegistrationController
             $datas = $request->request()->all();
             //var_dump($datas);
             //die();
-
             if ($registerValidator->isValid($datas)) {
 
 
@@ -74,7 +73,7 @@ final class RegistrationController
 
             } else {
 
-                $this->session->addFlashes(' ',$registerValidator->getErrors());
+                $this->session->addFlashes('',$registerValidator->getErrors());
             }
         }
 

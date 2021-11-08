@@ -48,11 +48,11 @@ class RegisterValidator extends BaseValidator
          $result = false;
       }
 
-      if (!$this->isValidUsername($datas['username'])) {
+      /*if (!$this->isValidUsername($datas['username'])) {
 
          $this->errors['username'] = 'Ce nom d\'utilisateur contient des caractères non autorisés';
          $result = false;
-      }
+      }*/
 
       if (!$this->isValidPassword($datas['password'])) {
 

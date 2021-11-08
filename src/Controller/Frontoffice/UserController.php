@@ -30,18 +30,20 @@ final class UserController
 
         if ($request->getMethod() === 'POST') {
 
-            $infoUser = $loginValidator->isValid($request->request()->all());
+            $infoUser = $request->request()->all();
 
+            if ($loginValidator->isValid($infoUser)) {
+            
             if (!$infoUser) {
+
                 return false;
             } else {
 
                 $user = $this->userRepository->findOneBy(['email' => $infoUser['email']]);
 
-                if (!isset($user) || !password_verify($infoUser['password'], $user->getPassword())) {
-
-                    return false;
+                if (!isset($user) || !password_verify($infoUser['password'], $user->getPassword())) {    
                 }
+            }
             }
 
             $this->session->set('user', $user);

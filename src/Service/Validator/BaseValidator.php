@@ -34,14 +34,14 @@ abstract class BaseValidator
         return true;
     }
 
-    protected function isValidUsername(string $username): bool{
+    /*protected function isValidUsername(string $username): bool{
 
     if (!strlen($username) <= 255 ){
 
             return false;
         }
         return true; 
-    }
+    }*/
 
     protected function isValidEmail(string $email): bool
     {

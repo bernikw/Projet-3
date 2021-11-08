@@ -25,6 +25,7 @@ final class HomeController
 
     public function displayHomeAction(Request $request, ContactValidator $contactValidator): Response
     {
+        $datasForm = [];
 
         if ($request->getMethod() === 'POST') {
 
@@ -42,14 +43,13 @@ final class HomeController
                 );
             } else {
 
-                $this->session->addFlashes('', $contactValidator->getErrors());
-                return new Response('', 303, ['redirect' => 'home']);
+                $this->session->addFlashes('', $contactValidator->getErrors());      
             }
         }
 
         return new Response($this->view->render([
             'template' => 'home',
-            'data' => [],
+            'data' => ['datasin'=>$datasForm],
         ]));
     }
 }

@@ -9,6 +9,7 @@ use App\View\View;
 use App\Service\Http\Response;
 use App\Service\Validator\ContactValidator;
 use App\Service\Http\Session\Session;
+use App\Service\Mailer;
 
 
 final class HomeController
@@ -23,7 +24,7 @@ final class HomeController
     }
 
 
-    public function displayHomeAction(Request $request, ContactValidator $contactValidator): Response
+    public function displayHomeAction(Request $request, ContactValidator $contactValidator, Mailer $mailer): Response
     {
         $datasForm = [];
 
@@ -32,15 +33,17 @@ final class HomeController
             $datasForm = $request->request()->all();
 
             if ($contactValidator->isValid($datasForm)) {
-                $content = $this->view->render([
+                /*$content = $this->view->render([
                     "template" => "home",
 
-                ]);
-
+                ]);*/
+                $result=$mailer->sendMessage('Bonjour', 'content', 'berni@yahoo.fr');
                 $this->session->addFlashes(
                     'success',
                     ['Votre message a été énvoyé']
                 );
+
+                return new Response('', 303, ['redirect' => 'home']);
             } else {
 
                 $this->session->addFlashes('', $contactValidator->getErrors());      

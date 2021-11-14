@@ -12,11 +12,11 @@ abstract class BaseValidator
 
     protected function isValidInput(string $name): bool
     {
-        if (!trim($name) && !stripslashes($name) && !htmlspecialchars($name, ENT_QUOTES, 'UTF-8')) {
+
+        if (!trim($name) && !stripslashes($name) && !strip_tags(htmlspecialchars($name, ENT_QUOTES, 'UTF-8'))) {
 
             return false;
         }
-
         return true;
     }
 
@@ -25,18 +25,17 @@ abstract class BaseValidator
         if (!isset($name) && $this->isEmpty($name)) {
 
             return false;
-
-        } elseif (!preg_match('/^[a-zA-Z0-9]{3,12}$/', $name)) {
+        } elseif (!preg_match('/^[a-zA-Z0-9UûÙùàÀèÈéÉïÏîÎôÔêÊçÇ .\-]{3,12}+$/i', $name)) {
 
             return false;
-        }
+        } 
 
         return true;
     }
 
     /*protected function isValidUsername(string $username): bool{
 
-    if (!strlen($username) <= 255 ){
+    if (!strlen($username)<3 || !strlen($username)>20){
 
             return false;
         }
@@ -57,21 +56,22 @@ abstract class BaseValidator
     protected function isValidPassword(string $password)
     {
 
-        if (!isset($password) && $this->isEmpty($password) && !strlen($password) < 5 || !strlen($password) > 12) {
-            return false;
-        } elseif (!preg_match('/^[a-zA-Z0-9]{3,12}$/', $password) || !ctype_alnum($password)) {
+        if (!isset($password) && $this->isEmpty($password)) {
 
             return false;
-        } 
-        
+        } elseif (!preg_match('/^\S*(?=\S{8,})(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$/', $password)) {
+
+            return false;
+        }
+
 
         return true;
     }
 
-   protected function isValidPassConfirm(string $password, string $passwordConfirm): bool
+    protected function isValidPassConfirm(string $password, string $passwordConfirm): bool
     {
 
-        if ($password !== $passwordConfirm) {
+        if ($password != $passwordConfirm) {
             return false;
         }
         return true;
@@ -87,7 +87,7 @@ abstract class BaseValidator
 
     public function getErrors(): array
     {
-        
+
         return $this->errors;
     }
 }

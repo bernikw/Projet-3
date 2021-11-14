@@ -6,9 +6,9 @@ namespace App\Model\Repository;
 
 use App\Model\Entity\Post;
 use App\Service\Database;
-use App\Model\Repository\Interfaces\EntityRepositoryInterface;
 
-final class PostRepository implements EntityRepositoryInterface
+
+final class PostRepository 
 {
     private Database $database;
 

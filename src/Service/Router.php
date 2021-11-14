@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace  App\Service;
+namespace App\Service;
 
 use App\Controller\Frontoffice\PostController;
 use App\Controller\Frontoffice\UserController;
@@ -22,6 +22,7 @@ use App\Service\Validator\ContactValidator;
 use App\Service\Validator\LoginValidator;
 use App\Service\Validator\RegisterValidator;
 use App\View\View;
+use App\Service\Database;
 
 
 final class Router
@@ -39,13 +40,13 @@ final class Router
     public function __construct(Request $request)
     {
         // dépendance
-        $this->database = new Database();
+        $this->database = new Database('localhost', 'myblog','root','');
         $this->session = new Session();
         $this->view = new View($this->session);
         $this->request = $request;
 
         $setting = [
-            "smtp" => "127.0.0.1:1025",
+            "smtp" => "localhost",
             "smtp_port" => 1025,
             "from" => "bw@blog.fr",
             "sender" => "Bernadetta"
@@ -111,7 +112,8 @@ final class Router
 
             $mailer = new Mailer($setting);*/
 
-            return $controller->displayHomeAction($this->request, $contactValidator);
+
+            return $controller->displayHomeAction($this->request, $contactValidator, $this->mailer);
 
 
             // *** @Route http://localhost:8000/?action=registration ***

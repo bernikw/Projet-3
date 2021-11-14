@@ -6,9 +6,9 @@ namespace App\Model\Repository;
 
 use App\Service\Database;
 use App\Model\Entity\User;
-use App\Model\Repository\Interfaces\EntityRepositoryInterface;
 
-final class UserRepository implements EntityRepositoryInterface
+
+final class UserRepository
 {
     private Database $database;
 
@@ -16,6 +16,42 @@ final class UserRepository implements EntityRepositoryInterface
     public function __construct(Database $database)
     {
         $this->database = $database;
+    }
+
+
+    public function findOneByEmail(string $email): ?User
+    {
+
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE email = :email');
+
+        $statement->execute(['email' => $email]);
+        $data = $statement->fetch();
+        
+
+        // réfléchir à l'hydratation des entités;
+        return $data === false ? null : new User((int) $data['id'], $data['username'], $data['email'], $data['password'], $data['role']);
+    }
+
+    public function findCountEmail(string $email): int
+    {
+        $statement = $this->database->getConnection()->prepare('SELECT count(*) as nb FROM user where email = :email');
+
+        $statement->execute(['email' => $email]);
+        $data = $statement->fetch();
+
+
+        return (int)$data['nb'];
+    }
+
+    public function findCountUsername(string $username): int
+    {
+        $statement = $this->database->getConnection()->prepare('SELECT count(*) as nb FROM user where username = :username');
+
+        $statement->execute(['username' => $username]);
+        $data = $statement->fetch();
+
+
+        return (int)$data['nb'];
     }
 
     public function find(int $id): ?User

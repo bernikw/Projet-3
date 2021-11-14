@@ -39,7 +39,7 @@ final class UserController
                 return false;
             } else {
 
-                $user = $this->userRepository->findOneBy(['email' => $infoUser['email']]);
+                $user = $this->userRepository->findOneByEmail( $infoUser['email']);
 
                 if (!isset($user) || !password_verify($infoUser['password'], $user->getPassword())) {    
                 }

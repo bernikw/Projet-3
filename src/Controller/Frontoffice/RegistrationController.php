@@ -34,25 +34,21 @@ final class RegistrationController
         if ($request->getMethod() === 'POST') {
 
             $datas = $request->request()->all();
-            //var_dump($datas);
-            //die();
+            
             if ($registerValidator->isValid($datas)) {
 
-
-                $result = $this->userRepository->findOneBy(['username' => $datas['username']]);
-
-                if ($result >= 1) {
-                    return false;
-                }
-
-                $result = $this->userRepository->findOneBy(['email' => $datas['email']]);
-
-                if ($result >= 1) {
-                    return false;
+                $resultuser = $this->userRepository->findCountUsername($datas['username']);
+               
+                $resultemail = $this->userRepository->findCountEmail($datas['email']);
+                if ($resultemail>0){
+                    var_dump('user existe');
+                    die();
                 }
 
 
-                $user = new User(0, $datas['username'], $datas['email'], $datas[password_hash($datas['password'], PASSWORD_BCRYPT)], $datas['role']);
+                $pass = password_hash($datas['password'], PASSWORD_BCRYPT); 
+
+                $user = new User(0, $datas['username'], $datas['email'], $pass, $datas['role']);
 
                 $this->userRepository->create($user);
 

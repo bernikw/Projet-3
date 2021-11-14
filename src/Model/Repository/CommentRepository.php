@@ -6,10 +6,9 @@ namespace App\Model\Repository;
 
 use App\Service\Database;
 use App\Model\Entity\Comment;
-use App\Model\Entity\Interfaces\EntityObjectInterface;
-use App\Model\Repository\Interfaces\EntityRepositoryInterface;
 
-final class CommentRepository implements EntityRepositoryInterface
+
+final class CommentRepository 
 {
     private Database $database;
 

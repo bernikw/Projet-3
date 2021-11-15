@@ -34,10 +34,10 @@ final class PostRepository
         return $data === false ? null : new Post((int)$data['id'], $data['title'], $data['date_creation'], (string)$data['date_update'], $data['username'], $data['chapo'], $data['text']);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): ?array
+    /*public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): ?array
     {
         return null;
-    }
+    }*/
 
     public function findAll(): ?array
     {

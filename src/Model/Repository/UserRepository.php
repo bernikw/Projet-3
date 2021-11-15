@@ -29,9 +29,9 @@ final class UserRepository
         
 
         // réfléchir à l'hydratation des entités;
-        return $data === false ? null : new User((int) $data['id'], $data['username'], $data['email'], $data['password'], $data['role']);
+        return $data === false ? null : new User((int) $data['id'], $data['username'], $data['email'], $data['password']);
     }
-
+    
     public function findCountEmail(string $email): int
     {
         $statement = $this->database->getConnection()->prepare('SELECT count(*) as nb FROM user where email = :email');
@@ -85,14 +85,13 @@ final class UserRepository
     public function create(object $user): bool
 
     {
-        $statement = $this->database->getConnection()->prepare('INSERT INTO user (username, email, password, role) VALUES (:username, :email, :password, :role');
+        $statement = $this->database->getConnection()->prepare('INSERT INTO user (username, email, password) VALUES (:username, :email, :password');
 
 
         $statement->execute([
             ':username' => $user->getUsername(),
             ':email' => $user->getEmail(),
-            ':password' => $user->getPassword(),
-            ':role' => $user->getRole()
+            ':password' => $user->getPassword()
         ]);
 
        return true;

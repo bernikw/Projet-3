@@ -49,13 +49,7 @@ class ContactValidator extends BaseValidator
             $this->errors['message'] = 'Ce message contient des caractères non autorisés';
             $result = false;
         }
-        if (!$this->isValidDatas($datasForm['message'])) {
-
-            $this->errors['message'] = 'Ce message contient des caractères non autorisés';
-            $result = false;
-        }
-
-
+       
         return $result;
     }
 }

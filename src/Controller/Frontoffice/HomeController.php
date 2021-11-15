@@ -33,11 +33,12 @@ final class HomeController
             $datasForm = $request->request()->all();
 
             if ($contactValidator->isValid($datasForm)) {
-                /*$content = $this->view->render([
-                    "template" => "home",
+                $content = $this->view->render([
+                    "template" => "bodyemail"
+                ]);
 
-                ]);*/
-                $result=$mailer->sendMessage('Bonjour', 'content', 'berni@yahoo.fr');
+                $result = $mailer->sendMessage('Bonjour', $content, 'berni@yahoo.fr');
+                
                 $this->session->addFlashes(
                     'success',
                     ['Votre message a été énvoyé']
@@ -46,13 +47,13 @@ final class HomeController
                 return new Response('', 303, ['redirect' => 'home']);
             } else {
 
-                $this->session->addFlashes('', $contactValidator->getErrors());      
+                $this->session->addFlashes('', $contactValidator->getErrors());
             }
         }
 
         return new Response($this->view->render([
             'template' => 'home',
-            'data' => ['datasin'=>$datasForm],
+            'data' => ['datasin' => $datasForm],
         ]));
     }
 }

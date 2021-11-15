@@ -20,9 +20,6 @@
 							<label class="form-label">Mot de passe</label>
 							<input id="password" name="password" type="password" class="form-control" required="required">
 						</div>
-						{% for type, message in flashes %}
-                		<p class={{type}}> {{ message }} </p>
-                		{% endfor %}
 						<div class="d-grid gap-2 col-6 mx-auto my-5">
 							<button type="submit" class="btn btn-success" value='LOGIN'>Se connecter</button>
 						</div>

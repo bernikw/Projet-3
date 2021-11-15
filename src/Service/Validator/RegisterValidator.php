@@ -48,11 +48,6 @@ class RegisterValidator extends BaseValidator
          $result = false;
       }
 
-      /*if (!$this->isValidUsername($datas['username'])) {
-         $this->errors['username'] = 'Le nom d\'utilisateur doit contenir entre 3 et 20 caractères';
-         $result = false;
-      }*/
-
       if (!$this->isValidPassword($datas['password'])) {
 
          $this->errors['password'] = 'Le mot de passe doit contenir au moins 8 caractères dont
@@ -64,7 +59,7 @@ class RegisterValidator extends BaseValidator
          $this->errors['password_confirm'] = 'Le mot de passe contient des caractères non autorisés';  
       }
 
-      if (!$this->isValidPassConfirm($datas['password'], $datas ['password_confirm'])) {
+      if (!$this->isValidPassConfirm($datas['password'], $datas['password_confirm'])) {
 
          $this->errors['password_confirm'] = 'Les deux mots de passes ne sont pas identiques';       
       }

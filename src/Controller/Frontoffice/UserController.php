@@ -33,25 +33,31 @@ final class UserController
             $infoUser = $request->request()->all();
 
             if ($loginValidator->isValid($infoUser)) {
-            
-            if (!$infoUser) {
 
-                return false;
-            } else {
+                if (!$infoUser) {
 
-                $user = $this->userRepository->findOneByEmail( $infoUser['email']);
+                    return false;
+                } else {
 
-                if (!isset($user) || !password_verify($infoUser['password'], $user->getPassword())) {    
+                    $user = $this->userRepository->findOneByEmail($infoUser['email']);
+
+
+                    if (password_verify($infoUser['password'], $user->getPassword())) {
+
+                        $this->session->set('user', $user);
+
+                        return new Response('', 303, ['redirect' => 'posts'], 404);
+
+                    } else {
+
+                        $this->session->addFlashes('', $loginValidator->getErrors());
+
+                    }
                 }
             }
-            }
-
-            $this->session->set('user', $user);
-
-            return new Response('', 303, ['redirect' => 'posts'], 404);
         }
 
-        return new Response($this->view->render(['template' => 'login', 'data' => []]));
+      return new Response($this->view->render(['template' => 'login', 'data' => []]));
     }
 
     public function logoutAction(): Response

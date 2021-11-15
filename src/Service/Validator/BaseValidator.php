@@ -28,19 +28,10 @@ abstract class BaseValidator
         } elseif (!preg_match('/^[a-zA-Z0-9UûÙùàÀèÈéÉïÏîÎôÔêÊçÇ .\-]{3,12}+$/i', $name)) {
 
             return false;
-        } 
+        }
 
         return true;
     }
-
-    /*protected function isValidUsername(string $username): bool{
-
-    if (!strlen($username)<3 || !strlen($username)>20){
-
-            return false;
-        }
-        return true; 
-    }*/
 
     protected function isValidEmail(string $email): bool
     {
@@ -59,7 +50,7 @@ abstract class BaseValidator
         if (!isset($password) && $this->isEmpty($password)) {
 
             return false;
-        } elseif (!preg_match('/^\S*(?=\S{8,})(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$/', $password)) {
+        } elseif (!preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).{10,}$#', $password)) {
 
             return false;
         }

@@ -103,15 +103,6 @@ final class Router
             $controller = new HomeController($this->view, $this->session);
             $contactValidator = new ContactValidator();
 
-            /*$setting = [
-                "smtp" => "localhost",
-                "smtp_port" => 8000,
-                "from" => "bw@blog.fr",
-                "sender" => "Bernadetta"
-            ];
-
-            $mailer = new Mailer($setting);*/
-
 
             return $controller->displayHomeAction($this->request, $contactValidator, $this->mailer);
 

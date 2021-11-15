@@ -38,7 +38,11 @@ final class RegistrationController
             if ($registerValidator->isValid($datas)) {
 
                 $resultuser = $this->userRepository->findCountUsername($datas['username']);
-               
+
+                if ($resultuser>0){
+                    var_dump('Cette nom user existe existe');
+                    die();
+                }
                 $resultemail = $this->userRepository->findCountEmail($datas['email']);
                 if ($resultemail>0){
                     var_dump('user existe');
@@ -48,7 +52,7 @@ final class RegistrationController
 
                 $pass = password_hash($datas['password'], PASSWORD_BCRYPT); 
 
-                $user = new User(0, $datas['username'], $datas['email'], $pass, $datas['role']);
+                $user = new User(0, $datas['username'], $datas['email'], $pass);
 
                 $this->userRepository->create($user);
 

@@ -9,7 +9,25 @@
 
 <body>
 {% block content %}
-<p> Text email</p>
+
+<div class="container">
+			<div class="row">
+				<div class="p-4 p-md-5 mb-4 text-white rounded bg-secondary my-5">
+					<div class="col-md-8 px-0">
+					<h2>{{message.firstname}} {{message.name}}</h2>
+          <span> Email: {{message.email}} </span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+<div class="container-fluid">
+ <p> {{message.message}} </p>
+</div>
+
+
+
 
 {% endblock %}
 </body>

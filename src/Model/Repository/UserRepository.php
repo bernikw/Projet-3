@@ -85,7 +85,7 @@ final class UserRepository
     public function create(object $user): bool
 
     {
-        $statement = $this->database->getConnection()->prepare('INSERT INTO user (username, email, password) VALUES (:username, :email, :password');
+        $statement = $this->database->getConnection()->prepare('INSERT INTO user (username, email, password) VALUES (:username, :email, :password)');
 
 
         $statement->execute([

@@ -33,9 +33,13 @@ final class HomeController
             $datasForm = $request->request()->all();
 
             if ($contactValidator->isValid($datasForm)) {
+
                 $content = $this->view->render([
-                    "template" => "bodyemail"
+                    "template" => "bodyemail",
+                    'data'=> ['message' => $datasForm],
+
                 ]);
+
 
                 $result = $mailer->sendMessage('Bonjour', $content, 'berni@yahoo.fr');
                 

@@ -12,6 +12,7 @@ use App\Model\Repository\UserRepository;
 use App\Service\Validator\LoginValidator;
 
 
+
 final class UserController
 {
     private UserRepository $userRepository;
@@ -31,34 +32,32 @@ final class UserController
         if ($request->getMethod() === 'POST') {
 
             $infoUser = $request->request()->all();
+            $loginValidator->isValid($infoUser);
 
-            if ($loginValidator->isValid($infoUser)) {
-
+        
                 if (!$infoUser) {
+                    return false;   
+                } 
+                
+                $user = $this->userRepository->findOneByEmail($infoUser['email']);
 
-                    return false;
-                } else {
-
-                    $user = $this->userRepository->findOneByEmail($infoUser['email']);
-
-
-                    if (password_verify($infoUser['password'], $user->getPassword())) {
-
+                   if($user !== null && password_verify($infoUser['password'], $user->getPassword())) {
+                    
                         $this->session->set('user', $user);
 
-                        return new Response('', 303, ['redirect' => 'posts'], 404);
+                        return new Response('', 303, ['redirect' => 'posts']);
+                        
 
                     } else {
 
-                        $this->session->addFlashes('', $loginValidator->getErrors());
-
-                    }
-                }
+                        $this->session->addFlashes('error', $loginValidator->getErrors());  
+                    
             }
+
+              
+            } return new Response($this->view->render(['template' => 'login', 'data' => []]));  
         }
 
-      return new Response($this->view->render(['template' => 'login', 'data' => []]));
-    }
 
     public function logoutAction(): Response
     {

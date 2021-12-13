@@ -50,7 +50,7 @@ abstract class BaseValidator
         if (!isset($password) && $this->isEmpty($password)) {
 
             return false;
-        } elseif (!preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).{10,}$#', $password)) {
+        } elseif (!preg_match('^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$^', $password)) {
 
             return false;
         }

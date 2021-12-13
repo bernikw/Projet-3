@@ -29,28 +29,32 @@ final class RegistrationController
 
     public function displayRegistrationAction(Request $request, Mailer $mailer, RegisterValidator $registerValidator): Response
     {
-            $datas = [];
-            
+        $datas = [];
+
         if ($request->getMethod() === 'POST') {
 
             $datas = $request->request()->all();
-            
+
             if ($registerValidator->isValid($datas)) {
+
 
                 $resultuser = $this->userRepository->findCountUsername($datas['username']);
 
-                if ($resultuser>0){
-                    var_dump('Cette nom user existe existe');
-                    die();
+                if ($resultuser > 0) {
+
+                    $this->session->addFlashes('', ['Cette nom utilisateur existe déjà']);
+                   
                 }
+
                 $resultemail = $this->userRepository->findCountEmail($datas['email']);
-                if ($resultemail>0){
-                    var_dump('user existe');
-                    die();
+                if ($resultemail > 0) {
+
+                    $this->session->addFlashes('', ['Cet email existe déjà']);
+                   
                 }
 
 
-                $pass = password_hash($datas['password'], PASSWORD_BCRYPT); 
+                $pass = password_hash($datas['password'], PASSWORD_BCRYPT);
 
                 $user = new User(0, $datas['username'], $datas['email'], $pass);
 
@@ -73,14 +77,14 @@ final class RegistrationController
 
             } else {
 
-                $this->session->addFlashes('',$registerValidator->getErrors());
+                $this->session->addFlashes('', $registerValidator->getErrors());
             }
         }
 
 
         return new Response($this->view->render([
             'template' => 'registration',
-            'data' => ['datassaisi'=>$datas],
+            'data' => ['datassaisi' => $datas],
         ]));
     }
 }

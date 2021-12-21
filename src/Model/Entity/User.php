@@ -61,13 +61,13 @@ final class User
         return $this;
     }
 
-    /*public function getRole(): string
+    /*public function getRole(): array
     {
         return $this->role;
         
     }
 
-    public function setRole(string $role): self
+    public function setRole(array $role): self
     {
         $this->role = $role;
         return $this;

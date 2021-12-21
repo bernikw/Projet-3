@@ -36,10 +36,11 @@ final class AdminController
             'data' => ['posts' => $posts],
         ],'backoffice'));
     }
-    public function deletePost(): bool  
+    
+    public function deletePost($id)  
     {
        
-        $posts = $this->postRepository->delete();
+        $posts = $this->postRepository->delete($id);
 
             $this->session->addFlashes('success', ['Votre article a été supprimée']);
 

@@ -94,16 +94,28 @@ final class UserRepository
             ':password' => $user->getPassword()
         ]);
 
+        
+
        return true;
     }
 
     public function update(object $user): bool
     {
-        return false;
+        $statement = $this->database->getConnection()->prepare('UPDATE user SET (username, password) VALUES (:username, :password )');
+
+        $statement->execute([
+            ':username' => $user->getUsername(),
+            ':password' => $user->getPassword()
+        ]);
+
+        return true;
     }
 
     public function delete(object $user): bool
     {
-        return false;
+        $statement = $this->database->getConnection()->prepare('DELETE FROM user WHERE id = :id');
+        $statement->execute(['id'=> $user->getId()]);
+        
+        return true; 
     }
 }

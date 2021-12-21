@@ -8,7 +8,7 @@ abstract class BaseValidator
 
 {
 
-    protected  $errors = [];
+    protected array $errors = [];
 
     protected function isValidInput(string $name): bool
     {

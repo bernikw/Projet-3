@@ -21,6 +21,7 @@ use App\Service\Http\Session\Session;
 use App\Service\Validator\ContactValidator;
 use App\Service\Validator\LoginValidator;
 use App\Service\Validator\RegisterValidator;
+use App\Service\Validator\PostValidator;
 use App\View\View;
 use App\Service\Database;
 
@@ -112,12 +113,10 @@ final class Router
 
             $userRepository = new UserRepository($this->database);
             $controller = new RegistrationController($this->view, $this->session, $userRepository);
-            $registerValidator = new RegisterValidator;
+            $registerValidator = new RegisterValidator($userRepository);
 
 
             return $controller->displayRegistrationAction($this->request, $this->mailer, $registerValidator);
-
-
 
             // *** @Route http://localhost:8000/?action=admin ***
         } elseif ($action === 'admin') {
@@ -130,14 +129,17 @@ final class Router
             // *** @Route http://localhost:8000/?action=addpost ***
         } elseif ($action === 'addpost') {
 
-            $controller = new AddpostController($this->view);
+            $postRepository = new PostRepository($this->database);
+            $postValidator = new PostValidator;
+            $controller = new AddpostController($this->view, $this->session, $postRepository);
 
-            return $controller->displayAddpostAction();
+            return $controller->displayAddpostAction($this->request, $postValidator);
 
             // *** @Route http://localhost:8000/?action=editpost ***
         } elseif ($action === 'editpost') {
 
-            $controller = new EditpostController($this->view);
+            $postRepo = new PostRepository($this->database);
+            $controller = new EditpostController($this->view, $postRepo, $this->session);
 
             return $controller->displayEditpostAction();
 
@@ -147,7 +149,7 @@ final class Router
             $postRepo = new PostRepository($this->database);
             $controller = new AdminController($this->view, $postRepo, $this->session);
 
-            return $controller->deletePost();
+            return $controller->deletePost($id);
 
             // *** @Route http://localhost:8000/?action=editcomment ***
         } elseif ($action === 'editcomment') {

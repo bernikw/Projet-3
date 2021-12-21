@@ -72,11 +72,10 @@ final class CommentRepository
     public function create(object $comment): bool
     {
         
-           $statement = $this->database->getConnection()->prepare('INSERT INTO comment(text_comment, date_comment VALUES (:text, DATE(NOW()) )'); 
+           $statement = $this->database->getConnection()->prepare('INSERT INTO comment(text_comment, date_comment VALUES (:text, DATE(NOW()))'); 
 
                     
             $statement->execute([
-                ':id' => $comment->getId(),
                 ':pseudo' => $comment->getPseudo(),
                 ':text' => $comment->getText(),
                 ':dateComment' => $comment->getDateComment(),
@@ -96,7 +95,7 @@ final class CommentRepository
     public function delete(object $comment): bool
     {
         
-        $statement = $this->database->getConnection()->prepare('DELATE FROM comment WHERE comment_id = :id'); 
+        $statement = $this->database->getConnection()->prepare('DELETE FROM comment WHERE comment_id = :id'); 
 
         $statement->execute([':text_comment' => $comment->getTextComment()]);
       

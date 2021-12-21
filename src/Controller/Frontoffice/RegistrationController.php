@@ -37,23 +37,6 @@ final class RegistrationController
 
             if ($registerValidator->isValid($datas)) {
 
-
-                $resultuser = $this->userRepository->findCountUsername($datas['username']);
-
-                if ($resultuser > 0) {
-
-                    $this->session->addFlashes('', ['Cette nom utilisateur existe déjà']);
-                   
-                }
-
-                $resultemail = $this->userRepository->findCountEmail($datas['email']);
-                if ($resultemail > 0) {
-
-                    $this->session->addFlashes('', ['Cet email existe déjà']);
-                   
-                }
-
-
                 $pass = password_hash($datas['password'], PASSWORD_BCRYPT);
 
                 $user = new User(0, $datas['username'], $datas['email'], $pass);
@@ -74,7 +57,6 @@ final class RegistrationController
 
                 $this->session->addFlashes('success', ['Votre compte a été crée']);
                 return new Response('', 303, ['redirect' => 'login']);
-
             } else {
 
                 $this->session->addFlashes('', $registerValidator->getErrors());

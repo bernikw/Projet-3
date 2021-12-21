@@ -57,40 +57,26 @@
 					
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">Votre prénom</label>
-							<input type="text" class="form-control" name="firstname" required="required"  value="{{ app.session.get('firstname') }}">
+							<input type="text" class="form-control" name="firstname" required="required" value="{{datasin.firstname}}">
 						</div>
-						{% if errors is defined %}
-                         {% for error in errors %}
-                        <p>{{ error.message }}</p>
-                        {% endfor %}
-                        {% endif %}
+												
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">Votre nom</label>
-							<input type="text" class="form-control" name="name" required="required" value="{{ session.name }}">
+							<input type="text" class="form-control" name="name" required="required" value="{{datasin.name}}">
 						</div>
-						{% if errors is defined %}
-                         {% for error in errors %}
-                        <p>{{ error.message }}</p>
-                        {% endfor %}
-                        {% endif %}
+						
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">Votre e-mail</label>
-							<input type="email" class="form-control" name="email" required="required"  value="{{ session.email }}">
+							<input type="email" class="form-control" name="email" required="required"  value="{{datasin.email}}">
 						</div>
-						{% if errors is defined %}
-                         {% for error in errors %}
-                        <p>{{ error.message }}</p>
-                        {% endfor %}
-                        {% endif %}
+						
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">Message</label>
-							<textarea class="form-control" name="message" rows="5"  required="required"></textarea>
+							<textarea class="form-control" name="message" rows="5"  required="required" value="{{datasin.message}}">
+							</textarea>
 						</div>
-						 {% if errors is defined %}
-                         {% for error in errors %}
-                        <p>{{ error.message }}</p>
-                        {% endfor %}
-                        {% endif %}
+				
+
 						<div class="d-grid gap-2 col-6 mx-auto my-5">
 							<button type="submit" class="btn btn-success" type="button">Envoyer</button>
 						</div>

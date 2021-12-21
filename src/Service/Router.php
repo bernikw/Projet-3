@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace  App\Service;
+namespace App\Service;
 
 use App\Controller\Frontoffice\PostController;
 use App\Controller\Frontoffice\UserController;
@@ -21,7 +21,9 @@ use App\Service\Http\Session\Session;
 use App\Service\Validator\ContactValidator;
 use App\Service\Validator\LoginValidator;
 use App\Service\Validator\RegisterValidator;
+use App\Service\Validator\PostValidator;
 use App\View\View;
+use App\Service\Database;
 
 
 final class Router
@@ -32,16 +34,26 @@ final class Router
     private View $view;
     private Request $request;
     private Session $session;
+    private Mailer $mailer;
 
 
 
     public function __construct(Request $request)
     {
         // dépendance
-        $this->database = new Database();
+        $this->database = new Database('localhost', 'myblog','root','');
         $this->session = new Session();
         $this->view = new View($this->session);
         $this->request = $request;
+
+        $setting = [
+            "smtp" => "localhost",
+            "smtp_port" => 1025,
+            "from" => "bw@blog.fr",
+            "sender" => "Bernadetta"
+        ];
+ 
+        $this->mailer = new Mailer($setting);
     }
 
     public function run(): Response
@@ -92,16 +104,8 @@ final class Router
             $controller = new HomeController($this->view, $this->session);
             $contactValidator = new ContactValidator();
 
-            $setting = [
-                "smtp" => "smtp://localhost",
-                "smtp_port" => 1025,
-                "from" => "bw@blog.fr",
-                "sender" => "Bernadetta"
-            ];
 
-            $mailer = new Mailer($setting);
-
-            return $controller->displayHomeAction($this->request, $contactValidator);
+            return $controller->displayHomeAction($this->request, $contactValidator, $this->mailer);
 
 
             // *** @Route http://localhost:8000/?action=registration ***
@@ -109,22 +113,10 @@ final class Router
 
             $userRepository = new UserRepository($this->database);
             $controller = new RegistrationController($this->view, $this->session, $userRepository);
-            $registerValidator = new RegisterValidator;
+            $registerValidator = new RegisterValidator($userRepository);
 
 
-            $setting = [
-                "smtp" => "mail-serwer70424.lh.pl",
-                "smtp_port" => 465,
-                "from" => "kontakt@bernadettasibe.com",
-                "password" => "Wiktoria1978",
-                "sender" => "Bernadetta"
-            ];
-
-            $mailer = new Mailer($setting);
-
-            return $controller->displayRegistrationAction($this->request, $mailer, $registerValidator);
-
-
+            return $controller->displayRegistrationAction($this->request, $this->mailer, $registerValidator);
 
             // *** @Route http://localhost:8000/?action=admin ***
         } elseif ($action === 'admin') {
@@ -137,14 +129,17 @@ final class Router
             // *** @Route http://localhost:8000/?action=addpost ***
         } elseif ($action === 'addpost') {
 
-            $controller = new AddpostController($this->view);
+            $postRepository = new PostRepository($this->database);
+            $postValidator = new PostValidator;
+            $controller = new AddpostController($this->view, $this->session, $postRepository);
 
-            return $controller->displayAddpostAction();
+            return $controller->displayAddpostAction($this->request, $postValidator);
 
             // *** @Route http://localhost:8000/?action=editpost ***
         } elseif ($action === 'editpost') {
 
-            $controller = new EditpostController($this->view);
+            $postRepo = new PostRepository($this->database);
+            $controller = new EditpostController($this->view, $postRepo, $this->session);
 
             return $controller->displayEditpostAction();
 
@@ -154,7 +149,7 @@ final class Router
             $postRepo = new PostRepository($this->database);
             $controller = new AdminController($this->view, $postRepo, $this->session);
 
-            return $controller->deletePost();
+            return $controller->deletePost($id);
 
             // *** @Route http://localhost:8000/?action=editcomment ***
         } elseif ($action === 'editcomment') {

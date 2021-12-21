@@ -12,6 +12,7 @@ use App\Model\Repository\UserRepository;
 use App\Service\Validator\LoginValidator;
 
 
+
 final class UserController
 {
     private UserRepository $userRepository;
@@ -30,44 +31,33 @@ final class UserController
 
         if ($request->getMethod() === 'POST') {
 
-            $infoUser = $loginValidator->isValid($request->request()->all());
+            $infoUser = $request->request()->all();
+            $loginValidator->isValid($infoUser);
 
-            if (!$infoUser) {
-              return false;
-           }
-
-            $user = $this->userRepository->findOneBy(['email' => $infoUser['email']]);
-
-            if (!isset($user) || !password_verify($infoUser['password'], $user->getPassword())) {
+        
+                if (!$infoUser) {
+                    return false;   
+                } 
                 
-               return false;
+                $user = $this->userRepository->findOneByEmail($infoUser['email']);
 
-            }    
-        
-                $this->session->set('user', $user);
+                   if($user !== null && password_verify($infoUser['password'], $user->getPassword())) {
+                    
+                        $this->session->set('user', $user);
 
-                return new Response('', 303, ['redirect' => 'posts'], 404);
-            
+                        return new Response('', 303, ['redirect' => 'posts']);
+                        
+
+                    } else {
+
+                        $this->session->addFlashes('error', $loginValidator->getErrors());  
+                    
+            }
+
+              
+            } return new Response($this->view->render(['template' => 'login', 'data' => []]));  
         }
-        
-        return new Response($this->view->render(['template' => 'login', 'data' => []]));
-    }
 
-    private function isLogged(): bool
-    {
-        if ($this->session->set('username', $username))
-        {
-            return true; 
-        }
-    }
-
-
-   private function isAdmin(): bool
-   {
-
-            return true;
-       
-    }
 
     public function logoutAction(): Response
     {

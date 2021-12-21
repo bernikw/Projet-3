@@ -6,10 +6,9 @@ namespace App\Model\Repository;
 
 use App\Service\Database;
 use App\Model\Entity\Comment;
-use App\Model\Entity\Interfaces\EntityObjectInterface;
-use App\Model\Repository\Interfaces\EntityRepositoryInterface;
 
-final class CommentRepository implements EntityRepositoryInterface
+
+final class CommentRepository 
 {
     private Database $database;
 
@@ -73,11 +72,10 @@ final class CommentRepository implements EntityRepositoryInterface
     public function create(object $comment): bool
     {
         
-           $statement = $this->database->getConnection()->prepare('INSERT INTO comment(text_comment, date_comment VALUES (:text, DATE(NOW()) )'); 
+           $statement = $this->database->getConnection()->prepare('INSERT INTO comment(text_comment, date_comment VALUES (:text, DATE(NOW()))'); 
 
                     
             $statement->execute([
-                ':id' => $comment->getId(),
                 ':pseudo' => $comment->getPseudo(),
                 ':text' => $comment->getText(),
                 ':dateComment' => $comment->getDateComment(),
@@ -97,21 +95,11 @@ final class CommentRepository implements EntityRepositoryInterface
     public function delete(object $comment): bool
     {
         
-        if ($comment){
-        $statement = $this->database->getConnection()->prepare('DELATE FROM comment WHERE comment_id = :id'); 
+        $statement = $this->database->getConnection()->prepare('DELETE FROM comment WHERE comment_id = :id'); 
 
-        $data = [':text_comment' => $comment['text_comment']
-                 
-     ];
-         $statement->execute($comment);
-    
-         return new Comment((int)$data['id'], (string) $data['pseudo'],(string) $data['text_comment'], $data['date_creation'], $data ['article_id'], $data['user_profil_id']);
-   
-
-     }else{
-
-          return false ; 
-     }
+        $statement->execute([':text_comment' => $comment->getTextComment()]);
+      
+         return true;   
      
 }
 }

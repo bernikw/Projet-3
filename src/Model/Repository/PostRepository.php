@@ -6,9 +6,9 @@ namespace App\Model\Repository;
 
 use App\Model\Entity\Post;
 use App\Service\Database;
-use App\Model\Repository\Interfaces\EntityRepositoryInterface;
 
-final class PostRepository implements EntityRepositoryInterface
+
+final class PostRepository
 {
     private Database $database;
 
@@ -34,10 +34,10 @@ final class PostRepository implements EntityRepositoryInterface
         return $data === false ? null : new Post((int)$data['id'], $data['title'], $data['date_creation'], (string)$data['date_update'], $data['username'], $data['chapo'], $data['text']);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): ?array
+    /*public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): ?array
     {
         return null;
-    }
+    }*/
 
     public function findAll(): ?array
     {
@@ -62,56 +62,44 @@ final class PostRepository implements EntityRepositoryInterface
 
     public function create(object $post): bool
     {
+        $statement = $this->database->getConnection()->prepare('INSERT INTO article (title, chapo,  date_creation, text) VALUE (:titre, :chapo, DATE(NOW()), :text,');
 
-        if ($post) {
+        $statement->execute([
+            ':title' => $post->getTitle(),
+            ':chapo' => $post->getChapo(),
+            ':date_creation' => $post->getDateCreation(),
+            ':text' => $post->getText()
 
-            $statement = $this->database->getConnection()->prepare('INSERT INTO article(title, chapo, text, date_creation, date_update)VALUE (:titre, :chapo, :text, DATE(NOW()), DATE(NOW())');
+        ]);
 
-            $data = [
-                ':id' => $post['article_id'],
-                ':title' => $post['title'],
-                ':chapo' => $post['chapo'],
-                ':text' => $post['text']
-            ];
-
-            $statement->execute($post);
-
-            return new Post((int)$data['id'], $data['title'], $data['chapo'], $data['text'], $data['date_creation'], (string)$data['date_update'], $data['user_id']);
-        } else {
-
-            return false;
-        }
+        return true;
     }
 
     public function update(object $post): bool
     {
-        if ($post) {
+        $statement = $this->database->getConnection()->prepare('UPDATE article SET (title, chapo,  date_creation, date_update, text) VALUES (:tite, :chapo, DATE (NOW()), DATE(NOW()), :text,');
 
-            $statement = $this->database->getConnection()->prepare('UPDATE article SET (title, chapo, text, date_creation, date_update) VALUES (:tite, :chapo, :text, DATE (NOW()), DATE(NOW())');
+        $statement->execute([
+            ':title' => $post->getTitle(),
+            ':chapo' => $post->getChapo(),
+            ':date_creation' => $post->getDateCreation(),
+            ':date_update' => $post->getDateUpdate(),
+            ':text' => $post->getText()
+        ]);
 
-            $data = [
-                ':title' => $post['title'],
-                ':chapo' => $post['chapo'],
-                ':text' => $post['text']
-            ];
 
-            $statement->execute($post);
-
-            return new Post((int)$data['id'], $data['title'], $data['chapo'], $data['text'], $data['date_creation'], (string)$data['date_update'], $data['user_id']);
-        } else {
-
-            return false;
-        }
+        return true;
     }
 
     public function delete(object $post): bool
     {
-        if($post) {
-            $statement = $this->database->getConnection()->prepare('DELATE FROM article WHERE article.id = :id');
-            $statement->execute();
-            $statement->fetch();
-        }
-        return false; 
-       
+
+        $statement = $this->database->getConnection()->prepare('DELETE FROM article WHERE id = :id');
+
+        $statement->execute([
+            ':id' => $post->getId()
+        ]);
+
+        return true;
     }
 }

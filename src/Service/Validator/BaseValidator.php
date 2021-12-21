@@ -8,15 +8,15 @@ abstract class BaseValidator
 
 {
 
-    protected  $errors = [];
+    protected array $errors = [];
 
     protected function isValidInput(string $name): bool
     {
-        if (!trim($name) && !stripslashes($name) && !htmlspecialchars($name, ENT_QUOTES, 'UTF-8')) {
+
+        if (!trim($name) && !stripslashes($name) && !strip_tags(htmlspecialchars($name, ENT_QUOTES, 'UTF-8'))) {
 
             return false;
         }
-
         return true;
     }
 
@@ -25,22 +25,12 @@ abstract class BaseValidator
         if (!isset($name) && $this->isEmpty($name)) {
 
             return false;
-
-        } elseif (!preg_match('/^[a-zA-Z0-9]{3,12}$/', $name)) {
+        } elseif (!preg_match('/^[a-zA-Z0-9UûÙùàÀèÈéÉïÏîÎôÔêÊçÇ .\-]{3,12}+$/i', $name)) {
 
             return false;
         }
 
         return true;
-    }
-
-    protected function isValidUsername(string $username): bool{
-
-    if (!strlen($username) <= 255 ){
-
-            return false;
-        }
-        return true; 
     }
 
     protected function isValidEmail(string $email): bool
@@ -57,21 +47,22 @@ abstract class BaseValidator
     protected function isValidPassword(string $password)
     {
 
-        if (!isset($password) && $this->isEmpty($password) && !strlen($password) < 5 || !strlen($password) > 12) {
-            return false;
-        } elseif (!preg_match('/^[a-zA-Z0-9]{3,12}$/', $password) || !ctype_alnum($password)) {
+        if (!isset($password) && $this->isEmpty($password)) {
 
             return false;
-        } 
-        
+        } elseif (!preg_match('^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$^', $password)) {
+
+            return false;
+        }
+
 
         return true;
     }
 
-   protected function isValidPassConfirm(string $password): bool
+    protected function isValidPassConfirm(string $password, string $passwordConfirm): bool
     {
 
-        if (!$password === $password) {
+        if ($password != $passwordConfirm) {
             return false;
         }
         return true;
@@ -85,9 +76,9 @@ abstract class BaseValidator
     }
 
 
-    public function getErrors($errors): array
+    public function getErrors(): array
     {
-        if ($errors)
-            return $this->errors;
+
+        return $this->errors;
     }
 }

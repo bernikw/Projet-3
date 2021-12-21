@@ -17,7 +17,7 @@ class Database
     private string $dbHost;
     private ?\PDO $pdo;
   
-    public function __construct($dbHost = 'localhost', $dbName = 'myblog', $dbUser = 'root', $dbPass = '', )
+    public function __construct($dbHost, $dbName, $dbUser, $dbPass)
     {
         $this->dbHost = $dbHost;
         $this->dbName = $dbName;

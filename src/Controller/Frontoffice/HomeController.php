@@ -9,8 +9,7 @@ use App\View\View;
 use App\Service\Http\Response;
 use App\Service\Validator\ContactValidator;
 use App\Service\Http\Session\Session;
-
-
+use App\Service\Mailer;
 
 
 final class HomeController
@@ -25,35 +24,40 @@ final class HomeController
     }
 
 
-    public function displayHomeAction(Request $request, ContactValidator $contactValidator): Response
+    public function displayHomeAction(Request $request, ContactValidator $contactValidator, Mailer $mailer): Response
     {
+        $datasForm = [];
 
         if ($request->getMethod() === 'POST') {
-            $result = $contactValidator->isValid($request->request()->all());
-            if($result){
 
+            $datasForm = $request->request()->all();
+
+            if ($contactValidator->isValid($datasForm)) {
 
                 $content = $this->view->render([
-                    "template" => "home",
-     
+                    "template" => "bodyemail",
+                    'data'=> ['message' => $datasForm],
+
                 ]);
 
 
-               $this->session->addFlashes('success', 'Votre message a été énvoyé');
+                $result = $mailer->sendMessage('Bonjour', $content, 'berni@yahoo.fr');
+                
+                $this->session->addFlashes(
+                    'success',
+                    ['Votre message a été énvoyé']
+                );
 
-            }else{
-                  
-                $this->session->addFlashes('', 'Tous les champs ne sont pas remplis ou ne sont pas corrects');
                 return new Response('', 303, ['redirect' => 'home']);
-            
-        
+            } else {
+
+                $this->session->addFlashes('', $contactValidator->getErrors());
             }
-        
         }
 
         return new Response($this->view->render([
             'template' => 'home',
-            'data' => [],
+            'data' => ['datasin' => $datasForm],
         ]));
     }
 }

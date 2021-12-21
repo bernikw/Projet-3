@@ -49,8 +49,10 @@
 				</div>
 			</div>
 		</nav>
-		{% for type, message in flashes %}
-            <p class={{type}}> {{ message }} </p>
+			{% for type, messages in flashes %}
+				{% for message in messages %}
+            		<p class={{type}}> {{ message }} </p>
+				{% endfor %}
             {% endfor %}
 			
 		{% block content %}{% endblock %}
@@ -72,8 +74,6 @@
 						<i class="bi bi-github"></i>
 					</a>
 				</section>
-
-        
 
 				<section class="mb-4">
 					<p>

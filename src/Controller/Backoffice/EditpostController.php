@@ -18,21 +18,21 @@ final class EditpostController
     private Session $session;
 
     public function __construct(View $view, PostRepository $postRepository, Session $session)
-    {     
+    {
         $this->view = $view;
         $this->postRepository = $postRepository;
         $this->session = $session;
     }
 
-    
+
 
     public function displayEditpostAction(): Response
     {
-        
+
 
         return new Response($this->view->render([
             'template' => 'editpost',
             'data' => [],
-        ],'backoffice'));
+        ], 'backoffice'));
     }
 }

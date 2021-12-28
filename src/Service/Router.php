@@ -10,8 +10,10 @@ use App\Controller\Frontoffice\HomeController;
 use App\Controller\Frontoffice\RegistrationController;
 use App\Controller\Backoffice\AdminController;
 use App\Controller\Backoffice\AddpostController;
+use App\Controller\Backoffice\CommentController;
+use App\Controller\Backoffice\ArticleController;
 use App\Controller\Backoffice\EditpostController;
-use App\Controller\Backoffice\EditcommentController;
+use App\Controller\Backoffice\UserAdminController;
 use App\Model\Repository\PostRepository;
 use App\Model\Repository\CommentRepository;
 use App\Model\Repository\UserRepository;
@@ -126,6 +128,16 @@ final class Router
 
             return $controller->displayAllPosts();
 
+             // *** @Route http://localhost:8000/?action=article ***
+        } elseif ($action === 'article') {
+
+            $postRepository = new PostRepository($this->database);
+
+            $controller = new ArticleController($this->view, $postRepository, $this->session);
+
+            return $controller->displayAllPosts();
+
+
             // *** @Route http://localhost:8000/?action=addpost ***
         } elseif ($action === 'addpost') {
 
@@ -151,14 +163,24 @@ final class Router
 
             return $controller->deletePost($id);
 
-            // *** @Route http://localhost:8000/?action=editcomment ***
-        } elseif ($action === 'editcomment') {
+             // *** @Route http://localhost:8000/?action=comment ***
+        } elseif ($action === 'comment') {
 
-            $controller = new EditcommentController($this->view);
+            $commentRepo = new CommentRepository($this->database);
+            $controller = new CommentController ($this->view, $commentRepo, $this->session);
 
-            return $controller->displayEditcommentAction();
+            return $controller->displayAllComments($this->request);
+
+         // *** @Route http://localhost:8000/?action=user ***
+            } elseif ($action === 'user') {
+
+                $userRepo = new UserRepository($this->database);
+                $controller = new UserAdminController($this->view, $userRepo, $this->session);
+
+            return $controller->displayAllUsers();
+
         }
-
+        
         return new Response('', 303, ['redirect' => 'posts'], 404);
     }
 }

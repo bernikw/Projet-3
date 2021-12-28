@@ -26,37 +26,33 @@ final class AddpostController
         $this->session = $session;
         $this->postRepository = $postRepository;
     }
- 
+
 
     public function displayAddPostAction(Request $request, PostValidator $postValidator): Response
     {
         $datas = [];
 
-        if($request->getMethod() === 'POST'){
+        if ($request->getMethod() === 'POST') {
 
             $datas = $request->request()->all();
 
             if ($postValidator->isValid($datas)) {
-     
+
                 $post = new Post(0, $datas['titre'], $datas['text'], $datas['chapo'], $datas['pseudo'], $datas['date_creation'], $datas['date_update']);
 
                 $this->postRepository->create($post);
-            
-                $this->session->addFlashes('success', ['Votre post a été enregistré']);
-                return new Response('', 303, ['redirect' => 'login']);
 
+                $this->session->addFlashes('success', ['Votre post a été enregistré']);
+                return new Response('', 303, ['redirect' => 'admin']);
             } else {
 
                 $this->session->addFlashes('', $postValidator->getErrors());
             }
-
         }
-    
+
         return new Response($this->view->render([
             'template' => 'addpost',
             'data' => [],
-        ],'backoffice'));
+        ], 'backoffice'));
     }
-
-
 }

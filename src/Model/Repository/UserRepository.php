@@ -79,14 +79,28 @@ final class UserRepository
 
     public function findAll(): ?array
     {
-        return null;
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM user');
+
+        $statement->execute();
+        $data = $statement->fetchAll();
+
+        if ($data === null) {
+            return null;
+        }
+
+
+        $users = [];
+        foreach ($data as $user) {
+            $users[] = new User((int) $user['id'], $user['username'], $user['email'], $user['password'], $user['role']);
+        }
+
+        return $users;
     }
 
     public function create(object $user): bool
 
     {
         $statement = $this->database->getConnection()->prepare('INSERT INTO user (username, email, password) VALUES (:username, :email, :password)');
-
 
         $statement->execute([
             ':username' => $user->getUsername(),

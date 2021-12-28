@@ -8,7 +8,7 @@ use App\Service\Database;
 use App\Model\Entity\Comment;
 
 
-final class CommentRepository 
+final class CommentRepository
 {
     private Database $database;
 
@@ -35,16 +35,16 @@ final class CommentRepository
 
         $statement->execute($criteria);
         $data = $statement->fetchAll();
-       
+
 
         if ($data === false) {
             return null;
         }
 
-    
+
         $comments = [];
         foreach ($data as $comment) {
-            $comments[] = new Comment((int)$comment['id'], (string) $comment['username'], (string) $comment['text_comment'], (string) $comment['date_comment'],(int)$comment['article_id']);
+            $comments[] = new Comment((int)$comment['id'], (string) $comment['username'], (string) $comment['text_comment'], (string) $comment['date_comment'], (int)$comment['article_id']);
         }
 
         return $comments;
@@ -63,7 +63,7 @@ final class CommentRepository
 
         $comments = [];
         foreach ($data as $comment) {
-            $comments[] = new Comment((int)$comment['id'], $comment['text_comment'], $comment['date_comment'], $comment['valid'], $comment['article_id'], $comment['user_profile_id']);
+            $comments[] = new Comment((int)$comment['id'], $comment['text_comment'], $comment['date_comment'], $comment['valid'], (int)$comment['article_id'], $comment['user_profile_id']);
         }
 
         return $comments;
@@ -71,20 +71,18 @@ final class CommentRepository
 
     public function create(object $comment): bool
     {
-        
-           $statement = $this->database->getConnection()->prepare('INSERT INTO comment(text_comment, date_comment VALUES (:text, DATE(NOW()))'); 
 
-                    
-            $statement->execute([
-                ':pseudo' => $comment->getPseudo(),
-                ':text' => $comment->getText(),
-                ':dateComment' => $comment->getDateComment(),
-                ':idPost' => $comment->getIdPost()
-            ]);
-       
-            return true;
-     
-        
+        $statement = $this->database->getConnection()->prepare('INSERT INTO comment (text_comment, date_comment VALUES (:text, DATE(NOW()))');
+
+
+        $statement->execute([
+            ':pseudo' => $comment->getPseudo(),
+            ':text' => $comment->getText(),
+            ':dateComment' => $comment->getDateComment(),
+            ':idPost' => $comment->getIdPost()
+        ]);
+
+        return true;
     }
 
     public function update(object $comment): bool
@@ -94,12 +92,13 @@ final class CommentRepository
 
     public function delete(object $comment): bool
     {
-        
-        $statement = $this->database->getConnection()->prepare('DELETE FROM comment WHERE comment_id = :id'); 
 
-        $statement->execute([':text_comment' => $comment->getTextComment()]);
-      
-         return true;   
-     
-}
+        $statement = $this->database->getConnection()->prepare('DELETE FROM comment WHERE comment_id = :id');
+
+        $statement->execute([
+            ':text_comment' => $comment->getTextComment()
+        ]);
+
+        return true;
+    }
 }

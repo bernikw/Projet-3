@@ -26,7 +26,7 @@ use App\Service\Validator\RegisterValidator;
 use App\Service\Validator\PostValidator;
 use App\View\View;
 use App\Service\Database;
-
+use App\Service\Validator\CommentValidator;
 
 final class Router
 {
@@ -78,7 +78,6 @@ final class Router
             //injection des dépendances et instanciation du controller
             $postRepo = new PostRepository($this->database);
             $controller = new PostController($postRepo, $this->view);
-
             $commentRepo = new CommentRepository($this->database);
 
             return $controller->displayOneAction((int) $this->request->query()->get('id'), $commentRepo);
@@ -88,8 +87,6 @@ final class Router
             $userRepo = new UserRepository($this->database);
             $loginValidator = new LoginValidator;
             $controller = new UserController($userRepo, $this->view, $this->session);
-
-
 
             return $controller->loginAction($this->request, $loginValidator);
 
@@ -120,14 +117,6 @@ final class Router
 
             return $controller->displayRegistrationAction($this->request, $this->mailer, $registerValidator);
 
-            // *** @Route http://localhost:8000/?action=admin ***
-        } elseif ($action === 'admin') {
-
-            $postRepo = new PostRepository($this->database);
-            $controller = new AdminController($this->view, $postRepo, $this->session);
-
-            return $controller->displayAllPosts();
-
              // *** @Route http://localhost:8000/?action=article ***
         } elseif ($action === 'article') {
 
@@ -142,26 +131,27 @@ final class Router
         } elseif ($action === 'addpost') {
 
             $postRepository = new PostRepository($this->database);
-            $postValidator = new PostValidator;
-            $controller = new AddpostController($this->view, $this->session, $postRepository);
+            $postValidator = new PostValidator($postRepository);
+            $controller = new ArticleController($this->view,  $postRepository, $this->session);
 
-            return $controller->displayAddpostAction($this->request, $postValidator);
+            return $controller->displayAddPostAction($this->request, $postValidator);
 
             // *** @Route http://localhost:8000/?action=editpost ***
         } elseif ($action === 'editpost') {
 
             $postRepo = new PostRepository($this->database);
-            $controller = new EditpostController($this->view, $postRepo, $this->session);
+            $controller = new ArticleController($this->view, $postRepo, $this->session);
 
             return $controller->displayEditpostAction();
 
             // *** @Route http://localhost:8000/?action=deletepost ***
-        } elseif ($action === 'deletepost') {
+        } elseif ($action === 'deletepost' && $this->request->query()->has('id')) {
 
             $postRepo = new PostRepository($this->database);
-            $controller = new AdminController($this->view, $postRepo, $this->session);
+            $controller = new ArticleController($this->view, $postRepo, $this->session);
 
-            return $controller->deletePost($id);
+            return $controller->deletePost((int) $this->request->query()->get('id'));
+
 
              // *** @Route http://localhost:8000/?action=comment ***
         } elseif ($action === 'comment') {
@@ -170,6 +160,28 @@ final class Router
             $controller = new CommentController ($this->view, $commentRepo, $this->session);
 
             return $controller->displayAllComments($this->request);
+
+         
+            // *** @Route http://localhost:8000/?action=addcomment ***
+        } elseif ($action === 'addcomment') {
+
+            $postRepo = new PostRepository($this->database);
+            $postValidator = new PostValidator($postRepo);
+            $controller = new PostController($postRepo, $this->view);
+            $commentRepo = new CommentRepository($this->database);
+            $commentValid = new CommentValidator; 
+
+            return $controller->displayAddComment($this->request, $commentValid);
+   
+
+             // *** @Route http://localhost:8000/?action=deletecomment ***
+        } elseif ($action === 'deletecomment') {
+
+            $commentRepo = new CommentRepository($this->database);
+            $controller = new CommentController ($this->view, $commentRepo, $this->session);
+
+            return $controller->deleteComment($this->request);
+
 
          // *** @Route http://localhost:8000/?action=user ***
             } elseif ($action === 'user') {

@@ -10,13 +10,14 @@ final class Post
 {
     private int $id;
     private string $title;
-    private string $dateCreation;
-    private string $dateUpdate;
+    private ?string $dateCreation;
+    private ?string $dateUpdate;
     private string $pseudo;
     private string $chapo;
     private string $text;
+    
 
-    public function __construct(int $id, string $title, string $dateCreation, string $dateUpdate, string $pseudo, string $chapo, string $text)
+    public function __construct(int $id, string $title, ?string $dateCreation, ?string $dateUpdate, string $pseudo, string $chapo, string $text)
     {
         $this->id = $id;
         $this->title = $title;

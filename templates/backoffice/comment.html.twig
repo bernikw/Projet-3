@@ -24,7 +24,9 @@
 							<td>ID</td>
 							<td>Auteur</td>
 							<td>Commentaire</td>
-                            <td>Valider</td>
+							<td>Status</td>
+							<td>Valider</td>
+							<td>Supprimer</td>
 						</tr>
 					</thead>
 					<tbody>
@@ -32,11 +34,14 @@
 						{% for comment in comments %}
 							<tr>
 								<td>{{ comment.id }}</td>
-                                <td>{{ comment.pseudo}}</td>
+								<td>{{ comment.pseudo}}</td>
 								<td>{{ comment.text}}</td>
+								<td>{{ comment.valid }}</td>
 								<td>
-									<a href="http://localhost:8000/?action=editcomment" class="btn btn-primary">Valider</a>
-									<a href="http://localhost:8000/?action=deletecomment" class="btn btn-danger">Supprimer</a>
+									<a href="#" class="btn btn-primary">Valider</a>
+								</td>
+								 <td>	
+									<a href="#" class="btn btn-danger">Supprimer</a>
 								</td>
 							</tr>
 						{% endfor %}

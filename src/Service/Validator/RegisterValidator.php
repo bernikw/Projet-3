@@ -80,8 +80,7 @@ class RegisterValidator extends BaseValidator
       }
 
       if (!$this->isValidPassword($datas['password'])) {
-    var_dump($datas['password']);
-    die();
+   
          $this->errors['password'] = 'Le mot de passe doit contenir au moins 8 caractères dont
          au moins une majuscule, un chiffre et un caractère spécial'; 
          $result = false;   

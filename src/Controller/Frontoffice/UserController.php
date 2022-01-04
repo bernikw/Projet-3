@@ -26,6 +26,7 @@ final class UserController
         $this->session = $session;
     }
 
+   
     public function loginAction(Request $request, LoginValidator $loginValidator): Response
     {
 
@@ -44,9 +45,10 @@ final class UserController
                    if($user !== null && password_verify($infoUser['password'], $user->getPassword())) {
                     
                         $this->session->set('user', $user);
-
-                        return new Response('', 303, ['redirect' => 'posts']);
                         
+                        
+                            return new Response('', 303, ['redirect' => 'posts']);                       
+                      
 
                     } else {
 

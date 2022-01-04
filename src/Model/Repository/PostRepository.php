@@ -54,7 +54,7 @@ final class PostRepository
 
         $posts = [];
         foreach ($data as $post) {
-            $posts[] = new Post((int)$post['id'], $post['title'], $post['date_creation'], (string)$post['date_update'], $post['user_id'], $post['chapo'], $post['text']);
+            $posts[] = new Post((int)$post['id'], $post['title'], $post['date_creation'], (string)$post['date_update'], (string)$post['user_id'], $post['chapo'], $post['text']);
         }
 
         return $posts;
@@ -62,12 +62,12 @@ final class PostRepository
 
     public function create(object $post): bool
     {
-        $statement = $this->database->getConnection()->prepare('INSERT INTO article (title, chapo,  date_creation, text) VALUE (:titre, :chapo, DATE(NOW()), :text,');
+        $statement = $this->database->getConnection()->prepare('INSERT INTO article (title, date_creation, chapo, text) VALUE (:titre, DATE(NOW()), :chapo,  :text,');
 
         $statement->execute([
             ':title' => $post->getTitle(),
-            ':chapo' => $post->getChapo(),
             ':date_creation' => $post->getDateCreation(),
+            ':chapo' => $post->getChapo(),
             ':text' => $post->getText()
 
         ]);
@@ -77,13 +77,14 @@ final class PostRepository
 
     public function update(object $post): bool
     {
-        $statement = $this->database->getConnection()->prepare('UPDATE article SET (title, chapo,  date_creation, date_update, text) VALUES (:tite, :chapo, DATE (NOW()), DATE(NOW()), :text,');
+        $statement = $this->database->getConnection()->prepare('UPDATE article SET (title,  date_creation, date_update, pseudo, chapo, text) VALUES (:tite, DATE (NOW()), DATE(NOW()), pseudo, :chapo,  :text,');
 
         $statement->execute([
             ':title' => $post->getTitle(),
-            ':chapo' => $post->getChapo(),
             ':date_creation' => $post->getDateCreation(),
             ':date_update' => $post->getDateUpdate(),
+            ':pseudo' => $post->getPseudo(),
+            ':chapo' => $post->getChapo(),
             ':text' => $post->getText()
         ]);
 
@@ -91,13 +92,13 @@ final class PostRepository
         return true;
     }
 
-    public function delete(object $post): bool
+    public function delete(int $id): bool
     {
 
         $statement = $this->database->getConnection()->prepare('DELETE FROM article WHERE id = :id');
 
         $statement->execute([
-            ':id' => $post->getId()
+            ':id' => $id
         ]);
 
         return true;

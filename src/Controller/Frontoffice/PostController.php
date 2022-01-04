@@ -9,6 +9,7 @@ use App\Service\Http\Response;
 use App\Model\Repository\PostRepository;
 use App\Model\Repository\CommentRepository;
 
+
 final class PostController
 {
     private PostRepository $postRepository;
@@ -23,19 +24,19 @@ final class PostController
     public function displayOneAction(int $id, CommentRepository $commentRepository): Response
     {
         $post = $this->postRepository->findOneBy(['id' => $id]);
-        
+
         $comments = $commentRepository->findBy(['article_id' => $id]);
-            
-        $response = new Response ('', 303, ['redirect' => 'posts'], 404);
+
+        $response = new Response('', 303, ['redirect' => 'posts'], 404);
 
 
         if ($post !== null) {
             $response = new Response($this->view->render(
                 [
-                'template' => 'post',
-                'data' => [
-                    'post' => $post,
-                    'comments' => $comments,
+                    'template' => 'post',
+                    'data' => [
+                        'post' => $post,
+                        'comments' => $comments,
                     ],
                 ],
             ));
@@ -53,4 +54,5 @@ final class PostController
             'data' => ['posts' => $posts],
         ]));
     }
+
 }

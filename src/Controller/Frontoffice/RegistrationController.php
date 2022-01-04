@@ -39,7 +39,8 @@ final class RegistrationController
 
                 $pass = password_hash($datas['password'], PASSWORD_BCRYPT);
 
-                $user = new User(0, $datas['username'], $datas['email'], $pass);
+
+                $user = new User(0, $datas['username'], $datas['email'], $pass, 'MEMBER');
 
                 $this->userRepository->create($user);
 

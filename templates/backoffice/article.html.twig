@@ -41,7 +41,7 @@
 										<td>{{ post.dateUpdate|date("d/m/Y") }}</td>
 										<td>
 											<a href="http://localhost:8000/?action=editpost" class="btn btn-primary">Modifier</a>
-											<a href="http://localhost:8000/?action=deletepost" class="btn btn-danger">Supprimer</a>
+											<a href="http://localhost:8000/?action=deletepost&id={{post.id}}" class="btn btn-danger">Supprimer</a>
 										</td>
 									</tr>
 								{% endfor %}

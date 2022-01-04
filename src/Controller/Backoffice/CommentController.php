@@ -10,6 +10,7 @@ use App\Service\Http\Session\Session;
 use App\Model\Repository\CommentRepository;
 
 
+
 final class CommentController
 {
     private View $view;
@@ -34,11 +35,18 @@ final class CommentController
             [
                 'template' => 'comment',
                 'data' => ['comments' => $comments],
-            ],'backoffice'));
+            ],
+            'backoffice'
+        ));
     }
 
-    public function validComment()
+    public function validComment($comment)
     {
+        $comments = $this->commentRepository->update($comment);
+
+        $this->session->addFlashes('success', ['Votre commentaire a été validée']);
+
+        return new Response('', 303, ['redirect' => 'comment', 'data' => ['comment' => $comments]]);
         
     }
 
@@ -49,9 +57,7 @@ final class CommentController
 
         $this->session->addFlashes('success', ['Votre commentaire a été supprimée']);
 
-        return new Response($this->view->render([
-            'template' => 'comment',
-            'data' => ['comments' => $comments],
-        ], 'backoffice'));
+        return new Response('', 303, ['redirect' => 'comment', 'data' => ['comment' => $comments]]);
+       
     }
 }

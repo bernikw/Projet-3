@@ -8,6 +8,7 @@ use App\Controller\Frontoffice\PostController;
 use App\Controller\Frontoffice\UserController;
 use App\Controller\Frontoffice\HomeController;
 use App\Controller\Frontoffice\RegistrationController;
+use App\Controller\Frontoffice\CommentFrontController;
 use App\Controller\Backoffice\AdminController;
 use App\Controller\Backoffice\AddpostController;
 use App\Controller\Backoffice\CommentController;
@@ -27,6 +28,7 @@ use App\Service\Validator\PostValidator;
 use App\View\View;
 use App\Service\Database;
 use App\Service\Validator\CommentValidator;
+
 
 final class Router
 {
@@ -157,7 +159,7 @@ final class Router
         } elseif ($action === 'comment') {
 
             $commentRepo = new CommentRepository($this->database);
-            $controller = new CommentController ($this->view, $commentRepo, $this->session);
+            $controller = new CommentController($this->view, $commentRepo, $this->session);
 
             return $controller->displayAllComments($this->request);
 
@@ -165,11 +167,9 @@ final class Router
             // *** @Route http://localhost:8000/?action=addcomment ***
         } elseif ($action === 'addcomment') {
 
-            $postRepo = new PostRepository($this->database);
-            $postValidator = new PostValidator($postRepo);
-            $controller = new PostController($postRepo, $this->view);
             $commentRepo = new CommentRepository($this->database);
-            $commentValid = new CommentValidator; 
+            $controller = new CommentFrontController($commentRepo, $this->view, $this->session);
+            $commentValid = new CommentValidator($commentRepo); 
 
             return $controller->displayAddComment($this->request, $commentValid);
    

@@ -12,18 +12,18 @@ final class Post
     private string $title;
     private ?string $dateCreation;
     private ?string $dateUpdate;
-    private string $pseudo;
+    private string $userId;
     private string $chapo;
     private string $text;
     
 
-    public function __construct(int $id, string $title, ?string $dateCreation, ?string $dateUpdate, string $pseudo, string $chapo, string $text)
+    public function __construct(int $id, string $title, ?string $dateCreation, ?string $dateUpdate, string $userId, string $chapo, string $text)
     {
         $this->id = $id;
         $this->title = $title;
         $this->dateCreation = $dateCreation;
         $this->dateUpdate = $dateUpdate;
-        $this->pseudo = $pseudo;
+        $this->userId = $userId;
         $this->chapo = $chapo;
         $this->text = $text;
     }
@@ -66,14 +66,14 @@ final class Post
         return $this;
     }
 
-    public function getPseudo(): string
+    public function getUserId(): string
     {
-        return $this->pseudo;
+        return $this->userId;
     }
 
-    public function setPseudo(string $pseudo): self
+    public function setUserId(string $userId): self
     {
-        $this->pseudo = $pseudo;
+        $this->userId = $userId;
         return $this;
     }
 

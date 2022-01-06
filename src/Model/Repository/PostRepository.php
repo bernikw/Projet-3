@@ -62,14 +62,14 @@ final class PostRepository
 
     public function create(object $post): bool
     {
-        $statement = $this->database->getConnection()->prepare('INSERT INTO article (title, date_creation, chapo, text) VALUE (:titre, DATE(NOW()), :chapo,  :text,');
+        $statement = $this->database->getConnection()->prepare('INSERT INTO article (title, date_creation, user_id, chapo, text) VALUE (:titre, DATE(NOW()), :user_id, :chapo,  :text, )');
 
         $statement->execute([
             ':title' => $post->getTitle(),
             ':date_creation' => $post->getDateCreation(),
+            ':user_id' => $post->getUserId(),
             ':chapo' => $post->getChapo(),
             ':text' => $post->getText()
-
         ]);
 
         return true;
@@ -77,13 +77,13 @@ final class PostRepository
 
     public function update(object $post): bool
     {
-        $statement = $this->database->getConnection()->prepare('UPDATE article SET (title,  date_creation, date_update, pseudo, chapo, text) VALUES (:tite, DATE (NOW()), DATE(NOW()), pseudo, :chapo,  :text,');
+        $statement = $this->database->getConnection()->prepare('UPDATE article SET (title,  date_creation, date_update, pseudo, chapo, text) VALUES (:tite, DATE (NOW()), DATE(NOW()), user_id, :chapo,  :text,');
 
         $statement->execute([
             ':title' => $post->getTitle(),
             ':date_creation' => $post->getDateCreation(),
             ':date_update' => $post->getDateUpdate(),
-            ':pseudo' => $post->getPseudo(),
+            ':user_id' => $post->getUserId(),
             ':chapo' => $post->getChapo(),
             ':text' => $post->getText()
         ]);

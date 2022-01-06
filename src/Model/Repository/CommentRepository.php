@@ -44,7 +44,7 @@ final class CommentRepository
 
         $comments = [];
         foreach ($data as $comment) {
-            $comments[] = new Comment((int)$comment['id'], (string) $comment['username'], (string) $comment['text_comment'], (string) $comment['date_comment'], (int)$comment['valid'],(int)$comment['article_id']);
+            $comments[] = new Comment((int)$comment['id'], (string) $comment['username'], (string) $comment['text_comment'], (string) $comment['date_comment'], (int)$comment['valid'], (int)$comment['article_id']);
         }
 
         return $comments;
@@ -65,20 +65,19 @@ final class CommentRepository
         $comments = [];
         foreach ($data as $comment) {
             $comments[] = new Comment((int)$comment['id'], $comment['username'], $comment['text_comment'], $comment['date_comment'], (int)$comment['valid'], (int)$comment['article_id']);
-        }     
+        }
         return $comments;
     }
 
     public function create(object $comment): bool
     {
 
-        $statement = $this->database->getConnection()->prepare('INSERT INTO comment (text_comment, date_comment) VALUES (:text, DATE(NOW()))');
+        $statement = $this->database->getConnection()->prepare('INSERT INTO comment (text, date_comment) VALUES (:text, DATE(NOW()))');
 
         $statement->execute([
-            ':pseudo' => $comment->getPseudo(),
             ':text' => $comment->getText(),
-            ':dateComment' => $comment->getDateComment(),
-            ':idPost' => $comment->getIdPost()
+            ':date_comment' => $comment->getDateComment(),
+
         ]);
 
         return true;

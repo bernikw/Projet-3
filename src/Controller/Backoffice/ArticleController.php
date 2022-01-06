@@ -11,7 +11,8 @@ use App\Model\Repository\PostRepository;
 use App\Model\Entity\Post;
 use App\Service\Http\Request;
 use App\Service\Validator\PostValidator;
-use DateTime;
+
+
 
 final class ArticleController
 {
@@ -40,7 +41,6 @@ final class ArticleController
 
     public function isAdmin()
     {
-
     }
 
     public function displayAddPostAction(Request $request, PostValidator $postValidator): Response
@@ -51,25 +51,26 @@ final class ArticleController
 
             $datas = $request->request()->all();
 
-            if(!$datas){
+            if (!$datas) {
                 return false;
             }
 
+            if ($postValidator->isValid($datas) && $this->session->set('user', $infoUser)) {
 
-            if ($postValidator->isValid($datas)) {
 
-               
-                $post = new Post(0, $datas['title'], NULL, NULL, $datas['pseudo'], $datas['chapo'], $datas['text']);
-                
+                $post = new Post(0, $datas['title'], NULL, NULL, $datas['user_id'], $datas['chapo'], $datas['text']);
+
                 $this->postRepository->create($post);
-                $this->session->set('post', $post);
 
                 $this->session->addFlashes('success', ['Votre post a été enregistré']);
                 return new Response('', 303, ['redirect' => 'article']);
+                
             } else {
 
-                $this->session->addFlashes('error',
-                $postValidator->getErrors());
+                $this->session->addFlashes(
+                    'error',
+                    $postValidator->getErrors()
+                );
             }
         }
 
@@ -86,10 +87,10 @@ final class ArticleController
         return new Response($this->view->render([
             'template' => 'editpost',
             'data' => [],
-        ],'backoffice'));
+        ], 'backoffice'));
     }
 
-  
+
     public function deletePost($id)
     {
 
@@ -98,7 +99,5 @@ final class ArticleController
         $this->session->addFlashes('success', ['Votre article a été supprimée']);
 
         return new Response('', 303, ['redirect' => 'article', 'data' => ['posts' => $posts]]);
-       
     }
-    
 }

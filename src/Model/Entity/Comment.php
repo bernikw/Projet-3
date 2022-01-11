@@ -12,14 +12,17 @@ final class Comment
     private string $pseudo; 
     private string $text;
     private string $dateComment; 
+    private int $valid;
     private int $idPost;
+    
 
-    public function __construct(int $id, string $pseudo, string $text,string $dateComment, int $idPost)
+    public function __construct(int $id, string $pseudo, string $text,string $dateComment, int $valid, int $idPost)
     {
         $this->id = $id;
         $this->pseudo = $pseudo;
         $this->text = $text;
         $this->dateComment = $dateComment;
+        $this->valid = $valid;
         $this->idPost = $idPost;
     }
 
@@ -58,6 +61,17 @@ final class Comment
     public function setDateComment(string $dateComment): self
     {
        $this->dateComment = $dateComment;
+       return $this;
+    }
+
+    public function getValid(): int
+    {
+        return $this->valid;
+    }
+
+    public function setValid(int $valid): self
+    {
+       $this->valid = $valid;
        return $this;
     }
 

@@ -18,7 +18,7 @@
 
 	<body>
 		<!--Navigation-->
-		<nav class="navbar navbar-expand-md navbar-dark bg-success">
+		<nav class="navbar navbar-expand-md navbar-dark bg-primary">
 			<div class="container-fluid">
 				<a class="navbar-brand" href="#">{ $this }</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsmain" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,14 +31,19 @@
 							<a class="nav-link active" aria-current="page" href="http://localhost:8000/#">Accueil</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="http://localhost:8000/?action=posts#">Blog</a>
+							<a class="nav-link" href="http://localhost:8000/?action=article">Article</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="http://localhost:8000/?action=comment">Commentaire</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="http://localhost:8000/?action=user">Utilisateur</a>
 						</li>
 					</ul>
 					<div class="text-end">
 						{% if session.user is not defined %}
-							<a href="http://localhost:8000/?action=login" role="button" class="btn btn-outline-light me-2">Se connecter</a>
+							<a href="http://localhost:8000/#" role="button" class="btn btn-outline-light me-2">Retour</a>
 
-							<a href="http://localhost:8000/?action=registration" role="button" class="btn btn-secondary">S'inscrire</a>
 						{% endif %}
 
 						{% if session.user is defined %}
@@ -49,76 +54,73 @@
 				</div>
 			</div>
 		</nav>
-
-		
 		{% for type, messages in flashes %}
 			{% for message in messages %}
 				<div class="alert alert-warning" role="alert">
-					<p class={{type}}>
+					<p class={{ type }}>
 						{{ message }}
 					</p>
 				</div>
 			{% endfor %}
 			{% for type, messages in flashes %}
 				<div class="alert alert-success" role="alert">
-					<p class={{types}}>
+					<p class={{ types }}>
 						{{ message }}
 					</p>
 				</div>
 			{% endfor %}
 			{% for type, messages in flashes %}
 				<div class="alert alert-danger" role="alert">
-					<p class={{type}}>
+					<p class={{type }}>
 						{{ message }}
 					</p>
 				</div>
 			{% endfor %}
-		{% endfor %}
+			{% endfor %}
 
-			{% block content %}{% endblock %}
 
-			<footer class="bg-secondary text-center text-white">
-				<div class="container">
-					<div class="row">
-						<div class="footer-col col-md-1"></div>
-						<div
-							class="footer-col col-md-10">
-							<!-- Section: Social media -->
-							<section
-								class="mb-4 pt-3">
-								<!-- Linkedin -->
-								<a class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/in/bernadetta-kwa%C5%9Bniak-sib%C3%A9-b07a5954/" target="_blank" role="button">
-									<i class="bi bi-linkedin"></i>
-								</a>
-								<!-- Github -->
-								<a class="btn btn-outline-light btn-floating m-1" href="https://github.com/" target="_blank" role="button">
-									<i class="bi bi-github"></i>
-								</a>
-							</section>
+		{% block content %}{% endblock %}
 
-							<section class="mb-4">
-								<p>
-									"Parler est bon marché. Montrez-moi le code." - Linus Torvalds
-								</p>
-							</section>
-						</div>
-						<div class="footer-col col-md-1">
-							<section class="mb-4 pt-3">
-								<h6 class="text-uppercase text-center mb-4">Admin</h6>
-								<a href="http://localhost:8000/?action=article" class="btn btn-secondary" role="button">Entrer</a>
-								{% if session.user is defined %}
-									<h1>{{ session.user.role }}</h1>
-									<a href="http://localhost:8000/?action=logout" class="btn btn-secondary" role="button">Déconnection</a>
-								{% endif %}
-							</div>
+		<footer class="bg-primary text-center text-white">
+			<div class="container">
+				<div class="row">
+					<div class="footer-col col-md-1"></div>
+					<div
+						class="footer-col col-md-10">
+						<!-- Section: Social media -->
+						<section
+							class="mb-4 pt-3">
+							<!-- Linkedin -->
+							<a class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/in/bernadetta-kwa%C5%9Bniak-sib%C3%A9-b07a5954/" target="_blank" role="button">
+								<i class="bi bi-linkedin"></i>
+							</a>
+							<!-- Github -->
+							<a class="btn btn-outline-light btn-floating m-1" href="https://github.com/" target="_blank" role="button">
+								<i class="bi bi-github"></i>
+							</a>
+						</section>
+
+						<section class="mb-4">
+							<p>
+								"Parler est bon marché. Montrez-moi le code." - Linus Torvalds
+							</p>
 						</section>
 					</div>
+					<div class="footer-col col-md-1">
+						<section class="mb-4 pt-3">
+							<h6 class="text-uppercase text-center mb-4">Admin</h6>
+							{% if session.user is defined %}
+								<h1>{{ session.user.role }}</h1>
+								<a href="http://localhost:8000/?action=logout" class="btn btn-secondary" role="button">Déconnection</a>
+							{% endif %}
+						</div>
+					</section>
 				</div>
 			</div>
-			<!-- Copyright -->
-			<div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-				© 2021 Copyright Bernadetta Sibe
-			</div>
-		</body>
+		</div>
+		<!-- Copyright -->
+		<div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+			© 2021 Copyright Bernadetta Sibe
+		</div>
 	</body>
 </html></footer><script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script></body></html>

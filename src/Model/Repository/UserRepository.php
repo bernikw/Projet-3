@@ -29,7 +29,7 @@ final class UserRepository
         
 
         // réfléchir à l'hydratation des entités;
-        return $data === false ? null : new User((int) $data['id'], $data['username'], $data['email'], $data['password']);
+        return $data === false ? null : new User((int) $data['id'], $data['username'], $data['email'], $data['password'], $data['role']);
     }
     
     public function findCountEmail(string $email): int
@@ -62,7 +62,7 @@ final class UserRepository
     public function findOneBy(array $criteria, array $orderBy = null): ?User
     {
 
-        $statement = $this->database->getConnection()->prepare('SELECT * FROM user');
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE user.id = :id');
 
         $statement->execute();
         $data = $statement->fetch();
@@ -79,19 +79,35 @@ final class UserRepository
 
     public function findAll(): ?array
     {
-        return null;
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM user');
+
+        $statement->execute();
+        $data = $statement->fetchAll();
+
+        if ($data === null) {
+            return null;
+        }
+
+
+        $users = [];
+        foreach ($data as $user) {
+            $users[] = new User((int) $user['id'], $user['username'], $user['email'], $user['password'], (string)$user['role']);
+        }
+
+        return $users;
     }
 
     public function create(object $user): bool
 
     {
-        $statement = $this->database->getConnection()->prepare('INSERT INTO user (username, email, password) VALUES (:username, :email, :password)');
-
+        $statement = $this->database->getConnection()->prepare('INSERT INTO user (username, email, password, role) VALUES (:username, :email, :password, :role)');
 
         $statement->execute([
             ':username' => $user->getUsername(),
             ':email' => $user->getEmail(),
-            ':password' => $user->getPassword()
+            ':password' => $user->getPassword(),
+            ':role' => $user->getRole() 
+
         ]);
 
         
@@ -101,11 +117,12 @@ final class UserRepository
 
     public function update(object $user): bool
     {
-        $statement = $this->database->getConnection()->prepare('UPDATE user SET (username, password) VALUES (:username, :password )');
+        $statement = $this->database->getConnection()->prepare('UPDATE user SET (username, password, role) VALUES (:username, :password, :role )');
 
         $statement->execute([
             ':username' => $user->getUsername(),
-            ':password' => $user->getPassword()
+            ':password' => $user->getPassword(),
+            ':role' => $user->getRole()
         ]);
 
         return true;

@@ -1,0 +1,54 @@
+{% extends "/backoffice/layout.html.twig" %}
+
+{% block content %}
+	<!--Header section -->
+	<div class="container">
+		<div class="row">
+			<div class="p-4 p-md-3 mb-4 text-center text-white rounded bg-primary my-3">
+				<div class="col-md-12 px-0">
+					<h1 class="display-4">Admin interface</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--List comments section -->
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12"></table>
+			</p>
+			<p>
+				<table class="table">
+					<thead>
+						<tr>
+							<td>ID</td>
+							<td>Auteur</td>
+							<td>Commentaire</td>
+							<td>Status</td>
+							<td>Valider</td>
+							<td>Supprimer</td>
+						</tr>
+					</thead>
+					<tbody>
+
+						{% for comment in comments %}
+							<tr>
+								<td>{{ comment.id }}</td>
+								<td>{{ comment.pseudo}}</td>
+								<td>{{ comment.text}}</td>
+								<td>{{ comment.valid }}</td>
+								<td>
+									<a href="#" class="btn btn-primary">Valider</a>
+								</td>
+								 <td>	
+									<a href="#" class="btn btn-danger">Supprimer</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</p>
+			<p></p>
+		</div>
+	</div>
+</div></section>{% endblock %}

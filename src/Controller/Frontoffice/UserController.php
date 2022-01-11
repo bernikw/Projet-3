@@ -26,6 +26,7 @@ final class UserController
         $this->session = $session;
     }
 
+
     public function loginAction(Request $request, LoginValidator $loginValidator): Response
     {
 
@@ -34,29 +35,32 @@ final class UserController
             $infoUser = $request->request()->all();
             $loginValidator->isValid($infoUser);
 
-        
-                if (!$infoUser) {
-                    return false;   
-                } 
-                
-                $user = $this->userRepository->findOneByEmail($infoUser['email']);
 
-                   if($user !== null && password_verify($infoUser['password'], $user->getPassword())) {
-                    
-                        $this->session->set('user', $user);
-
-                        return new Response('', 303, ['redirect' => 'posts']);
-                        
-
-                    } else {
-
-                        $this->session->addFlashes('error', $loginValidator->getErrors());  
-                    
+            if (!$infoUser) {
+                return false;
             }
 
-              
-            } return new Response($this->view->render(['template' => 'login', 'data' => []]));  
+            $user = $this->userRepository->findOneByEmail($infoUser['email']);
+
+            if ($user !== null && password_verify($infoUser['password'], $user->getPassword())) {
+
+
+                $this->session->set('user', $user);
+
+                if ($this->session->get('user')->getRole() == 'MEMBER') {
+
+                    return new Response('', 303, ['redirect' => 'posts']);
+                    
+                } elseif ($this->session->get('user')->getRole() == 'ADMIN') {
+                    return new Response('', 303, ['redirect' => 'article']);
+                }
+            } else {
+
+                $this->session->addFlashes('error', $loginValidator->getErrors());
+            }
         }
+        return new Response($this->view->render(['template' => 'login', 'data' => []]));
+    }
 
 
     public function logoutAction(): Response

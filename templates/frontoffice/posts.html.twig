@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<!--Header section -->
+	<!--Header section -->
 	<section class="blog">
 		<div class="container">
 			<div class="row">
@@ -15,7 +15,7 @@
 			</div>
 		</div>
 
-<!--Post section -->
+		<!--Post section -->
 		<div class="container">
 			<div class="row">
 				{% for post in posts %}
@@ -23,39 +23,38 @@
 						<div class="card" style="width: 20rem;">
 							<div class="card-body">
 								<h5 class="card-title">{{ post.title }}</h5>
-				 			<p>
-							 Date de création:
-			 					{{ post.dateUpdate|date("d/m/Y") }} </br>
-			  				Date de modification:  
-			  					{{ post.dateCreation|date("d/m/Y") }}
-			  				</p>
-								<p class="card-text">{{ post.chapo |  striptags }}</p>
-								<a href="index.php?action=post&id={{ post.id}}" class="btn btn-success">Lire le post</a>
-							</div>
-						</div>
+								<p>
+									Date de création:{{ post.dateUpdate|date("d/m/Y") }}
+								</p>
+							</br>
+							Date de modification:
+							{{ post.dateCreation|date("d/m/Y") }}
+						</p>
+						<p class="card-text">{{ post.chapo |  striptags }}</p>
+						<a href="index.php?action=post&id={{ post.id}}" class="btn btn-success">Lire le post</a>
 					</div>
-				{% endfor %}
-<!--Pagination section -->
-				<nav class="text-center">
-					<ul class="pagination justify-content-center my-5">
-						<li class="page-item">
-							<a class="page-link link-secondary" href="#">Précédent</a>
-						</li>
-						<li class="page-item">
-							<a class="page-link link-secondary" href="#">1</a>
-						</li>
-						<li class="page-item">
-							<a class="page-link link-secondary" href="#">2</a>
-						</li>
-						<li class="page-item">
-							<a class="page-link link-secondary" href="#">3</a>
-						</li>
-						<li class="page-item">
-							<a class="page-link link-secondary" href="#">Suivant</a>
-						</li>
-					</ul>
-				</nav>
+				</div>
 			</div>
-		</div>
-	</section>
-{% endblock %}
+		{% endfor %}
+		<!--Pagination section -->
+		<nav class="text-center">
+			<ul class="pagination justify-content-center my-5">
+				<li class="page-item">
+					<a class="page-link link-secondary" href="#">Précédent</a>
+				</li>
+				<li class="page-item">
+					<a class="page-link link-secondary" href="#">1</a>
+				</li>
+				<li class="page-item">
+					<a class="page-link link-secondary" href="#">2</a>
+				</li>
+				<li class="page-item">
+					<a class="page-link link-secondary" href="#">3</a>
+				</li>
+				<li class="page-item">
+					<a class="page-link link-secondary" href="#">Suivant</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</div></section>{% endblock %}

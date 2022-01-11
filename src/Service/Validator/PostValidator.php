@@ -9,14 +9,14 @@ class PostValidator extends BaseValidator
 {
     private $datas = [];
 
-    public function isValid(array $datas): bool
+        public function isValid(array $datas): bool
     {
 
         $result = true; 
 
-        if(!$this->isValidInput($datas['titre']) {
+        if(!$this->isValidInput($datas['title'])) {
 
-            $this->errors['titre'] = 'Ce champ contient des caractères non autorisés';
+        $this->errors['titre'] = 'Ce champ contient des caractères non autorisés';
             $result = false;
         }
          if (!$this->isValidInput($datas['text'])) {
@@ -31,7 +31,7 @@ class PostValidator extends BaseValidator
             $result = false;
         }
 
-        if (!$this->isValidDatas($datas['titre'])) {
+        if (!$this->isValidDatas($datas['title'])) {
 
             $this->errors['titre'] = 'Ce champ contient des caractères non autorisés';
             $result = false;

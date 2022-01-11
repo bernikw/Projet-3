@@ -1,0 +1,51 @@
+{% extends "/backoffice/layout.html.twig" %}
+
+{% block content %}
+	<!--Header section -->
+	<div class="container">
+		<div class="row">
+			<div class="p-4 p-md-3 mb-4 text-center text-white rounded bg-primary my-3">
+				<div class="col-md-12 px-0">
+					<h1 class="display-4">Admin interface</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--List user section -->
+	<section>
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-12">
+					<p>
+						<table class="table">
+							<thead>
+								<tr>
+									<td>ID</td>
+									<td>Nom</td>
+									<td>Email</td>
+									<td>Role</td>
+									<td>Action</td>
+								</tr>
+							</thead>
+							<tbody>
+								{% for user in users %}
+									<tr>
+										<td>{{ user.id }}</td>
+										<td>{{ user.username }}</td>
+										<td>{{ user.email }}</td>
+										<td>{{ user.role }}</td>
+										<td>
+											<a href="http://localhost:8000/?action=edituser" class="btn btn-primary">Editer</a>
+											<a href="#" class="btn btn-danger">Supprimer</a>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

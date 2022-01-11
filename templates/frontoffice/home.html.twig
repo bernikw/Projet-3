@@ -28,11 +28,11 @@
 					</a>
 				</div>
 				<!-- Linkedin -->
-				<a class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/in/bernadetta-kwa%C5%9Bniak-sib%C3%A9-b07a5954/" target=_blank role="button">
+				<a class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/in/bernadetta-kwa%C5%9Bniak-sib%C3%A9-b07a5954/" target="_blank" role="button">
 					<i class="bi bi-linkedin"></i>
 				</a>
 				<!-- Github -->
-				<a class="btn btn-outline-light text-center btn-floating m-1" href="https://github.com/" target=_blank role="button">
+				<a class="btn btn-outline-light text-center btn-floating m-1" href="https://github.com/" target="_blank" role="button">
 					<i class="bi bi-github"></i>
 				</a>
 			</div>
@@ -54,28 +54,27 @@
 			<div class="row">
 				<div class="col-lg-8 mx-auto">
 					<form method="POST">
-					
+
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">Votre prénom</label>
 							<input type="text" class="form-control" name="firstname" required="required" value="{{datasin.firstname}}">
 						</div>
-												
+
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">Votre nom</label>
 							<input type="text" class="form-control" name="name" required="required" value="{{datasin.name}}">
 						</div>
-						
+
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">Votre e-mail</label>
-							<input type="email" class="form-control" name="email" required="required"  value="{{datasin.email}}">
+							<input type="email" class="form-control" name="email" required="required" value="{{datasin.email}}">
 						</div>
-						
+
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">Message</label>
-							<textarea class="form-control" name="message" rows="5"  required="required" value="{{datasin.message}}">
-							</textarea>
+							<textarea class="form-control" name="message" rows="5" required="required" value="{{datasin.message}}"></textarea>
 						</div>
-				
+
 
 						<div class="d-grid gap-2 col-6 mx-auto my-5">
 							<button type="submit" class="btn btn-success" type="button">Envoyer</button>

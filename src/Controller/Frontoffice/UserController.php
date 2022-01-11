@@ -44,10 +44,16 @@ final class UserController
 
             if ($user !== null && password_verify($infoUser['password'], $user->getPassword())) {
 
-                $this->session->set('user', $user) === 'MEMBER';
-                
-                return new Response('', 303, ['redirect' => 'posts']);
 
+                $this->session->set('user', $user);
+
+                if ($this->session->get('user')->getRole() == 'MEMBER') {
+
+                    return new Response('', 303, ['redirect' => 'posts']);
+                    
+                } elseif ($this->session->get('user')->getRole() == 'ADMIN') {
+                    return new Response('', 303, ['redirect' => 'article']);
+                }
             } else {
 
                 $this->session->addFlashes('error', $loginValidator->getErrors());

@@ -66,7 +66,7 @@ final class PostRepository
 
         $statement->execute([
             ':title' => $post->getTitle(),
-            ':date_creation' => $post->getDateCreation(),
+            ':date_creation'=> $post->getDateCreation(),
             ':user_id' => $post->getUserId(),
             ':chapo' => $post->getChapo(),
             ':text' => $post->getText()

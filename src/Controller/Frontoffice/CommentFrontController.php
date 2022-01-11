@@ -33,7 +33,7 @@ final class CommentFrontController
         if ($request->getMethod() === 'POST') {
             $datas = $request->request()->all();
 
-            if ($commentValidator->isValid($datas) && $this->session->set('user', $user)) {
+            if ($commentValidator->isValid($datas) && $this->session->set('user', $datas)) {
 
                 if (!$datas) {
                     return false;
@@ -57,7 +57,6 @@ final class CommentFrontController
             [
                 'template' => 'post',
                 'data' => [
-                    'post' => $post,
                     'datassaisi.text' => $datas,
                 ],
             ],

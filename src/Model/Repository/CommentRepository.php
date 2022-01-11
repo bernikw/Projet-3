@@ -71,13 +71,11 @@ final class CommentRepository
 
     public function create(object $comment): bool
     {
-
         $statement = $this->database->getConnection()->prepare('INSERT INTO comment (text, date_comment) VALUES (:text, DATE(NOW()))');
 
         $statement->execute([
             ':text' => $comment->getText(),
             ':date_comment' => $comment->getDateComment(),
-
         ]);
 
         return true;

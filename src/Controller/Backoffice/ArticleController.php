@@ -39,9 +39,6 @@ final class ArticleController
         ], 'backoffice'));
     }
 
-    public function isAdmin()
-    {
-    }
 
     public function displayAddPostAction(Request $request, PostValidator $postValidator): Response
     {
@@ -55,7 +52,7 @@ final class ArticleController
                 return false;
             }
 
-            if ($postValidator->isValid($datas) && $this->session->set('user', $infoUser)) {
+            if ($postValidator->isValid($datas) && $this->session->set('user', $datas)) {
 
 
                 $post = new Post(0, $datas['title'], NULL, NULL, $datas['user_id'], $datas['chapo'], $datas['text']);
@@ -80,9 +77,9 @@ final class ArticleController
         ], 'backoffice'));
     }
 
-    public function displayEditpostAction(): Response
+    public function displayEditpostAction($id): Response
     {
-
+        $post = $this->postRepository->findOneBy(['id' => $id]);
 
         return new Response($this->view->render([
             'template' => 'editpost',

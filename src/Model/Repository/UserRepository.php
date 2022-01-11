@@ -62,7 +62,7 @@ final class UserRepository
     public function findOneBy(array $criteria, array $orderBy = null): ?User
     {
 
-        $statement = $this->database->getConnection()->prepare('SELECT * FROM user');
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE user.id = :id');
 
         $statement->execute();
         $data = $statement->fetch();

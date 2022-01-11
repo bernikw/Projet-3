@@ -56,11 +56,28 @@
 		</nav>
 		{% for type, messages in flashes %}
 			{% for message in messages %}
-				<p class={{type}}>
-					{{ message }}
-				</p>
+				<div class="alert alert-warning" role="alert">
+					<p class={{ type }}>
+						{{ message }}
+					</p>
+				</div>
 			{% endfor %}
-		{% endfor %}
+			{% for type, messages in flashes %}
+				<div class="alert alert-success" role="alert">
+					<p class={{ types }}>
+						{{ message }}
+					</p>
+				</div>
+			{% endfor %}
+			{% for type, messages in flashes %}
+				<div class="alert alert-danger" role="alert">
+					<p class={{type }}>
+						{{ message }}
+					</p>
+				</div>
+			{% endfor %}
+			{% endfor %}
+
 
 		{% block content %}{% endblock %}
 

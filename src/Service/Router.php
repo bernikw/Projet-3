@@ -144,7 +144,7 @@ final class Router
             $postRepo = new PostRepository($this->database);
             $controller = new ArticleController($this->view, $postRepo, $this->session);
 
-            return $controller->displayEditpostAction();
+            return $controller->displayEditpostAction((int) $this->request->query()->get('id'));
 
             // *** @Route http://localhost:8000/?action=deletepost ***
         } elseif ($action === 'deletepost' && $this->request->query()->has('id')) {
@@ -190,6 +190,14 @@ final class Router
                 $controller = new UserAdminController($this->view, $userRepo, $this->session);
 
             return $controller->displayAllUsers();
+
+            // *** @Route http://localhost:8000/?action=edituser ***
+        } elseif ($action === 'edituser') {
+
+            $userRepo = new UserRepository($this->database);
+            $controller = new UserAdminController($this->view, $userRepo, $this->session);
+
+        return $controller->editUser();
 
         }
         

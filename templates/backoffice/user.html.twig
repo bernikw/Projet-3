@@ -34,18 +34,9 @@
 										<td>{{ user.id }}</td>
 										<td>{{ user.username }}</td>
 										<td>{{ user.email }}</td>
+										<td>{{ user.role }}</td>
 										<td>
-											<div class="input-group-prepend">
-												<select class="form-select">
-													<option selected>Role</option>
-													<option value="2">{{ user.role }}</option>
-													<option value="3">{{ user.role }}</option>
-												</select>
-											</div>
-
-										</td>
-										<td>
-											<a href="#" class="btn btn-primary">Valider</a>
+											<a href="http://localhost:8000/?action=edituser" class="btn btn-primary">Editer</a>
 											<a href="#" class="btn btn-danger">Supprimer</a>
 										</td>
 									</tr>

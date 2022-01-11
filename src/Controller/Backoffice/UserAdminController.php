@@ -36,16 +36,22 @@ final class UserAdminController
     }
 
 
-    public function changeRole()
+    public function editUser()
     {
 
-        $users = $this->postRepository->update();
+        /*$users = $this->postRepository->update();*/
 
         $this->session->addFlashes('success', ['Le role a été changée']);
 
         return new Response($this->view->render([
-            'template' => 'user',
-            'data' => ['user' => $users],
+            'template' => 'edituser',
+            'data' => [],
         ], 'backoffice'));
+    }
+
+    public function deleteUser()
+    {
+
+
     }
 }

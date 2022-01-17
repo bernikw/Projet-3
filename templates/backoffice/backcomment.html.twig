@@ -6,7 +6,7 @@
 		<div class="row">
 			<div class="p-4 p-md-3 mb-4 text-center text-white rounded bg-primary my-3">
 				<div class="col-md-12 px-0">
-					<h1 class="display-4">Admin interface</h1>
+					<h1 class="display-4">Commentaires</h1>
 				</div>
 			</div>
 		</div>
@@ -23,6 +23,7 @@
 						<tr>
 							<td>ID</td>
 							<td>Auteur</td>
+							<td>Date</td>
 							<td>Commentaire</td>
 							<td>Status</td>
 							<td>Valider</td>
@@ -34,14 +35,20 @@
 						{% for comment in comments %}
 							<tr>
 								<td>{{ comment.id }}</td>
-								<td>{{ comment.pseudo}}</td>
+								<td>{{ comment.userId}}</td>
+								<td>{{ comment.dateComment }}</td>
 								<td>{{ comment.text}}</td>
 								<td>{{ comment.valid }}</td>
+
+								{% if comment.valid %}
 								<td>
-									<a href="#" class="btn btn-primary">Valider</a>
+									
+									<a href="http://localhost:8000/?action=validcomment&id={{comment.id}}" class="btn btn-primary">Valider</a>
 								</td>
+								{% endif %}
+								
 								 <td>	
-									<a href="#" class="btn btn-danger">Supprimer</a>
+									<a href="http://localhost:8000/?action=deletecomment&id={{comment.id}}" class="btn btn-danger">Supprimer</a>
 								</td>
 							</tr>
 						{% endfor %}

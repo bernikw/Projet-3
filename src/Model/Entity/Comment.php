@@ -9,18 +9,18 @@ use App\Model\Entity\Interfaces\EntityObjectInterface;
 final class Comment
 {
     private int $id;
-    private string $pseudo; 
-    private string $text;
+    private string $username; 
+    private string $textComment;
     private string $dateComment; 
     private int $valid;
     private int $idPost;
     
 
-    public function __construct(int $id, string $pseudo, string $text,string $dateComment, int $valid, int $idPost)
+    public function __construct(int $id, string $username, string $textComment,string $dateComment, int $valid, int $idPost)
     {
         $this->id = $id;
-        $this->pseudo = $pseudo;
-        $this->text = $text;
+        $this->userId = $username;
+        $this->text = $textComment;
         $this->dateComment = $dateComment;
         $this->valid = $valid;
         $this->idPost = $idPost;
@@ -31,25 +31,25 @@ final class Comment
         return $this->id;
     }
 
-    public function getPseudo(): string
+    public function getUsername(): string
     {
-        return $this->pseudo;
+        return $this->username;
     }
 
-    public function setPseudo(string $pseudo): self
+    public function setUsername(string $username): self
     {
-       $this->pseudo = $pseudo;
+       $this->username = $username;
        return $this;
     }
     
-    public function getText(): string
+    public function getTextComment(): string
     {
-        return $this->text;
+        return $this->textComment;
     }
 
-    public function setText(string $text): self
+    public function setTextCoemment(string $textComment): self
     {
-        $this->text = $text;
+        $this->textComment = $textComment;
         return $this;
     }
 

@@ -64,7 +64,7 @@ final class UserRepository
 
         $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE user.id = :id');
 
-        $statement->execute();
+        $statement->execute($criteria);
         $data = $statement->fetch();
         
 
@@ -108,9 +108,7 @@ final class UserRepository
             ':password' => $user->getPassword(),
             ':role' => $user->getRole() 
 
-        ]);
-
-        
+        ]);        
 
        return true;
     }
@@ -128,10 +126,10 @@ final class UserRepository
         return true;
     }
 
-    public function delete(object $user): bool
+    public function delete(int $id): bool
     {
         $statement = $this->database->getConnection()->prepare('DELETE FROM user WHERE id = :id');
-        $statement->execute(['id'=> $user->getId()]);
+        $statement->execute(['id'=> $id]);
         
         return true; 
     }

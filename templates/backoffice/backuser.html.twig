@@ -6,42 +6,40 @@
 		<div class="row">
 			<div class="p-4 p-md-3 mb-4 text-center text-white rounded bg-primary my-3">
 				<div class="col-md-12 px-0">
-					<h1 class="display-4">Admin interface</h1>
+					<h1 class="display-4">Utilisateurs</h1>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!--List post section -->
+	<!--List user section -->
 	<section>
 		<div class="container">
 			<div class="row">
-				<div class="col-md-12">
 
-					<p>
-						<a href="http://localhost:8000/?action=addpost" class="btn btn-primary">Ajouter un article</a>
-					</p>
-
-				</div>
 				<div class="col-md-12">
 					<p>
 						<table class="table">
 							<thead>
 								<tr>
 									<td>ID</td>
-									<td>Titre</td>
-									<td>Dernière modification</td>
+									<td>Nom</td>
+									<td>Email</td>
+									<td>Role</td>
 									<td>Action</td>
 								</tr>
 							</thead>
 							<tbody>
-								{% for post in posts %}
+								{% for user in users %}
 									<tr>
-										<td>{{ post.id }}</td>
-										<td>{{ post.title }}</td>
-										<td>{{ post.dateUpdate|date("d/m/Y") }}</td>
+										<td>{{ user.id }}</td>
+										<td>{{ user.username }}</td>
+										<td>{{ user.email }}</td>
+										<td>{{ user.role }}</td>
+										
 										<td>
-											<a href="http://localhost:8000/?action=editpost" class="btn btn-primary">Modifier</a>
-											<a href="http://localhost:8000/?action=deletepost&id={{post.id}}" class="btn btn-danger">Supprimer</a>
+											<a href="http://localhost:8000/?action=backedituser" class="btn btn-primary">Editer</a>
+									
+											<a href="http://localhost:8000/?action=deleteuser&id={{user.id}}" class="btn btn-danger">Supprimer</a>
 										</td>
 									</tr>
 								{% endfor %}

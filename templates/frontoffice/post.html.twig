@@ -60,12 +60,12 @@
 
 							{% if session.user is defined %}
 								<h1>{{ session.user.role }}</h1>
-								<form method="POST">
+								<form action="/?action=addcomment&id={{ post.id }}" method="POST">
 									<div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
 										<div class="d-flex flex-start w-100">
 											<div class="form-outline w-100">
 												<label class="form-label">Ajouter un commentaire</label>
-												<textarea class="form-control" id="text" name="text" value="{{ datassaisi.text }}" rows="4" col="6" style="background: #fff;"></textarea>
+												<textarea class="form-control" id="text_comment" name="text_comment" value="{{ datassaisi.textComment }}" rows="4" col="6" style="background: #fff;"></textarea>
 											</div>
 										</div>
 										<div class="float-end mt-2 pt-1">

@@ -31,18 +31,15 @@ final class PostRepository
         $data = $statement->fetch();
 
 
-        return $data === false ? null : new Post((int)$data['id'], $data['title'], $data['date_creation'], (string)$data['date_update'], $data['username'], $data['chapo'], $data['text']);
+        return $data === false ? null : new Post((int)$data['id'], $data['title'], $data['chapo'], $data['text'], $data['date_creation'], (string)$data['date_update'], $data['username']);
     }
 
-    /*public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): ?array
-    {
-        return null;
-    }*/
+  
 
     public function findAll(): ?array
     {
 
-        $statement = $this->database->getConnection()->prepare('SELECT * FROM article');
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM article ORDER BY date_creation DESC');
 
         $statement->execute();
         $data = $statement->fetchAll();
@@ -54,7 +51,7 @@ final class PostRepository
 
         $posts = [];
         foreach ($data as $post) {
-            $posts[] = new Post((int)$post['id'], $post['title'], $post['date_creation'], (string)$post['date_update'], (string)$post['user_id'], $post['chapo'], $post['text']);
+            $posts[] = new Post((int)$post['id'], $post['title'], $post['chapo'], $post['text'], $post['date_creation'], (string)$post['date_update'], (string)$post['user_id']);
         }
 
         return $posts;
@@ -62,14 +59,15 @@ final class PostRepository
 
     public function create(object $post): bool
     {
-        $statement = $this->database->getConnection()->prepare('INSERT INTO article (title, date_creation, user_id, chapo, text) VALUE (:titre, DATE(NOW()), :user_id, :chapo,  :text, )');
+        $statement = $this->database->getConnection()->prepare('INSERT INTO article (title, chapo, text, date_creation, userId) VALUE (:titre, :chapo, :text, DATE(NOW()), :userId)');
 
         $statement->execute([
             ':title' => $post->getTitle(),
-            ':date_creation'=> $post->getDateCreation(),
-            ':user_id' => $post->getUserId(),
             ':chapo' => $post->getChapo(),
-            ':text' => $post->getText()
+            ':text' => $post->getText(),
+            ':date_creation'=> $post->getDateCreation(),
+            ':userId' => $post->getUserId()
+            
         ]);
 
         return true;
@@ -77,9 +75,10 @@ final class PostRepository
 
     public function update(object $post): bool
     {
-        $statement = $this->database->getConnection()->prepare('UPDATE article SET (title,  date_creation, date_update, pseudo, chapo, text) VALUES (:tite, DATE (NOW()), DATE(NOW()), user_id, :chapo,  :text,');
+        $statement = $this->database->getConnection()->prepare('UPDATE article SET (title, date_creation, date_update,  user_id , chapo, text) VALUES (:tite, DATE (NOW()), DATE(NOW()), :user_id, :chapo,  :text) WHERE id=:id');
 
         $statement->execute([
+            ':id' => $post->getId(),
             ':title' => $post->getTitle(),
             ':date_creation' => $post->getDateCreation(),
             ':date_update' => $post->getDateUpdate(),

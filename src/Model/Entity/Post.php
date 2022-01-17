@@ -10,22 +10,24 @@ final class Post
 {
     private int $id;
     private string $title;
+    private string $chapo;
+    private string $text;
     private ?string $dateCreation;
     private ?string $dateUpdate;
     private string $userId;
-    private string $chapo;
-    private string $text;
+    
     
 
-    public function __construct(int $id, string $title, ?string $dateCreation, ?string $dateUpdate, string $userId, string $chapo, string $text)
+    public function __construct(int $id, string $title, string $chapo, string $text, ?string $dateCreation, ?string $dateUpdate, string $userId)
     {
         $this->id = $id;
         $this->title = $title;
+        $this->chapo = $chapo;
+        $this->text = $text;
         $this->dateCreation = $dateCreation;
         $this->dateUpdate = $dateUpdate;
         $this->userId = $userId;
-        $this->chapo = $chapo;
-        $this->text = $text;
+        
     }
 
     public function getId(): int
@@ -41,6 +43,27 @@ final class Post
     public function setTitle(string $title): self
     {
         $this->title = $title;
+        return $this;
+    }
+    public function getChapo(): string
+    {
+        return $this->chapo;
+    }
+
+    public function setChapo(string $chapo): self
+    {
+        $this->chapo = $chapo;
+        return $this;
+    }
+
+    public function getText(): string
+    {
+        return $this->text;
+    }
+
+    public function setText(string $text): self
+    {
+        $this->text = $text;
         return $this;
     }
 
@@ -77,25 +100,5 @@ final class Post
         return $this;
     }
 
-    public function getChapo(): string
-    {
-        return $this->chapo;
-    }
-
-    public function setChapo(string $chapo): self
-    {
-        $this->chapo = $chapo;
-        return $this;
-    }
-
-    public function getText(): string
-    {
-        return $this->text;
-    }
-
-    public function setText(string $text): self
-    {
-        $this->text = $text;
-        return $this;
-    }
+   
 }

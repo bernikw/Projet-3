@@ -59,7 +59,7 @@ final class RegistrationController
                 return new Response('', 303, ['redirect' => 'login']);
             } else {
 
-                $this->session->addFlashes('', $registerValidator->getErrors());
+                $this->session->addFlashes('danger', $registerValidator->getErrors());
             }
         }
 

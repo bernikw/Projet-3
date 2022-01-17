@@ -34,7 +34,7 @@ final class ArticleController
         $posts = $this->postRepository->findAll();
 
         return new Response($this->view->render([
-            'template' => 'article',
+            'template' => 'backarticle',
             'data' => ['posts' => $posts],
         ], 'backoffice'));
     }
@@ -48,19 +48,16 @@ final class ArticleController
 
             $datas = $request->request()->all();
 
-            if (!$datas) {
-                return false;
-            }
 
             if ($postValidator->isValid($datas) && $this->session->set('user', $datas)) {
 
-
-                $post = new Post(0, $datas['title'], NULL, NULL, $datas['user_id'], $datas['chapo'], $datas['text']);
+            $post = new Post(0, $datas['title'], $datas['chapo'], $datas['text'], (string) NULL, (string) NULL, $datas['username']);
 
                 $this->postRepository->create($post);
 
                 $this->session->addFlashes('success', ['Votre post a été enregistré']);
-                return new Response('', 303, ['redirect' => 'article']);
+                return new Response('', 303, ['redirect' => 'addarticle']);
+  
                 
             } else {
 
@@ -72,18 +69,26 @@ final class ArticleController
         }
 
         return new Response($this->view->render([
-            'template' => 'addpost',
-            'data' => [],
+            'template' => 'backaddarticle',
+            'data' => ['datassaisi' => $datas],
         ], 'backoffice'));
     }
 
-    public function displayEditpostAction($id): Response
+   
+
+    public function displayEditPostAction(int $id): Response
     {
-        $post = $this->postRepository->findOneBy(['id' => $id]);
+      
+        $post = $this->postRepository->findOneBy(['id'=> $id]);
+        
+    
+        $post = new Post ((int)$post['id'], $post['title'], $post['chapo'], $post['text'], $post['date_creation'], $post['date_update'], $post['username']);
+
+        $post = $this->postRepository->update($post);
 
         return new Response($this->view->render([
-            'template' => 'editpost',
-            'data' => [],
+            'template' => 'backeditarticle',
+            'data' => ['post'=> $post],
         ], 'backoffice'));
     }
 
@@ -95,6 +100,6 @@ final class ArticleController
 
         $this->session->addFlashes('success', ['Votre article a été supprimée']);
 
-        return new Response('', 303, ['redirect' => 'article', 'data' => ['posts' => $posts]]);
+        return new Response('', 303, ['redirect' => 'backarticle', 'data' => ['posts' => $posts]]);
     }
 }

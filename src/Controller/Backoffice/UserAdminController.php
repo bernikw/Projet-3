@@ -30,28 +30,32 @@ final class UserAdminController
         $users = $this->userRepository->findAll();
 
         return new Response($this->view->render([
-            'template' => 'user',
+            'template' => 'backuser',
             'data' => ['users' => $users],
         ], 'backoffice'));
     }
 
 
-    public function editUser()
+    public function displayEditUser(int $id): Response
     {
 
-        /*$users = $this->postRepository->update();*/
+        $users = $this->userRepository->findOneBy(['id' => $id]);
 
-        $this->session->addFlashes('success', ['Le role a été changée']);
+       /* $this->session->addFlashes('success', ['Le role a été changée']);*/
 
         return new Response($this->view->render([
-            'template' => 'edituser',
-            'data' => [],
+            'template' => 'backedituser',
+            'data' => ['users' => $users],
         ], 'backoffice'));
     }
 
-    public function deleteUser()
+    public function deleteUser($id)
     {
+        $user = $this->userRepository->delete($id);
 
+        $this->session->addFlashes('success', ['Votre utilisateur a été supprimée']);
+
+        return new Response('', 303, ['redirect' => 'backuser', 'data' => ['user' => $user]]);
 
     }
 }

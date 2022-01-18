@@ -28,6 +28,7 @@ use App\Service\Validator\PostValidator;
 use App\View\View;
 use App\Service\Database;
 use App\Service\Validator\CommentValidator;
+use App\Service\AccessControl;
 
 
 final class Router
@@ -39,16 +40,19 @@ final class Router
     private Request $request;
     private Session $session;
     private Mailer $mailer;
+    private AccessControl $accessControl;
 
 
 
     public function __construct(Request $request)
     {
         // dépendance
+
         $this->database = new Database('localhost', 'myblog','root','');
         $this->session = new Session();
         $this->view = new View($this->session);
         $this->request = $request;
+        $this->accessControl = new AccessControl();
 
         $setting = [
             "smtp" => "localhost",
@@ -123,8 +127,7 @@ final class Router
         } elseif ($action === 'backarticle') {
 
             $postRepository = new PostRepository($this->database);
-
-            $controller = new ArticleController($this->view, $postRepository, $this->session);
+            $controller = new ArticleController($this->view, $postRepository, $this->session, $this->accessControl);
 
             return $controller->displayAllPosts();
 
@@ -134,7 +137,7 @@ final class Router
 
             $postRepository = new PostRepository($this->database);
             $postValidator = new PostValidator($postRepository);
-            $controller = new ArticleController($this->view,  $postRepository, $this->session);
+            $controller = new ArticleController($this->view,  $postRepository, $this->session,$this->accessControl);
 
             return $controller->displayAddPostAction($this->request, $postValidator);
 
@@ -142,7 +145,7 @@ final class Router
         } elseif ($action === 'backeditarticle') {
 
             $postRepo = new PostRepository($this->database);
-            $controller = new ArticleController($this->view, $postRepo, $this->session);
+            $controller = new ArticleController($this->view, $postRepo, $this->session, $this->accessControl);
 
             return $controller->displayEditPostAction((int) $this->request->query()->get('id'), $postRepo);
 
@@ -150,7 +153,7 @@ final class Router
         } elseif ($action === 'deletepost' && $this->request->query()->has('id')) {
 
             $postRepo = new PostRepository($this->database);
-            $controller = new ArticleController($this->view, $postRepo, $this->session);
+            $controller = new ArticleController($this->view, $postRepo, $this->session, $this->accessControl);
 
             return $controller->deletePost((int) $this->request->query()->get('id'));
 

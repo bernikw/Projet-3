@@ -8,6 +8,7 @@ use App\View\View;
 use App\Service\Http\Response;
 use App\Service\Http\Session\Session;
 use App\Model\Repository\UserRepository;
+use App\Model\Entity\User;
 
 
 final class UserAdminController
@@ -39,13 +40,17 @@ final class UserAdminController
     public function displayEditUser(int $id): Response
     {
 
-        $users = $this->userRepository->findOneBy(['id' => $id]);
+        $user = $this->userRepository->findOneBy(['id' => $id]);
 
-       /* $this->session->addFlashes('success', ['Le role a été changée']);*/
+        $user = new User((int) $user['id'], $user['username'], $user['email'], $user['password'], $user['role']);
+
+        $user = $this->userRepository->update($user);
+
+       $this->session->addFlashes('success', ['Le role a été changée']);
 
         return new Response($this->view->render([
             'template' => 'backedituser',
-            'data' => ['users' => $users],
+            'data' => ['users' => $user],
         ], 'backoffice'));
     }
 

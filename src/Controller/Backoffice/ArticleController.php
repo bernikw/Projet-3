@@ -11,26 +11,31 @@ use App\Model\Repository\PostRepository;
 use App\Model\Entity\Post;
 use App\Service\Http\Request;
 use App\Service\Validator\PostValidator;
-
-
+use App\Controller\Backoffice\AuthentificationController;
+use App\Service\AccessControl;
 
 final class ArticleController
 {
     private View $view;
     private Session $session;
     private PostRepository $postRepository;
+    private AccessControl $accessControl;
 
 
-    public function __construct(View $view, PostRepository $postRepository, Session $session)
+    public function __construct(View $view, PostRepository $postRepository, Session $session, AccessControl $accessControl)
     {
         $this->view = $view;
         $this->postRepository = $postRepository;
         $this->session = $session;
+        $this->accessControl = $accessControl;
     }
 
     public function displayAllPosts(): Response
     {
+        if($this->accessControl->isAdmin() === false){
 
+            return new Response('', 303, ['redirect' => 'login']);
+        }
         $posts = $this->postRepository->findAll();
 
         return new Response($this->view->render([
@@ -49,9 +54,9 @@ final class ArticleController
             $datas = $request->request()->all();
 
 
-            if ($postValidator->isValid($datas) && $this->session->set('user', $datas)) {
+            if ($postValidator->isValid($datas)) {
 
-            $post = new Post(0, $datas['title'], $datas['chapo'], $datas['text'], (string) NULL, (string) NULL, $datas['username']);
+            $post = new Post(0, $datas['title'], $datas['chapo'], $datas['text'], NULL, NULL, 2, 'Ernest');
 
                 $this->postRepository->create($post);
 
@@ -81,8 +86,7 @@ final class ArticleController
       
         $post = $this->postRepository->findOneBy(['id'=> $id]);
         
-    
-        $post = new Post ((int)$post['id'], $post['title'], $post['chapo'], $post['text'], $post['date_creation'], $post['date_update'], $post['username']);
+
 
         $post = $this->postRepository->update($post);
 

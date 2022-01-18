@@ -14,11 +14,12 @@ final class Post
     private string $text;
     private ?string $dateCreation;
     private ?string $dateUpdate;
-    private string $userId;
+    private int $userId;
+    private string $username;
     
     
 
-    public function __construct(int $id, string $title, string $chapo, string $text, ?string $dateCreation, ?string $dateUpdate, string $userId)
+    public function __construct(int $id, string $title, string $chapo, string $text, ?string $dateCreation, ?string $dateUpdate, int $userId, string $username)
     {
         $this->id = $id;
         $this->title = $title;
@@ -27,6 +28,7 @@ final class Post
         $this->dateCreation = $dateCreation;
         $this->dateUpdate = $dateUpdate;
         $this->userId = $userId;
+        $this->username = $username;
         
     }
 
@@ -89,16 +91,28 @@ final class Post
         return $this;
     }
 
-    public function getUserId(): string
+    public function getUserId(): int
     {
         return $this->userId;
     }
 
-    public function setUserId(string $userId): self
+    public function setUserId(int $userId): self
     {
         $this->userId = $userId;
         return $this;
     }
+
+    public function getUsername(): string
+    {
+        return $this->getUsername();
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+        return $this;
+    }
+
 
    
 }

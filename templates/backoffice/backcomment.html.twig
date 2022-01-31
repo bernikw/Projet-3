@@ -36,16 +36,18 @@
 							<tr>
 								<td>{{ comment.id }}</td>
 								<td>{{ comment.userId}}</td>
-								<td>{{ comment.dateComment }}</td>
+								<td>{{ comment.dateComment|date("d/m/Y") }}</td>
 								<td>{{ comment.text}}</td>
 								<td>{{ comment.valid }}</td>
 
-								{% if comment.valid %}
+								
 								<td>
-									
-									<a href="http://localhost:8000/?action=validcomment&id={{comment.id}}" class="btn btn-primary">Valider</a>
+									{% if comment.valid == 0 %}
+										<a href="http://localhost:8000/?action=validcomment&id={{comment.id}}" class="btn btn-primary">Valider</a>
+
+									{% endif %}
 								</td>
-								{% endif %}
+							
 								
 								 <td>	
 									<a href="http://localhost:8000/?action=deletecomment&id={{comment.id}}" class="btn btn-danger">Supprimer</a>

@@ -16,6 +16,7 @@ final class Post
     private ?string $dateUpdate;
     private int $userId;
     private string $username;
+ 
     
     
 
@@ -104,15 +105,13 @@ final class Post
 
     public function getUsername(): string
     {
-        return $this->getUsername();
+        return $this->username;
     }
 
-    public function setUsername(string $username): self
+    public function setUsername(int $username): self
     {
         $this->username = $username;
         return $this;
     }
-
-
    
 }

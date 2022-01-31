@@ -52,7 +52,7 @@ final class Router
         $this->session = new Session();
         $this->view = new View($this->session);
         $this->request = $request;
-        $this->accessControl = new AccessControl();
+        $this->accessControl = new AccessControl($this->session);
 
         $setting = [
             "smtp" => "localhost",
@@ -106,7 +106,7 @@ final class Router
             // *** @Route http://localhost:8000/?action=home ***
         } elseif ($action === 'home') {
 
-            $controller = new HomeController($this->view, $this->session);
+            $controller = new HomeController($this->view, $this->session, $this->accessControl);
             $contactValidator = new ContactValidator();
 
 
@@ -137,17 +137,18 @@ final class Router
 
             $postRepository = new PostRepository($this->database);
             $postValidator = new PostValidator($postRepository);
-            $controller = new ArticleController($this->view,  $postRepository, $this->session,$this->accessControl);
+            $controller = new ArticleController($this->view,  $postRepository, $this->session, $this->accessControl);
 
             return $controller->displayAddPostAction($this->request, $postValidator);
 
             // *** @Route http://localhost:8000/?action=backeditarticle ***
-        } elseif ($action === 'backeditarticle') {
+        } elseif ($action === 'backeditarticle' && $this->request->query()->has('id')) {
 
             $postRepo = new PostRepository($this->database);
+            $postValidator = new PostValidator($postRepo);
             $controller = new ArticleController($this->view, $postRepo, $this->session, $this->accessControl);
 
-            return $controller->displayEditPostAction((int) $this->request->query()->get('id'), $postRepo);
+            return $controller->displayEditPostAction($this->request, $postValidator);
 
             // *** @Route http://localhost:8000/?action=deletepost ***
         } elseif ($action === 'deletepost' && $this->request->query()->has('id')) {
@@ -162,7 +163,7 @@ final class Router
         } elseif ($action === 'backcomment') {
 
             $commentRepo = new CommentRepository($this->database);
-            $controller = new CommentController($this->view, $commentRepo, $this->session);
+            $controller = new CommentController($this->view, $commentRepo, $this->session, $this->accessControl);
 
             return $controller->displayAllComments($this->request);
 
@@ -171,7 +172,7 @@ final class Router
         } elseif ($action === 'addcomment' && $this->request->query()->has('id')) {
 
             $commentRepo = new CommentRepository($this->database);
-            $controller = new CommentFrontController($commentRepo, $this->view, $this->session);
+            $controller = new CommentFrontController($commentRepo, $this->view, $this->session, $this->accessControl);
             $commentValid = new CommentValidator($commentRepo); 
 
             return $controller->displayAddComment($this->request, $commentValid,(int) $this->request->query()->get('id') );
@@ -181,7 +182,7 @@ final class Router
         } elseif ($action === 'deletecomment' && $this->request->query()->has('id')) {
 
             $commentRepo = new CommentRepository($this->database);
-            $controller = new CommentController ($this->view, $commentRepo, $this->session);
+            $controller = new CommentController ($this->view, $commentRepo, $this->session, $this->accessControl);
 
             return $controller->deleteComment((int) $this->request->query()->get('id'));
 
@@ -189,7 +190,7 @@ final class Router
         } elseif ($action === 'validcomment' && $this->request->query()->has('id')) {
 
             $commentRepo = new CommentRepository($this->database);
-            $controller = new CommentController ($this->view, $commentRepo, $this->session);
+            $controller = new CommentController ($this->view, $commentRepo, $this->session, $this->accessControl);
 
             return $controller->validComment((int) $this->request->query()->get('id'));
 
@@ -198,23 +199,23 @@ final class Router
             } elseif ($action === 'backuser') {
 
                 $userRepo = new UserRepository($this->database);
-                $controller = new UserAdminController($this->view, $userRepo, $this->session);
+                $controller = new UserAdminController($this->view, $userRepo, $this->session, $this->accessControl);
 
             return $controller->displayAllUsers();
 
             // *** @Route http://localhost:8000/?action=backedituser&id= ***
-        } elseif ($action === 'backedituser') {
+        } elseif ($action === 'backedituser' && $this->request->query()->has('id')) {
 
             $userRepo = new UserRepository($this->database);
-            $controller = new UserAdminController($this->view, $userRepo, $this->session);
+            $controller = new UserAdminController($this->view, $userRepo, $this->session, $this->accessControl);
 
-        return $controller->displayEditUser((int) $this->request->query()->get('id'), $userRepo);
+        return $controller->displayEditUser($this->request);
 
           // *** @Route http://localhost:8000/?action=deleteuser ***
         } elseif ($action === 'deleteuser' && $this->request->query()->has('id')) {
 
             $userRepo = new UserRepository($this->database);
-            $controller = new UserAdminController($this->view, $userRepo, $this->session);
+            $controller = new UserAdminController($this->view, $userRepo, $this->session, $this->accessControl);
 
             return $controller->deleteUser((int) $this->request->query()->get('id'));
 

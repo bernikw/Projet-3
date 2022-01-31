@@ -9,6 +9,7 @@ use App\Service\Http\Response;
 use App\Service\Http\Session\Session;
 use App\Model\Repository\UserRepository;
 use App\Model\Entity\User;
+use App\Service\Http\Request;
 
 
 final class UserAdminController
@@ -37,22 +38,28 @@ final class UserAdminController
     }
 
 
-    public function displayEditUser(int $id): Response
+    public function displayEditUser(Request $request): Response
     {
 
-        $user = $this->userRepository->findOneBy(['id' => $id]);
+        $user = $this->userRepository->find((int)$request->query()->get('id'));
 
-        $user = new User((int) $user['id'], $user['username'], $user['email'], $user['password'], $user['role']);
+        if($request->getMethod() === 'POST'){
 
-        $user = $this->userRepository->update($user);
+            $request->request()->all();
+            
+            $user = $this->userRepository->update($user);
 
-       $this->session->addFlashes('success', ['Le role a été changée']);
+            $this->session->addFlashes('success', ['Le role a été changée']);
+            
+            return new Response('', 303, ['redirect' => 'backuser', 'data' => ['user' => $user]]);
+        }
 
         return new Response($this->view->render([
             'template' => 'backedituser',
-            'data' => ['users' => $user],
+            'data' => ['user' => $user],
         ], 'backoffice'));
     }
+
 
     public function deleteUser($id)
     {

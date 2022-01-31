@@ -53,7 +53,7 @@ final class UserController
 
                 } elseif ($this->session->get('user')->getRole() == 'ADMIN') {
                     
-                    return new Response('', 303, ['redirect' => 'article']);
+                    return new Response('', 303, ['redirect' => 'backarticle']);
                 }
             } else {
 

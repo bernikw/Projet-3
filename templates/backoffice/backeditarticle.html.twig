@@ -25,17 +25,18 @@
 
 						<div class="control-group">
 							<div class="form-group floating-label-form-group controls mb-0 pb-2">
-							<input type="hidden" id="authorid" name="authorid" value="{{ post.userId }} " class="form-control">
-							<input type="hidden" value="{{ session.user.id}} " id=" " name=" "class="form-control" >
+
+							<input type="hidden" value="{{ session.post.id}} " id="id" name="id" class="form-control" >
+
 								<label>Author</label>
-								<input value="{{ post.userId }} " class="form-control" type="text" id="author" name="author"  required>
+
+								<input value="{{ post.userId }} " class="form-control" type="text" id="author" name="author" required>
 								<p class="help-block text-danger"></p>
 							</div>
 
 							<div class="control-group">
 							<div class="form-group floating-label-form-group controls mb-0 pb-2">
-							<input type="hidden" id="titre" name="titre" value="{{ post.titre }} " class="form-control">
-							<input type="hidden" value="{{ session.post.title}} " id=" " name=" "class="form-control" >
+					
 								<label>Titre</label>
 								<input value="{{ post.title }} " class="form-control"  id="title" name="title" required>
 								<p class="help-block text-danger"></p>

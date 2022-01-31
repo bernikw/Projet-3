@@ -11,12 +11,13 @@ final class Comment
     private int $id;
     private string $username; 
     private string $textComment;
-    private string $dateComment; 
+    private ?string $dateComment; 
     private int $valid;
     private int $idPost;
+    private string $userProfileId;
     
 
-    public function __construct(int $id, string $username, string $textComment,string $dateComment, int $valid, int $idPost)
+    public function __construct(int $id, string $username, string $textComment, ?string $dateComment, int $valid, int $idPost, string $userProfileId)
     {
         $this->id = $id;
         $this->userId = $username;
@@ -24,6 +25,7 @@ final class Comment
         $this->dateComment = $dateComment;
         $this->valid = $valid;
         $this->idPost = $idPost;
+        $this->userProfileId = $userProfileId;
     }
 
     public function getId(): int
@@ -47,7 +49,7 @@ final class Comment
         return $this->textComment;
     }
 
-    public function setTextCoemment(string $textComment): self
+    public function setTextComment(string $textComment): self
     {
         $this->textComment = $textComment;
         return $this;
@@ -83,6 +85,17 @@ final class Comment
     public function setIdPost(string $idPost): self
     {
        $this->idPost = $idPost;
+       return $this;
+    }
+
+    public function getUserProfileId(): string
+    {
+        return $this->userProfileId;
+    }
+
+    public function setUserProfileId(string $userProfileId): self
+    {
+       $this->userProfileId = $userProfileId;
        return $this;
     }
 

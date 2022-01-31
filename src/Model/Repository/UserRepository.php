@@ -56,7 +56,14 @@ final class UserRepository
 
     public function find(int $id): ?User
     {
-        return null;
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE user.id = :id');
+
+        $statement->execute(['id' => $id]);
+        $data = $statement->fetch();
+        
+
+        // réfléchir à l'hydratation des entités;
+        return $data === false ? null : new User((int) $data['id'], $data['username'], $data['email'], $data['password'], $data['role']);
     }
 
     public function findOneBy(array $criteria, array $orderBy = null): ?User
@@ -79,7 +86,7 @@ final class UserRepository
 
     public function findAll(): ?array
     {
-        $statement = $this->database->getConnection()->prepare('SELECT * FROM user');
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE user.id = id');
 
         $statement->execute();
         $data = $statement->fetchAll();
@@ -115,11 +122,12 @@ final class UserRepository
 
     public function update(object $user): bool
     {
-        $statement = $this->database->getConnection()->prepare('UPDATE user SET (username, password, role) VALUES (:username, :password, :role ) WHERE user.id = :id');
+        $statement = $this->database->getConnection()->prepare('UPDATE user SET username=:username, email=:email, password=:password, role=:role WHERE user.id = :id');
 
         $statement->execute([
             ':id' => $user->getId(),
             ':username' => $user->getUsername(),
+            ':email' => $user->getEmail(),
             ':password' => $user->getPassword(),
             ':role' => $user->getRole()
         ]);

@@ -19,7 +19,12 @@ final class PostRepository
 
     public function find(int $id): ?Post
     {
-        return null;
+        $statement = $this->database->getConnection()->prepare('SELECT article.*,user.username FROM article INNER JOIN user ON user.id = article.user_id WHERE article.id = :id');
+
+        $statement->execute(['id' => $id]);
+        $data = $statement->fetch();
+        
+        return $data === false ? null : new Post((int)$data['id'], $data['title'], $data['chapo'], $data['text'], $data['date_creation'], (string)$data['date_update'], (int)$data['user_id'], $data['username']);
     }
 
     public function findOneBy(array $criteria, array $orderBy = null): ?Post
@@ -59,38 +64,41 @@ final class PostRepository
 
     public function create(object $post): bool
     {
-       // var_dump($post);
-        //die();
-        $statement = $this->database->getConnection()->prepare('INSERT INTO article (title, chapo, text, date_creation, userId) VALUE (:titre, :chapo, :text, NOW(), :userId)');
-$statement->bindValue('title', $post->getTitle(),
-                     'chapo', $post->getChapo(),
-                     'text', $post->getText(),
-                     'userId', $post->getUserId());
+       
+        $statement = $this->database->getConnection()->prepare('INSERT INTO article (title, chapo, text, date_creation, date_update, userId, username) VALUE (:titre, :chapo, :text, NOW(), NOW() :userId )');
 
+       /* $statement->bindValue('title', $post->getTitle());
+        $statement->bindValue('chapo', $post->getChapo());
+        $statement->bindValue('text', $post->getText());
+        $statement->bindValue('date_creation', $post->getDateCreation());
+        $statement->bindValue('date_update', $post->getDateUpdate());
+        $statement->bindValue('userId', $post->getUserId());*/
+      
 
-       /* $statement->execute([
-            'title' => $post->getTitle(),
-            'chapo' => $post->getChapo(),
-            'text' => $post->getText(),
-            'userId' => $post->getUserId()
-            
-        ]);*/
-
+        $statement->execute([
+            'title', $post->getTitle(),
+            'chapo', $post->getChapo(),
+            'text', $post->getText(),
+            'date_creation', $post->getDateCreation(),
+            'date_update', $post->getDateUpdate(),
+            'userId', $post->getUserId()
+        ]);
+        
         return true;
     }
 
     public function update(object $post): bool
     {
-        $statement = $this->database->getConnection()->prepare('UPDATE article SET (title, date_creation, date_update,  user_id , chapo, text) VALUES (:tite, DATE (NOW()), DATE(NOW()), :user_id, :chapo,  :text) WHERE article_id=:id');
+        $statement = $this->database->getConnection()->prepare('UPDATE article SET title=:title, chapo=:chapo, text=:text, date_creation= NOW(), date_update=NOW(), user_id=:user_id WHERE post.id = :id');
 
-        $statement->execute([
+        $statement->execute([ 
             ':id' => $post->getId(),
             ':title' => $post->getTitle(),
+            ':chapo' => $post->getChapo(),
+            ':text' => $post->getText(),
             ':date_creation' => $post->getDateCreation(),
             ':date_update' => $post->getDateUpdate(),
-            ':user_id' => $post->getUserId(),
-            ':chapo' => $post->getChapo(),
-            ':text' => $post->getText()
+            ':user_id' => $post->getUserId()
         ]);
 
 

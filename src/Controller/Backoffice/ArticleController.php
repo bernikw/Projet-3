@@ -11,7 +11,6 @@ use App\Model\Repository\PostRepository;
 use App\Model\Entity\Post;
 use App\Service\Http\Request;
 use App\Service\Validator\PostValidator;
-use App\Controller\Backoffice\AuthentificationController;
 use App\Service\AccessControl;
 
 final class ArticleController
@@ -32,7 +31,7 @@ final class ArticleController
 
     public function displayAllPosts(): Response
     {
-        if($this->accessControl->isAdmin() === false){
+        if ($this->accessControl->isAdmin() === false) {
 
             return new Response('', 303, ['redirect' => 'login']);
         }
@@ -53,17 +52,14 @@ final class ArticleController
 
             $datas = $request->request()->all();
 
-
             if ($postValidator->isValid($datas)) {
 
-            $post = new Post(0, $datas['title'], $datas['chapo'], $datas['text'], NULL, NULL, 2, 'Ernest');
+                $post = new Post(0, $datas['title'], $datas['chapo'], $datas['text'], (string)NULL, (string)NULL, 2);
 
                 $this->postRepository->create($post);
 
                 $this->session->addFlashes('success', ['Votre post a été enregistré']);
-                return new Response('', 303, ['redirect' => 'addarticle']);
-  
-                
+                return new Response('', 303, ['redirect' => 'backarticle']);
             } else {
 
                 $this->session->addFlashes(
@@ -79,20 +75,37 @@ final class ArticleController
         ], 'backoffice'));
     }
 
-   
 
-    public function displayEditPostAction(int $id): Response
+
+    public function displayEditPostAction(Request $request, PostValidator $postValidator): Response
     {
-      
-        $post = $this->postRepository->findOneBy(['id'=> $id]);
-        
 
+       $post = $this->postRepository->find((int)$request->query()->get('id'));
+     
+     
+        if ($request->getMethod() === 'POST') {
 
-        $post = $this->postRepository->update($post);
+            $datas = $request->request()->all();
 
+            if ($postValidator->isValid($datas)) {
+
+                $this->postRepository->update($post);
+
+                $this->session->addFlashes('success', ['Votre post a été modifiée']);
+
+                return new Response('', 303, ['redirect' => 'backeditarticle']);
+
+            } else {
+
+                $this->session->addFlashes(
+                    'error',
+                    $postValidator->getErrors()
+                );
+            }
+        }
         return new Response($this->view->render([
             'template' => 'backeditarticle',
-            'data' => ['post'=> $post],
+            'data' => ['post' => $post],
         ], 'backoffice'));
     }
 

@@ -29,16 +29,17 @@
 
 							<div class="mb-3">
 								<label for="password" class="form-label">Role</label>
-								<select mame="role" required class="form-select">
-									<option selected>Choisi le role</option>
-									<option value="admin">Admin</option>
-									<option value="user">User</option>
+								<select mame="role" value="{{user.role == 'ADMIN'}}" selected required class="form-select">
+								
+									<option name="role" value='role'>---Choisir le role---</option>
+									<option value="{{user.role == 'ADMIN'}}" selected >Admin</option>
+									<option value="{{user.role == 'MEMBER'}}" selected >Member</option>
 								</select>
 							</div>
 
 
 							<div class="d-grid gap-2 col-6 mx-auto my-5">
-								<button type="subbmit" class="btn btn-primary">Editer</button>
+								<button type="subbmit" name="UPDATE" class="btn btn-primary">Editer</button>
 							</div>
                           
 						</form>

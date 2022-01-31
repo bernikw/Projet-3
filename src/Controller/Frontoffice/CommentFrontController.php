@@ -34,10 +34,10 @@ final class CommentFrontController
         if ($request->getMethod() === 'POST') {
             $datas = $request->request()->all();
 
-            if ($commentValidator->isValid($datas) && $this->session->set('user', $datas)) {
+            if ($commentValidator->isValid($datas)) 
+            {
 
-            
-                $comment = new Comment(0, $datas['username'], $datas['text_comment'], $datas['date_comment'], $datas['valid'], $datas['idPost'],);
+                $comment = new Comment(0, 'Ernest', $datas['text_comment'], date('Y - m - d'), 0, 2,  'Ernest');
 
             
                 $this->commentRepository->create($comment);

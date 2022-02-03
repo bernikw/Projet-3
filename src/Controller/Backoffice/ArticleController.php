@@ -54,7 +54,9 @@ final class ArticleController
 
             if ($postValidator->isValid($datas)) {
 
-                $post = new Post(0, $datas['title'], $datas['chapo'], $datas['text'], (string)NULL, (string)NULL, 2);
+                $user = $this->session->get('user');
+
+                $post = new Post(0, $datas['title'], $datas['chapo'], $datas['content'], (string)NULL, (string)NULL, $user->getId(), $user->getUsername());
 
                 $this->postRepository->create($post);
 
@@ -88,6 +90,11 @@ final class ArticleController
             $datas = $request->request()->all();
 
             if ($postValidator->isValid($datas)) {
+
+               // $post->setUsername($datas['username']);
+                $post->setTitle($datas['title']);
+                $post->setChapo($datas['chapo']);
+                $post->setContent($datas['content']);
 
                 $this->postRepository->update($post);
 

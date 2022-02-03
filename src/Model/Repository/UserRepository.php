@@ -122,13 +122,10 @@ final class UserRepository
 
     public function update(object $user): bool
     {
-        $statement = $this->database->getConnection()->prepare('UPDATE user SET username=:username, email=:email, password=:password, role=:role WHERE user.id = :id');
+        $statement = $this->database->getConnection()->prepare('UPDATE user SET role = :role WHERE user.id = :id');
 
         $statement->execute([
-            ':id' => $user->getId(),
-            ':username' => $user->getUsername(),
-            ':email' => $user->getEmail(),
-            ':password' => $user->getPassword(),
+            ':id' => $user->getId(),  
             ':role' => $user->getRole()
         ]);
 

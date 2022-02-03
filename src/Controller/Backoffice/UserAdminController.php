@@ -10,6 +10,7 @@ use App\Service\Http\Session\Session;
 use App\Model\Repository\UserRepository;
 use App\Model\Entity\User;
 use App\Service\Http\Request;
+use App\Service\Validator\UserValidator;
 
 
 final class UserAdminController
@@ -38,20 +39,29 @@ final class UserAdminController
     }
 
 
-    public function displayEditUser(Request $request): Response
+    public function displayEditUser(Request $request, UserValidator $userValidator): Response
     {
 
         $user = $this->userRepository->find((int)$request->query()->get('id'));
 
         if($request->getMethod() === 'POST'){
 
-            $request->request()->all();
-            
-            $user = $this->userRepository->update($user);
+            $data = $request->request()->all();
 
-            $this->session->addFlashes('success', ['Le role a été changée']);
+            if($userValidator->isValid($data)){
+
+                $user->setRole($data['role']);
             
-            return new Response('', 303, ['redirect' => 'backuser', 'data' => ['user' => $user]]);
+                $user = $this->userRepository->update($user);
+    
+                $this->session->addFlashes('success', ['Le role a été changée']);
+                
+                return new Response('', 303, ['redirect' => 'backuser', 'data' => ['user' => $user]]);
+            }else{
+
+                $this->session->addFlashes('danger', $userValidator->getErrors());
+
+            }   
         }
 
         return new Response($this->view->render([

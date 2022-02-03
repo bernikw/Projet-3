@@ -24,7 +24,7 @@ final class PostRepository
         $statement->execute(['id' => $id]);
         $data = $statement->fetch();
         
-        return $data === false ? null : new Post((int)$data['id'], $data['title'], $data['chapo'], $data['text'], $data['date_creation'], (string)$data['date_update'], (int)$data['user_id'], $data['username']);
+        return $data === false ? null : new Post((int)$data['id'], $data['title'], $data['chapo'], $data['content'], $data['date_creation'], (string)$data['date_update'], (int)$data['user_id'], $data['username']);
     }
 
     public function findOneBy(array $criteria, array $orderBy = null): ?Post
@@ -36,7 +36,7 @@ final class PostRepository
         $data = $statement->fetch();
 
 
-        return $data === false ? null : new Post((int)$data['id'], $data['title'], $data['chapo'], $data['text'], $data['date_creation'], (string)$data['date_update'], (int)$data['user_id'], $data['username']);
+        return $data === false ? null : new Post((int)$data['id'], $data['title'], $data['chapo'], $data['content'], $data['date_creation'], (string)$data['date_update'], (int)$data['user_id'], $data['username']);
     }
 
   
@@ -56,7 +56,7 @@ final class PostRepository
 
         $posts = [];
         foreach ($data as $post) {
-            $posts[] = new Post((int)$post['id'], $post['title'], $post['chapo'], $post['text'], $post['date_creation'], (string)$post['date_update'], (int)$post['user_id'], $post['username']);
+            $posts[] = new Post((int)$post['id'], $post['title'], $post['chapo'], $post['content'], $post['date_creation'], (string)$post['date_update'], (int)$post['user_id'], $post['username']);
         }
 
         return $posts;
@@ -65,41 +65,31 @@ final class PostRepository
     public function create(object $post): bool
     {
        
-        $statement = $this->database->getConnection()->prepare('INSERT INTO article (title, chapo, text, date_creation, date_update, userId, username) VALUE (:titre, :chapo, :text, NOW(), NOW() :userId )');
+        $statement = $this->database->getConnection()->prepare('INSERT INTO article (title, chapo, content, date_creation, date_update, user_id) VALUE (:title, :chapo, :content, NOW(), NOW(), :userId )');
 
-       /* $statement->bindValue('title', $post->getTitle());
+        $statement->bindValue('title', $post->getTitle());
         $statement->bindValue('chapo', $post->getChapo());
-        $statement->bindValue('text', $post->getText());
-        $statement->bindValue('date_creation', $post->getDateCreation());
-        $statement->bindValue('date_update', $post->getDateUpdate());
-        $statement->bindValue('userId', $post->getUserId());*/
+        $statement->bindValue('content', $post->getContent());
+        $statement->bindValue('userId', $post->getUserId());
       
 
-        $statement->execute([
-            'title', $post->getTitle(),
-            'chapo', $post->getChapo(),
-            'text', $post->getText(),
-            'date_creation', $post->getDateCreation(),
-            'date_update', $post->getDateUpdate(),
-            'userId', $post->getUserId()
-        ]);
+        $statement->execute();
+        
         
         return true;
     }
 
     public function update(object $post): bool
     {
-        $statement = $this->database->getConnection()->prepare('UPDATE article SET title=:title, chapo=:chapo, text=:text, date_creation= NOW(), date_update=NOW(), user_id=:user_id WHERE post.id = :id');
+        $statement = $this->database->getConnection()->prepare('UPDATE article SET title = :title, chapo = :chapo, content = :content,  date_update = NOW() WHERE id = :id');
 
         $statement->execute([ 
             ':id' => $post->getId(),
             ':title' => $post->getTitle(),
             ':chapo' => $post->getChapo(),
-            ':text' => $post->getText(),
-            ':date_creation' => $post->getDateCreation(),
-            ':date_update' => $post->getDateUpdate(),
-            ':user_id' => $post->getUserId()
-        ]);
+            ':content' => $post->getContent()
+            
+ ]);
 
 
         return true;

@@ -33,6 +33,16 @@ abstract class BaseValidator
         return true;
     }
 
+    protected function isValidField(string $name): bool
+    {
+        if (!isset($name) && $this->isEmpty($name)) {
+
+            return false;
+        }
+
+        return true;
+    }
+
     protected function isValidEmail(string $email): bool
     {
 

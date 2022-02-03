@@ -21,7 +21,7 @@ final class Comment
     {
         $this->id = $id;
         $this->userId = $username;
-        $this->text = $textComment;
+        $this->textComment = $textComment;
         $this->dateComment = $dateComment;
         $this->valid = $valid;
         $this->idPost = $idPost;

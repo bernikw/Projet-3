@@ -29,6 +29,7 @@ use App\View\View;
 use App\Service\Database;
 use App\Service\Validator\CommentValidator;
 use App\Service\AccessControl;
+use App\Service\Validator\UserValidator;
 
 
 final class Router
@@ -207,9 +208,10 @@ final class Router
         } elseif ($action === 'backedituser' && $this->request->query()->has('id')) {
 
             $userRepo = new UserRepository($this->database);
+            $userValidator = new UserValidator();
             $controller = new UserAdminController($this->view, $userRepo, $this->session, $this->accessControl);
 
-        return $controller->displayEditUser($this->request);
+        return $controller->displayEditUser($this->request, $userValidator);
 
           // *** @Route http://localhost:8000/?action=deleteuser ***
         } elseif ($action === 'deleteuser' && $this->request->query()->has('id')) {

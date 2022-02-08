@@ -90,17 +90,17 @@ final class ArticleController
             $datas = $request->request()->all();
 
             if ($postValidator->isValid($datas)) {
-
-               // $post->setUsername($datas['username']);
+          
                 $post->setTitle($datas['title']);
                 $post->setChapo($datas['chapo']);
                 $post->setContent($datas['content']);
-
+                //$post->setUsername($datas['username']);
+                          
                 $this->postRepository->update($post);
 
                 $this->session->addFlashes('success', ['Votre post a été modifiée']);
 
-                return new Response('', 303, ['redirect' => 'backeditarticle']);
+                return new Response('', 303, ['redirect' => 'backarticle']);
 
             } else {
 

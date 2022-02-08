@@ -19,18 +19,30 @@ final class AccessControl
         $this->session = $session;
     }
 
-    public function isAdmin(): bool
+    public function isConnect(): bool
     {
         if ($this->session->get('user')) {
 
             return true;
+        }  
+         
+        return false;   
+    }
+    public function isAdmin(): bool
+    {
+        $user = $this->session->get('user');
 
-        } else {
+        if(!$user){
 
-            $this->session->addFlashes('danger', ['Vous n\'avez pas acces à cette page']);
-
+            return false;
         }
 
-        return false;
+        if($user->getRole() !== 'ADMIN'){
+
+            return false;
+        }
+
+        return true; 
+
     }
 }

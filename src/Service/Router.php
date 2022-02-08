@@ -93,9 +93,9 @@ final class Router
         } elseif ($action === 'login') {
             $userRepo = new UserRepository($this->database);
             $loginValidator = new LoginValidator;
-            $controller = new UserController($userRepo, $this->view, $this->session);
+            $controller = new UserController($userRepo, $this->view, $this->session );
 
-            return $controller->loginAction($this->request, $loginValidator);
+            return $controller->loginAction($this->request, $loginValidator, $this->accessControl);
 
             // *** @Route http://localhost:8000/?action=logout ***
         } elseif ($action === 'logout') {
@@ -149,7 +149,7 @@ final class Router
             $postValidator = new PostValidator($postRepo);
             $controller = new ArticleController($this->view, $postRepo, $this->session, $this->accessControl);
 
-            return $controller->displayEditPostAction($this->request, $postValidator);
+            return $controller->displayEditPostAction($this->request, $postValidator, $this->request->query()->has('id') );
 
             // *** @Route http://localhost:8000/?action=deletepost ***
         } elseif ($action === 'deletepost' && $this->request->query()->has('id')) {

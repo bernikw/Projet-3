@@ -71,13 +71,17 @@ final class CommentRepository
 
     public function create(object $comment): bool
     {
-        $statement = $this->database->getConnection()->prepare('INSERT INTO comment (text_comment, date_comment, valid, id_post, user_profile_id) VALUES (:text_comment, NOW(), :valid, :id_post, :user_profile_id');
-
-        /* $statement->bindValue('text_comment', $comment->getTextComment());*/
+        $statement = $this->database->getConnection()->prepare('INSERT INTO comment (text_comment, date_comment, valid, article_id, user_profile_id ) VALUES (:text_comment, NOW(), :valid, :article_id, :user_profile_id)');
+   
+      
        $statement->execute([
-            ':text_comment' => $comment->getTextComment(),
-            ':valid' => $comment->getValid(),
-        ]);
+        ':text_comment' => $comment->getTextComment(),
+        ':valid' => 0,
+        ':article_id' => 4,//$comment->getArticleId(),
+        ':user_profile_id' => $comment->getUserProfileId()
+    ]); 
+
+      
 
         return true;
     }

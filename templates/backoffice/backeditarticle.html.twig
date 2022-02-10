@@ -34,9 +34,17 @@
 								<p class="help-block text-danger"></p>
 							</div>
 
+							<div class="mb-3">
+								<label for="" class="form-label">Auteur</label>
+								<select name="role" required="required" class="form-select">
+									<option value="">---Choisir auteur---</option>
+									<option value="{{ post.username }}">{{ post.username }}</option>
+									<option value="{{ user.username }}">{{ user.username }}</option>
+								</select>
+							</div>
+
 							<div class="control-group">
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">
-
 									<label>Titre</label>
 									<input value="{{ post.title }} " class="form-control" id="title" name="title" required>
 									<p class="help-block text-danger"></p>

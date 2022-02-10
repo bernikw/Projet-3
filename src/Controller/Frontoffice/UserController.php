@@ -54,7 +54,6 @@ final class UserController
 
                 return new Response('', 303, ['redirect' => 'home']);
               
-
             } else {
 
                 $this->session->addFlashes('danger', $loginValidator->getErrors());

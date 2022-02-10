@@ -8,9 +8,8 @@ use App\View\View;
 use App\Service\Http\Response;
 use App\Service\Http\Session\Session;
 use App\Model\Repository\UserRepository;
-use App\Model\Entity\User;
 use App\Service\Http\Request;
-use App\Service\Validator\UserValidator;
+
 
 
 final class UserAdminController
@@ -39,7 +38,7 @@ final class UserAdminController
     }
 
 
-    public function displayEditUser(Request $request, UserValidator $userValidator): Response
+    public function displayEditUser(Request $request): Response
     {
 
         $user = $this->userRepository->find((int)$request->query()->get('id'));
@@ -48,7 +47,10 @@ final class UserAdminController
 
             $data = $request->request()->all();
 
-            if($userValidator->isValid($data)){
+            if($user->getRole() !== 'ADMIN' && $user->getRole() !== 'MEMBER'){
+
+                return false;
+            }
 
                 $user->setRole($data['role']);
             
@@ -57,11 +59,7 @@ final class UserAdminController
                 $this->session->addFlashes('success', ['Le role a été changée']);
                 
                 return new Response('', 303, ['redirect' => 'backuser', 'data' => ['user' => $user]]);
-            }else{
-
-                $this->session->addFlashes('danger', $userValidator->getErrors());
-
-            }   
+           
         }
 
         return new Response($this->view->render([

@@ -29,7 +29,6 @@ use App\View\View;
 use App\Service\Database;
 use App\Service\Validator\CommentValidator;
 use App\Service\AccessControl;
-use App\Service\Validator\UserValidator;
 
 
 final class Router
@@ -93,7 +92,7 @@ final class Router
         } elseif ($action === 'login') {
             $userRepo = new UserRepository($this->database);
             $loginValidator = new LoginValidator;
-            $controller = new UserController($userRepo, $this->view, $this->session );
+            $controller = new UserController($userRepo, $this->view, $this->session);
 
             return $controller->loginAction($this->request, $loginValidator, $this->accessControl);
 
@@ -122,7 +121,7 @@ final class Router
             $registerValidator = new RegisterValidator($userRepository);
 
 
-            return $controller->displayRegistrationAction($this->request, $this->mailer, $registerValidator);
+            return $controller->displayRegistrationAction($this->request, $this->mailer, $registerValidator, $this->accessControl);
 
              // *** @Route http://localhost:8000/?action=backarticle ***
         } elseif ($action === 'backarticle') {
@@ -208,10 +207,9 @@ final class Router
         } elseif ($action === 'backedituser' && $this->request->query()->has('id')) {
 
             $userRepo = new UserRepository($this->database);
-            $userValidator = new UserValidator();
             $controller = new UserAdminController($this->view, $userRepo, $this->session, $this->accessControl);
 
-        return $controller->displayEditUser($this->request, $userValidator);
+        return $controller->displayEditUser($this->request);
 
           // *** @Route http://localhost:8000/?action=deleteuser ***
         } elseif ($action === 'deleteuser' && $this->request->query()->has('id')) {

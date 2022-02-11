@@ -56,7 +56,14 @@ final class UserRepository
 
     public function find(int $id): ?User
     {
-        return null;
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE user.id = :id');
+
+        $statement->execute(['id' => $id]);
+        $data = $statement->fetch();
+        
+
+        // réfléchir à l'hydratation des entités;
+        return $data === false ? null : new User((int) $data['id'], $data['username'], $data['email'], $data['password'], $data['role']);
     }
 
     public function findOneBy(array $criteria, array $orderBy = null): ?User
@@ -64,7 +71,7 @@ final class UserRepository
 
         $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE user.id = :id');
 
-        $statement->execute();
+        $statement->execute($criteria);
         $data = $statement->fetch();
         
 
@@ -79,7 +86,7 @@ final class UserRepository
 
     public function findAll(): ?array
     {
-        $statement = $this->database->getConnection()->prepare('SELECT * FROM user');
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE user.id = id');
 
         $statement->execute();
         $data = $statement->fetchAll();
@@ -108,30 +115,27 @@ final class UserRepository
             ':password' => $user->getPassword(),
             ':role' => $user->getRole() 
 
-        ]);
-
-        
+        ]);        
 
        return true;
     }
 
     public function update(object $user): bool
     {
-        $statement = $this->database->getConnection()->prepare('UPDATE user SET (username, password, role) VALUES (:username, :password, :role )');
+        $statement = $this->database->getConnection()->prepare('UPDATE user SET role = :role WHERE user.id = :id');
 
         $statement->execute([
-            ':username' => $user->getUsername(),
-            ':password' => $user->getPassword(),
+            ':id' => $user->getId(),  
             ':role' => $user->getRole()
         ]);
 
         return true;
     }
 
-    public function delete(object $user): bool
+    public function delete(int $id): bool
     {
         $statement = $this->database->getConnection()->prepare('DELETE FROM user WHERE id = :id');
-        $statement->execute(['id'=> $user->getId()]);
+        $statement->execute(['id'=> $id]);
         
         return true; 
     }

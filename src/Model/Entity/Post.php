@@ -10,22 +10,27 @@ final class Post
 {
     private int $id;
     private string $title;
+    private string $chapo;
+    private string $content;
     private ?string $dateCreation;
     private ?string $dateUpdate;
-    private string $userId;
-    private string $chapo;
-    private string $text;
+    private int $userId;
+    private string $username;
+ 
+    
     
 
-    public function __construct(int $id, string $title, ?string $dateCreation, ?string $dateUpdate, string $userId, string $chapo, string $text)
+    public function __construct(int $id, string $title, string $chapo, string $content, ?string $dateCreation, ?string $dateUpdate, int $userId, string $username)
     {
         $this->id = $id;
         $this->title = $title;
+        $this->chapo = $chapo;
+        $this->content = $content;
         $this->dateCreation = $dateCreation;
         $this->dateUpdate = $dateUpdate;
         $this->userId = $userId;
-        $this->chapo = $chapo;
-        $this->text = $text;
+        $this->username = $username;
+        
     }
 
     public function getId(): int
@@ -41,6 +46,27 @@ final class Post
     public function setTitle(string $title): self
     {
         $this->title = $title;
+        return $this;
+    }
+    public function getChapo(): string
+    {
+        return $this->chapo;
+    }
+
+    public function setChapo(string $chapo): self
+    {
+        $this->chapo = $chapo;
+        return $this;
+    }
+
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
         return $this;
     }
 
@@ -66,36 +92,26 @@ final class Post
         return $this;
     }
 
-    public function getUserId(): string
+    public function getUserId(): int
     {
         return $this->userId;
     }
 
-    public function setUserId(string $userId): self
+    public function setUserId(int $userId): self
     {
         $this->userId = $userId;
         return $this;
     }
 
-    public function getChapo(): string
+    public function getUsername(): string
     {
-        return $this->chapo;
+        return $this->username;
     }
 
-    public function setChapo(string $chapo): self
+    public function setUsername(int $username): self
     {
-        $this->chapo = $chapo;
+        $this->username = $username;
         return $this;
     }
-
-    public function getText(): string
-    {
-        return $this->text;
-    }
-
-    public function setText(string $text): self
-    {
-        $this->text = $text;
-        return $this;
-    }
+   
 }

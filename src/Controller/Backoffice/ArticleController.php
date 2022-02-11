@@ -11,30 +11,34 @@ use App\Model\Repository\PostRepository;
 use App\Model\Entity\Post;
 use App\Service\Http\Request;
 use App\Service\Validator\PostValidator;
-
-
+use App\Service\AccessControl;
 
 final class ArticleController
 {
     private View $view;
     private Session $session;
     private PostRepository $postRepository;
+    private AccessControl $accessControl;
 
 
-    public function __construct(View $view, PostRepository $postRepository, Session $session)
+    public function __construct(View $view, PostRepository $postRepository, Session $session, AccessControl $accessControl)
     {
         $this->view = $view;
         $this->postRepository = $postRepository;
         $this->session = $session;
+        $this->accessControl = $accessControl;
     }
 
     public function displayAllPosts(): Response
     {
+        if ($this->accessControl->isAdmin() === false) {
 
+            return new Response('', 303, ['redirect' => 'login']);
+        }
         $posts = $this->postRepository->findAll();
 
         return new Response($this->view->render([
-            'template' => 'article',
+            'template' => 'backarticle',
             'data' => ['posts' => $posts],
         ], 'backoffice'));
     }
@@ -48,20 +52,16 @@ final class ArticleController
 
             $datas = $request->request()->all();
 
-            if (!$datas) {
-                return false;
-            }
+            if ($postValidator->isValid($datas)) {
 
-            if ($postValidator->isValid($datas) && $this->session->set('user', $datas)) {
+                $user = $this->session->get('user');
 
-
-                $post = new Post(0, $datas['title'], NULL, NULL, $datas['user_id'], $datas['chapo'], $datas['text']);
+                $post = new Post(0, $datas['title'], $datas['chapo'], $datas['content'], (string)NULL, (string)NULL, $user->getId(), $user->getUsername());
 
                 $this->postRepository->create($post);
 
                 $this->session->addFlashes('success', ['Votre post a été enregistré']);
-                return new Response('', 303, ['redirect' => 'article']);
-                
+                return new Response('', 303, ['redirect' => 'backarticle']);
             } else {
 
                 $this->session->addFlashes(
@@ -72,18 +72,47 @@ final class ArticleController
         }
 
         return new Response($this->view->render([
-            'template' => 'addpost',
-            'data' => [],
+            'template' => 'backaddarticle',
+            'data' => ['datassaisi' => $datas],
         ], 'backoffice'));
     }
 
-    public function displayEditpostAction($id): Response
-    {
-        $post = $this->postRepository->findOneBy(['id' => $id]);
 
+
+    public function displayEditPostAction(Request $request, PostValidator $postValidator): Response
+    {
+
+       $post = $this->postRepository->find((int)$request->query()->get('id'));
+     
+     
+        if ($request->getMethod() === 'POST') {
+
+            $datas = $request->request()->all();
+
+            if ($postValidator->isValid($datas)) {
+          
+                $post->setTitle($datas['title']);
+                $post->setChapo($datas['chapo']);
+                $post->setContent($datas['content']);
+                //$post->setUsername($datas['username']);
+                          
+                $this->postRepository->update($post);
+
+                $this->session->addFlashes('success', ['Votre post a été modifiée']);
+
+                return new Response('', 303, ['redirect' => 'backarticle']);
+
+            } else {
+
+                $this->session->addFlashes(
+                    'error',
+                    $postValidator->getErrors()
+                );
+            }
+        }
         return new Response($this->view->render([
-            'template' => 'editpost',
-            'data' => [],
+            'template' => 'backeditarticle',
+            'data' => ['post' => $post],
         ], 'backoffice'));
     }
 
@@ -95,6 +124,6 @@ final class ArticleController
 
         $this->session->addFlashes('success', ['Votre article a été supprimée']);
 
-        return new Response('', 303, ['redirect' => 'article', 'data' => ['posts' => $posts]]);
+        return new Response('', 303, ['redirect' => 'backarticle', 'data' => ['posts' => $posts]]);
     }
 }

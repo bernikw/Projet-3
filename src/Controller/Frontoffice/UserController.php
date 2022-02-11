@@ -10,6 +10,7 @@ use App\Service\Http\Response;
 use App\Service\Http\Session\Session;
 use App\Model\Repository\UserRepository;
 use App\Service\Validator\LoginValidator;
+use App\Service\AccessControl;
 
 
 
@@ -27,8 +28,12 @@ final class UserController
     }
 
 
-    public function loginAction(Request $request, LoginValidator $loginValidator): Response
+    public function loginAction(Request $request, LoginValidator $loginValidator, AccessControl $accessControl): Response
     {
+        if($accessControl->isConnect()){
+
+            return new Response('', 303, ['redirect' => 'home']);
+        }
 
         if ($request->getMethod() === 'POST') {
 
@@ -47,16 +52,11 @@ final class UserController
 
                 $this->session->set('user', $user);
 
-                if ($this->session->get('user')->getRole() == 'MEMBER') {
-
-                    return new Response('', 303, ['redirect' => 'posts']);
-                    
-                } elseif ($this->session->get('user')->getRole() == 'ADMIN') {
-                    return new Response('', 303, ['redirect' => 'article']);
-                }
+                return new Response('', 303, ['redirect' => 'home']);
+              
             } else {
 
-                $this->session->addFlashes('error', $loginValidator->getErrors());
+                $this->session->addFlashes('danger', $loginValidator->getErrors());
             }
         }
         return new Response($this->view->render(['template' => 'login', 'data' => []]));

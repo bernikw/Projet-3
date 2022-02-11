@@ -33,7 +33,7 @@ final class CommentController
 
         return new Response($this->view->render(
             [
-                'template' => 'comment',
+                'template' => 'backcomment',
                 'data' => ['comments' => $comments],
             ],
             'backoffice'
@@ -46,7 +46,7 @@ final class CommentController
 
         $this->session->addFlashes('success', ['Votre commentaire a été validée']);
 
-        return new Response('', 303, ['redirect' => 'comment', 'data' => ['comment' => $comments]]);
+        return new Response('', 303, ['redirect' => 'backcomment', 'data' => ['comment' => $comments]]);
         
     }
 
@@ -57,7 +57,7 @@ final class CommentController
 
         $this->session->addFlashes('success', ['Votre commentaire a été supprimée']);
 
-        return new Response('', 303, ['redirect' => 'comment', 'data' => ['comment' => $comments]]);
+        return new Response('', 303, ['redirect' => 'backcomment', 'data' => ['comment' => $comments]]);
        
     }
 }

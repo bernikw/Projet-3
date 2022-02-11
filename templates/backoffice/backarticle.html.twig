@@ -6,7 +6,7 @@
 		<div class="row">
 			<div class="p-4 p-md-3 mb-4 text-center text-white rounded bg-primary my-3">
 				<div class="col-md-12 px-0">
-					<h1 class="display-4">Admin interface</h1>
+					<h1 class="display-4">Articles</h1>
 				</div>
 			</div>
 		</div>
@@ -18,7 +18,8 @@
 				<div class="col-md-12">
 
 					<p>
-						<a href="http://localhost:8000/?action=addpost" class="btn btn-primary">Ajouter un article</a>
+						<a href="http://localhost:8000/?action=backaddarticle"
+						class="btn btn-primary">Ajouter un article</a>
 					</p>
 
 				</div>
@@ -40,7 +41,8 @@
 										<td>{{ post.title }}</td>
 										<td>{{ post.dateUpdate|date("d/m/Y") }}</td>
 										<td>
-											<a href="http://localhost:8000/?action=editpost" class="btn btn-primary">Modifier</a>
+											<a href="http://localhost:8000/?action=backeditarticle&id={{post.id}}" class="btn btn-primary">Modifier</a>
+
 											<a href="http://localhost:8000/?action=deletepost&id={{post.id}}" class="btn btn-danger">Supprimer</a>
 										</td>
 									</tr>

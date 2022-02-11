@@ -16,38 +16,38 @@ class PostValidator extends BaseValidator
 
         if(!$this->isValidInput($datas['title'])) {
 
-        $this->errors['titre'] = 'Ce champ contient des caractères non autorisés';
+        $this->errors['title'] = 'Ce champ contient des caractères non autorisés';
             $result = false;
         }
-         if (!$this->isValidInput($datas['text'])) {
-
-            $this->errors['text'] = 'Ce champ contient des caractères non autorisés';
-            $result = false;
-        }
-
-        if (!$this->isValidInput($datas['chapo'])) {
+         if (!$this->isValidInput($datas['chapo'])) {
 
             $this->errors['chapo'] = 'Ce champ contient des caractères non autorisés';
             $result = false;
         }
 
-        if (!$this->isValidDatas($datas['title'])) {
+        /* if (!$this->isValidInput($datas['content'])) {
 
-            $this->errors['titre'] = 'Ce champ contient des caractères non autorisés';
+            $this->errors['content'] = 'Ce champ est vide';
+            $result = false;
+        }
+
+       if (!$this->isValidField($datas['title'])) {
+
+            $this->errors['title'] = 'Ce champ contient des caractères non autorisés';
             $result = false;
         } 
 
-        if (!$this->isValidDatas($datas['text'])) {
+        if (!$this->isValidField($datas['content'])) {
 
-            $this->errors['text'] = 'Ce champ contient des caractères non autorisés';
+            $this->errors['content'] = 'Ce champ contient des caractères non autorisés';
             $result = false;
         } 
 
-        if (!$this->isValidDatas($datas['chapo'])) {
+        if (!$this->isValidField($datas['chapo'])) {
 
             $this->errors['chapo'] = 'Ce champ contient des caractères non autorisés';
             $result = false;
-        } 
+        } */
         return $result;
     }
 }

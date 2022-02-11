@@ -8,6 +8,8 @@ use App\View\View;
 use App\Service\Http\Response;
 use App\Service\Http\Session\Session;
 use App\Model\Repository\UserRepository;
+use App\Service\Http\Request;
+
 
 
 final class UserAdminController
@@ -30,28 +32,50 @@ final class UserAdminController
         $users = $this->userRepository->findAll();
 
         return new Response($this->view->render([
-            'template' => 'user',
+            'template' => 'backuser',
             'data' => ['users' => $users],
         ], 'backoffice'));
     }
 
 
-    public function editUser()
+    public function displayEditUser(Request $request): Response
     {
 
-        /*$users = $this->postRepository->update();*/
+        $user = $this->userRepository->find((int)$request->query()->get('id'));
 
-        $this->session->addFlashes('success', ['Le role a été changée']);
+        if($request->getMethod() === 'POST'){
+
+            $data = $request->request()->all();
+
+            if($user->getRole() !== 'ADMIN' && $user->getRole() !== 'MEMBER'){
+
+                return false;
+            }
+
+                $user->setRole($data['role']);
+            
+                $user = $this->userRepository->update($user);
+    
+                $this->session->addFlashes('success', ['Le role a été changée']);
+                
+                return new Response('', 303, ['redirect' => 'backuser', 'data' => ['user' => $user]]);
+           
+        }
 
         return new Response($this->view->render([
-            'template' => 'edituser',
-            'data' => [],
+            'template' => 'backedituser',
+            'data' => ['user' => $user],
         ], 'backoffice'));
     }
 
-    public function deleteUser()
-    {
 
+    public function deleteUser($id)
+    {
+        $user = $this->userRepository->delete($id);
+
+        $this->session->addFlashes('success', ['Votre utilisateur a été supprimée']);
+
+        return new Response('', 303, ['redirect' => 'backuser', 'data' => ['user' => $user]]);
 
     }
 }

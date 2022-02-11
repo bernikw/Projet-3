@@ -13,6 +13,7 @@ use App\Service\Validator\CommentValidator;
 use App\Service\Http\Session\Session;
 
 
+
 final class CommentFrontController
 {
     private CommentRepository $commentRepository;
@@ -33,18 +34,20 @@ final class CommentFrontController
         if ($request->getMethod() === 'POST') {
             $datas = $request->request()->all();
 
-            if ($commentValidator->isValid($datas) && $this->session->set('user', $datas)) {
+            if ($commentValidator->isValid($datas)) 
+            {
 
-                if (!$datas) {
-                    return false;
-                }
+                $user = $this->session->get('user');
+               
 
-                $comment = new Comment(0, $datas['pseudo'], $datas['text'], $datas['date_comment'], $datas['valid'], $datas['idPost']);
+                $comment = new Comment(0, $user->getUsername(), $datas['text_comment'], (string)NULL, 0, 0, $user->getId());
 
+            
                 $this->commentRepository->create($comment);
 
                 $this->session->addFlashes('success', ['Votre message a été posté']);
                 return new Response('', 303, ['redirect' => 'post']);
+                
             } else {
 
                 $this->session->addFlashes('',

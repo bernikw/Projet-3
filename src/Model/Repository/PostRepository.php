@@ -19,7 +19,12 @@ final class PostRepository
 
     public function find(int $id): ?Post
     {
-        return null;
+        $statement = $this->database->getConnection()->prepare('SELECT article.*,user.username FROM article INNER JOIN user ON user.id = article.user_id WHERE article.id = :id');
+
+        $statement->execute(['id' => $id]);
+        $data = $statement->fetch();
+        
+        return $data === false ? null : new Post((int)$data['id'], $data['title'], $data['chapo'], $data['content'], $data['date_creation'], (string)$data['date_update'], (int)$data['user_id'], $data['username']);
     }
 
     public function findOneBy(array $criteria, array $orderBy = null): ?Post
@@ -31,18 +36,15 @@ final class PostRepository
         $data = $statement->fetch();
 
 
-        return $data === false ? null : new Post((int)$data['id'], $data['title'], $data['date_creation'], (string)$data['date_update'], $data['username'], $data['chapo'], $data['text']);
+        return $data === false ? null : new Post((int)$data['id'], $data['title'], $data['chapo'], $data['content'], $data['date_creation'], (string)$data['date_update'], (int)$data['user_id'], $data['username']);
     }
 
-    /*public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): ?array
-    {
-        return null;
-    }*/
+  
 
     public function findAll(): ?array
     {
 
-        $statement = $this->database->getConnection()->prepare('SELECT * FROM article');
+        $statement = $this->database->getConnection()->prepare('SELECT article.*,user.username FROM article INNER JOIN user ON user.id = article.user_id ORDER BY date_creation DESC');
 
         $statement->execute();
         $data = $statement->fetchAll();
@@ -54,7 +56,7 @@ final class PostRepository
 
         $posts = [];
         foreach ($data as $post) {
-            $posts[] = new Post((int)$post['id'], $post['title'], $post['date_creation'], (string)$post['date_update'], (string)$post['user_id'], $post['chapo'], $post['text']);
+            $posts[] = new Post((int)$post['id'], $post['title'], $post['chapo'], $post['content'], $post['date_creation'], (string)$post['date_update'], (int)$post['user_id'], $post['username']);
         }
 
         return $posts;
@@ -62,32 +64,32 @@ final class PostRepository
 
     public function create(object $post): bool
     {
-        $statement = $this->database->getConnection()->prepare('INSERT INTO article (title, date_creation, user_id, chapo, text) VALUE (:titre, DATE(NOW()), :user_id, :chapo,  :text, )');
+       
+        $statement = $this->database->getConnection()->prepare('INSERT INTO article (title, chapo, content, date_creation, date_update, user_id) VALUE (:title, :chapo, :content, NOW(), NOW(), :userId )');
 
-        $statement->execute([
-            ':title' => $post->getTitle(),
-            ':date_creation'=> $post->getDateCreation(),
-            ':user_id' => $post->getUserId(),
-            ':chapo' => $post->getChapo(),
-            ':text' => $post->getText()
-        ]);
+        $statement->bindValue('title', $post->getTitle());
+        $statement->bindValue('chapo', $post->getChapo());
+        $statement->bindValue('content', $post->getContent());
+        $statement->bindValue('userId', $post->getUserId());
+      
 
+        $statement->execute();
+        
+        
         return true;
     }
 
     public function update(object $post): bool
     {
-        $statement = $this->database->getConnection()->prepare('UPDATE article SET (title,  date_creation, date_update, pseudo, chapo, text) VALUES (:tite, DATE (NOW()), DATE(NOW()), user_id, :chapo,  :text,');
+        $statement = $this->database->getConnection()->prepare('UPDATE article SET title = :title, chapo = :chapo, content = :content,  date_update = NOW()  WHERE id = :id');
 
-        $statement->execute([
+        $statement->execute([ 
+            ':id' => $post->getId(),
             ':title' => $post->getTitle(),
-            ':date_creation' => $post->getDateCreation(),
-            ':date_update' => $post->getDateUpdate(),
-            ':user_id' => $post->getUserId(),
             ':chapo' => $post->getChapo(),
-            ':text' => $post->getText()
-        ]);
-
+            ':content' => $post->getContent()
+            //':username' => $post->getUsername()
+ ]);
 
         return true;
     }

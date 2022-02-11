@@ -12,6 +12,7 @@ use App\Service\Http\Response;
 use App\Service\Http\Session\Session;
 use App\Model\Entity\User;
 use App\Service\Validator\RegisterValidator;
+use App\Service\AccessControl;
 
 
 final class RegistrationController
@@ -27,8 +28,13 @@ final class RegistrationController
         $this->userRepository = $userRepository;
     }
 
-    public function displayRegistrationAction(Request $request, Mailer $mailer, RegisterValidator $registerValidator): Response
+    public function displayRegistrationAction(Request $request, Mailer $mailer, RegisterValidator $registerValidator, AccessControl $accessControl): Response
     {
+        if($accessControl->isConnect()){
+
+            return new Response('', 303, ['redirect' => 'home']);
+        }
+    
         $datas = [];
 
         if ($request->getMethod() === 'POST') {
@@ -59,7 +65,7 @@ final class RegistrationController
                 return new Response('', 303, ['redirect' => 'login']);
             } else {
 
-                $this->session->addFlashes('', $registerValidator->getErrors());
+                $this->session->addFlashes('danger', $registerValidator->getErrors());
             }
         }
 

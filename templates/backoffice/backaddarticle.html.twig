@@ -8,7 +8,7 @@
 			<div class="row">
 				<div class="p-4 p-md-3 mb-4 text-center text-white rounded bg-primary my-3">
 					<div class="col-md-12 px-0">
-						<h1 class="display-4">Admin Interface</h1>
+						<h1 class="display-4">Ajouter article</h1>
 					</div>
 				</div>
 			</div>
@@ -21,38 +21,36 @@
 			<hr class="star-dark mb-5">
 			<div class="row">
 				<div class="col-lg-8 mx-auto">
+					
 					<form method="POST">
-					<div class="control-group">
+
+					
+					
+		
 							<div class="form-group floating-label-form-group controls mb-0 pb-2">
-								<label>Author</label>
-								<input class="form-control" id="username" name="username">
+								<label>Title</label>
+								<input class="form-control" id="title" name="title" value="{{datassaisi.title}}" required="required">
 								<p class="help-block text-danger"></p>
 							</div>
-						</div>
-						<div class="control-group">
-							<div class="form-group floating-label-form-group controls mb-0 pb-2">
-								<label>Titre</label>
-								<input class="form-control" id="titre" name="title">
-								<p class="help-block text-danger"></p>
-							</div>
-						</div>
-                        <div class="control-group">
+					
+                        
 							<div class="form-group floating-label-form-group controls mb-0 pb-2">
 								<label>Chapô</label>
-								<textarea class="form-control" id="message" name="chapo" rows="5"></textarea>
+								<textarea class="form-control" id="chapo" name="chapo" value="{{datassaisi.chapo}}" rows="5" required="required"></textarea>
 								<p class="help-block text-danger"></p>
 							</div>
-						</div>
-						<div class="control-group">
+						
+						
 							<div class="form-group floating-label-form-group controls mb-0 pb-2">
 								<label>Contenu de l'article</label>
-								<textarea class="form-control" id="message" name="text" rows="10"></textarea>
+								<textarea class="form-control" id="content" name="content" value="{{ datassaisi.content }}" rows="10" required="required"></textarea>
 								<p class="help-block text-danger"></p>
 							</div>
-						</div>					
+										
 						<div class="d-grid gap-2 col-6 mx-auto my-5">
 							<button class="btn btn-primary" type="submit">Envoyer</button>
 						</div>
+						
 					</form>
 				</div>
 			</div>

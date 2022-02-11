@@ -31,13 +31,13 @@
 							<a class="nav-link active" aria-current="page" href="http://localhost:8000/#">Accueil</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="http://localhost:8000/?action=article">Article</a>
+							<a class="nav-link" href="http://localhost:8000/?action=backarticle">Article</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="http://localhost:8000/?action=comment">Commentaire</a>
+							<a class="nav-link" href="http://localhost:8000/?action=backcomment">Commentaire</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="http://localhost:8000/?action=user">Utilisateur</a>
+							<a class="nav-link" href="http://localhost:8000/?action=backuser">Utilisateur</a>
 						</li>
 					</ul>
 					<div class="text-end">
@@ -56,22 +56,8 @@
 		</nav>
 		{% for type, messages in flashes %}
 			{% for message in messages %}
-				<div class="alert alert-warning" role="alert">
-					<p class={{ type }}>
-						{{ message }}
-					</p>
-				</div>
-			{% endfor %}
-			{% for type, messages in flashes %}
-				<div class="alert alert-success" role="alert">
-					<p class={{ types }}>
-						{{ message }}
-					</p>
-				</div>
-			{% endfor %}
-			{% for type, messages in flashes %}
-				<div class="alert alert-danger" role="alert">
-					<p class={{type }}>
+				<div class="alert alert-{{ type }}" role="alert">
+					<p>
 						{{ message }}
 					</p>
 				</div>
@@ -87,24 +73,7 @@
 					<div class="footer-col col-md-1"></div>
 					<div
 						class="footer-col col-md-10">
-						<!-- Section: Social media -->
-						<section
-							class="mb-4 pt-3">
-							<!-- Linkedin -->
-							<a class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/in/bernadetta-kwa%C5%9Bniak-sib%C3%A9-b07a5954/" target="_blank" role="button">
-								<i class="bi bi-linkedin"></i>
-							</a>
-							<!-- Github -->
-							<a class="btn btn-outline-light btn-floating m-1" href="https://github.com/" target="_blank" role="button">
-								<i class="bi bi-github"></i>
-							</a>
-						</section>
-
-						<section class="mb-4">
-							<p>
-								"Parler est bon marché. Montrez-moi le code." - Linus Torvalds
-							</p>
-						</section>
+					
 					</div>
 					<div class="footer-col col-md-1">
 						<section class="mb-4 pt-3">

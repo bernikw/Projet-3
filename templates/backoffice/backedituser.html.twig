@@ -1,0 +1,55 @@
+{% extends "/backoffice/layout.html.twig" %}
+
+{% block content %}
+	<section
+		id="edituser">
+
+		<!--Header section -->
+		<div class="container">
+			<div class="row">
+				<div class="p-4 p-md-3 mb-4 text-center text-white rounded bg-primary my-3">
+					<div class="col-md-12 px-0">
+						<h1 class="display-4">Modifier Utilisateur</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<h5 class="text-center text-uppercase text-secondary mb-0 my-5">Utilisateur</h5>
+				<hr class="star-dark mb-5">
+				<div class="row">
+					<div class="col-lg-8 mx-auto">
+						<form action="http://localhost:8000/?action=backedituser&id={{user.id}}" method="POST">
+
+						<div class="mb-3 visually-hidden">
+								<input type="hidden"id="id" name="id" value="{{user.id}}" class="form-control" required="required">
+							</div>
+
+							<div class="mb-3">
+								<label class="form-label">Votre nom d'utilisateur</label>
+								<input id="name" name="username" value="{{user.username}}" type="text" class="form-control" required="required">
+							</div>
+
+							<div class="mb-3">
+								<label for="" class="form-label">Role</label>
+								<select name="role" required="required" class="form-select">
+									<option value="">---Choisir le role---</option>
+									<option value="ADMIN" {% if user.role == 'ADMIN' %} selected {% endif %}>Admin</option>
+									<option value="MEMBER" {% if user.role == 'MEMBER' %} selected {% endif %}>Member</option>
+								</select>
+							</div>
+
+
+							<div class="d-grid gap-2 col-6 mx-auto my-5">
+								<button type="subbmit" value="UPDATE" class="btn btn-primary">Editer</button>
+							</div>
+
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

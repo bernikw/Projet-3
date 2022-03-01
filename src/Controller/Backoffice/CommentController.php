@@ -8,6 +8,7 @@ use App\View\View;
 use App\Service\Http\Response;
 use App\Service\Http\Session\Session;
 use App\Model\Repository\CommentRepository;
+use App\Service\AccessControl;
 
 
 
@@ -26,8 +27,12 @@ final class CommentController
     }
 
 
-    public function displayAllComments(): Response
+    public function displayAllComments(AccessControl $accessControl): Response
     {
+        if ($accessControl->isAdmin() === false) {
+
+            return new Response('', 303, ['redirect' => 'login']);
+        }
 
         $comments = $this->commentRepository->findAll();
 
@@ -40,8 +45,14 @@ final class CommentController
         ));
     }
 
-    public function validComment($comment)
+    public function validComment($comment, AccessControl $accessControl)
     {
+
+        if ($accessControl->isAdmin() === false) {
+
+            return new Response('', 303, ['redirect' => 'login']);
+        }
+
         $comments = $this->commentRepository->update($comment);
 
         $this->session->addFlashes('success', ['Votre commentaire a été validée']);
@@ -50,8 +61,13 @@ final class CommentController
         
     }
 
-    public function deleteComment($id)
+    public function deleteComment($id, AccessControl $accessControl)
+    
     {
+        if ($accessControl->isAdmin() === false) {
+
+            return new Response('', 303, ['redirect' => 'login']);
+        }
 
         $comments = $this->commentRepository->delete($id);
 

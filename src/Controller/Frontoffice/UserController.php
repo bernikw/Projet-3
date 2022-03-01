@@ -11,6 +11,7 @@ use App\Service\Http\Session\Session;
 use App\Model\Repository\UserRepository;
 use App\Service\Validator\LoginValidator;
 use App\Service\AccessControl;
+use App\Service\Tokencsrf;
 
 
 
@@ -19,12 +20,14 @@ final class UserController
     private UserRepository $userRepository;
     private View $view;
     private Session $session;
+    private Tokencsrf $token;
 
-    public function __construct(UserRepository $userRepository, View $view, Session $session)
+    public function __construct(UserRepository $userRepository, View $view, Session $session, Tokencsrf $token)
     {
         $this->userRepository = $userRepository;
         $this->view = $view;
         $this->session = $session;
+        $this->token = $token;
     }
 
 
@@ -36,6 +39,14 @@ final class UserController
         }
 
         if ($request->getMethod() === 'POST') {
+
+
+         if(!$this->token->isValid()){
+
+                $this->session->addFlashes('error', ['Token non valid']);
+                return new Response('', 303, ['redirect' => 'login']);
+
+            }
 
             $infoUser = $request->request()->all();
             $loginValidator->isValid($infoUser);
@@ -59,7 +70,9 @@ final class UserController
                 $this->session->addFlashes('danger', $loginValidator->getErrors());
             }
         }
-        return new Response($this->view->render(['template' => 'login', 'data' => []]));
+        
+        return new Response($this->view->render(['template' => 'login', 'data' => ['token'=> $this->token->generate()]]));
+        
     }
 
 

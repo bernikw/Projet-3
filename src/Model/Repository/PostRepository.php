@@ -27,7 +27,7 @@ final class PostRepository
         return $data === false ? null : new Post((int)$data['id'], $data['title'], $data['chapo'], $data['content'], $data['date_creation'], (string)$data['date_update'], (int)$data['user_id'], $data['username']);
     }
 
-    public function findOneBy(array $criteria, array $orderBy = null): ?Post
+    public function findOneBy(array $criteria): ?Post
     {
         $statement = $this->database->getConnection()->prepare('SELECT article.*,user.username 
         FROM article INNER JOIN user ON user.id = article.user_id WHERE article.id = :id');
@@ -81,14 +81,14 @@ final class PostRepository
 
     public function update(object $post): bool
     {
-        $statement = $this->database->getConnection()->prepare('UPDATE article SET title = :title, chapo = :chapo, content = :content,  date_update = NOW()  WHERE id = :id');
+        $statement = $this->database->getConnection()->prepare('UPDATE article SET title = :title, chapo = :chapo, content = :content,  date_update = NOW() username = :username WHERE id = :id');
 
         $statement->execute([ 
             ':id' => $post->getId(),
             ':title' => $post->getTitle(),
             ':chapo' => $post->getChapo(),
-            ':content' => $post->getContent()
-            //':username' => $post->getUsername()
+            ':content' => $post->getContent(),
+            ':username' => $post->getUsername()
  ]);
 
         return true;

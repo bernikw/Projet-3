@@ -82,7 +82,7 @@ final class Comment
         return $this->articleId;
     }
 
-    public function setArticleId(string $articleId): self
+    public function setArticleId(int $articleId): self
     {
        $this->articleId = $articleId;
        return $this;

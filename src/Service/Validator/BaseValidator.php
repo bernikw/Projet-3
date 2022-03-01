@@ -25,17 +25,8 @@ abstract class BaseValidator
         if (!isset($name) && $this->isEmpty($name)) {
 
             return false;
+
         } elseif (!preg_match('/^[a-zA-Z0-9UûÙùàÀèÈéÉïÏîÎôÔêÊçÇ .\-]{3,12}+$/i', $name)) {
-
-            return false;
-        }
-
-        return true;
-    }
-
-    protected function isValidField(string $name): bool
-    {
-        if (!isset($name) && $this->isEmpty($name)) {
 
             return false;
         }

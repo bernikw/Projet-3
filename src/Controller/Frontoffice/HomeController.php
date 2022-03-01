@@ -10,17 +10,20 @@ use App\Service\Http\Response;
 use App\Service\Validator\ContactValidator;
 use App\Service\Http\Session\Session;
 use App\Service\Mailer;
+use App\Service\Tokencsrf;
 
 
 final class HomeController
 {
     private View $view;
     private Session $session;
+    private Tokencsrf $token;
 
-    public function __construct(View $view, Session $session)
+    public function __construct(View $view, Session $session, Tokencsrf $token)
     {
         $this->view = $view;
         $this->session = $session;
+        $this->token = $token;
     }
 
 
@@ -29,6 +32,13 @@ final class HomeController
         $datasForm = [];
 
         if ($request->getMethod() === 'POST') {
+
+              /*  if(!$this->token->isValid()){
+
+                $this->session->addFlashes('error', ['Accees non autorisée']);
+                return new Response('', 303, ['redirect' => 'login']);
+
+            }*/
 
             $datasForm = $request->request()->all();
 
@@ -59,5 +69,6 @@ final class HomeController
             'template' => 'home',
             'data' => ['datasin' => $datasForm],
         ]));
+         //, 'data' => ['token'=> $this->token->generate()]
     }
 }

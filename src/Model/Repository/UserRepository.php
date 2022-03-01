@@ -66,7 +66,7 @@ final class UserRepository
         return $data === false ? null : new User((int) $data['id'], $data['username'], $data['email'], $data['password'], $data['role']);
     }
 
-    public function findOneBy(array $criteria, array $orderBy = null): ?User
+    public function findOneBy(array $criteria): ?User
     {
 
         $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE user.id = :id');
@@ -81,7 +81,37 @@ final class UserRepository
 
     public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): ?array
     {
-        return null;
+
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE role = :role AND role = ADMIN');
+
+        $statement->execute($criteria);
+        $data = $statement->fetchAll();
+
+        if ($data === null) {
+            return null;
+        }
+
+
+        $users = [];
+        foreach ($data as $user) {
+            $users[] = new User((int) $user['id'], $user['username'], $user['email'], $user['password'], (string)$user['role']);
+        }
+
+        return $users;
+
+
+    }
+
+    public function findByAdmin(string $role): ?User
+    {
+
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE role = :role AND role = ADMIN');
+
+        $statement->execute(['role' => $role]);
+        $data = $statement->fetch();
+
+        return $data === false ? null : new User((int) $data['id'], $data['username'], $data['email'], $data['password'], $data['role']);
+
     }
 
     public function findAll(): ?array
@@ -104,6 +134,7 @@ final class UserRepository
         return $users;
     }
 
+
     public function create(object $user): bool
 
     {
@@ -118,6 +149,20 @@ final class UserRepository
         ]);        
 
        return true;
+    }
+
+    public function updateAuthor(object $user): bool
+    {
+
+        $statement = $this->database->getConnection()->prepare('UPDATE user SET username = :username WHERE user.id = :id');
+
+        $statement->execute([
+            ':id' => $user->getId(),  
+            ':username' => $user->getUsername()
+        ]);
+
+        return true;
+
     }
 
     public function update(object $user): bool

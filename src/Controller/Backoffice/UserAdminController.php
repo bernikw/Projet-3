@@ -9,7 +9,8 @@ use App\Service\Http\Response;
 use App\Service\Http\Session\Session;
 use App\Model\Repository\UserRepository;
 use App\Service\Http\Request;
-
+use App\Service\AccessControl;
+use App\Service\Tokencsrf;
 
 
 final class UserAdminController
@@ -17,7 +18,7 @@ final class UserAdminController
     private View $view;
     private Session $session;
     private UserRepository $userRepository;
-
+    
 
     public function __construct(View $view, UserRepository $userRepository, Session $session)
     {
@@ -26,8 +27,13 @@ final class UserAdminController
         $this->session = $session;
     }
 
-    public function displayAllUsers(): Response
+    public function displayAllUsers(AccessControl $accessControl): Response
     {
+
+        if ($accessControl->isAdmin() === false) {
+
+            return new Response('', 303, ['redirect' => 'login']);
+        }
 
         $users = $this->userRepository->findAll();
 
@@ -38,12 +44,23 @@ final class UserAdminController
     }
 
 
-    public function displayEditUser(Request $request): Response
+    public function displayEditUser(Request $request, AccessControl $accessControl, Tokencsrf $token): Response
     {
+        if ($accessControl->isAdmin() === false) {
+
+            return new Response('', 303, ['redirect' => 'login']);
+        }
 
         $user = $this->userRepository->find((int)$request->query()->get('id'));
 
         if($request->getMethod() === 'POST'){
+
+           if(!$token->isValid()){
+
+                $this->session->addFlashes('error', ['Token non valid']);
+                return new Response('', 303, ['redirect' => 'login']);
+
+            }
 
             $data = $request->request()->all();
 
@@ -69,8 +86,13 @@ final class UserAdminController
     }
 
 
-    public function deleteUser($id)
+    public function deleteUser($id, AccessControl $accessControl)
     {
+
+        if ($accessControl->isAdmin() === false) {
+
+            return new Response('', 303, ['redirect' => 'login']);
+        }
         $user = $this->userRepository->delete($id);
 
         $this->session->addFlashes('success', ['Votre utilisateur a été supprimée']);

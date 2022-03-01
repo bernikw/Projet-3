@@ -12,26 +12,27 @@ use App\Model\Entity\Post;
 use App\Service\Http\Request;
 use App\Service\Validator\PostValidator;
 use App\Service\AccessControl;
+use App\Model\Repository\UserRepository;
+use App\Service\Tokencsrf;
 
 final class ArticleController
 {
     private View $view;
     private Session $session;
-    private PostRepository $postRepository;
-    private AccessControl $accessControl;
+    private PostRepository $postRepository;  
+    
 
-
-    public function __construct(View $view, PostRepository $postRepository, Session $session, AccessControl $accessControl)
+    public function __construct(View $view, PostRepository $postRepository, Session $session)
     {
         $this->view = $view;
         $this->postRepository = $postRepository;
-        $this->session = $session;
-        $this->accessControl = $accessControl;
+        $this->session = $session;  
+         
     }
 
-    public function displayAllPosts(): Response
+    public function displayAllPosts(AccessControl $accessControl): Response
     {
-        if ($this->accessControl->isAdmin() === false) {
+        if ($accessControl->isAdmin() === false) {
 
             return new Response('', 303, ['redirect' => 'login']);
         }
@@ -44,11 +45,23 @@ final class ArticleController
     }
 
 
-    public function displayAddPostAction(Request $request, PostValidator $postValidator): Response
+    public function displayAddPostAction(Request $request, PostValidator $postValidator, AccessControl $accessControl, Tokencsrf $token): Response
     {
+
+        if ($accessControl->isAdmin() === false) {
+
+            return new Response('', 303, ['redirect' => 'login']);
+        }
         $datas = [];
 
         if ($request->getMethod() === 'POST') {
+
+            if(!$token->isValid()){
+
+                $this->session->addFlashes('error', ['Token non valid']);
+                return new Response('', 303, ['redirect' => 'login']);
+
+            }
 
             $datas = $request->request()->all();
 
@@ -79,13 +92,28 @@ final class ArticleController
 
 
 
-    public function displayEditPostAction(Request $request, PostValidator $postValidator): Response
+    public function displayEditPostAction(Request $request, PostValidator $postValidator, UserRepository $userRepository, AccessControl $accessControl, Tokencsrf $token): Response
     {
+        if ($accessControl->isAdmin() === false) {
 
-       $post = $this->postRepository->find((int)$request->query()->get('id'));
-     
+            return new Response('', 303, ['redirect' => 'login']);
+        }
+
+        $post = $this->postRepository->find((int)$request->query()->get('id'));
+    
+       
+        $users = $userRepository->findAll();
+
+        $userRepository->find((int)$request->query()->get('id'));
      
         if ($request->getMethod() === 'POST') {
+
+           if(!$token->isValid()){
+
+                $this->session->addFlashes('error', ['Token non valid']);
+                return new Response('', 303, ['redirect' => 'login']);
+
+            }
 
             $datas = $request->request()->all();
 
@@ -94,8 +122,10 @@ final class ArticleController
                 $post->setTitle($datas['title']);
                 $post->setChapo($datas['chapo']);
                 $post->setContent($datas['content']);
-                //$post->setUsername($datas['username']);
-                          
+
+                
+                //$user->setUsername($datas['username']);
+                //$userRepository->updateAuthor($user);          
                 $this->postRepository->update($post);
 
                 $this->session->addFlashes('success', ['Votre post a été modifiée']);
@@ -112,13 +142,18 @@ final class ArticleController
         }
         return new Response($this->view->render([
             'template' => 'backeditarticle',
-            'data' => ['post' => $post],
+            'data' => ['post' => $post, 'users' => $users],
         ], 'backoffice'));
     }
 
 
-    public function deletePost($id)
+    public function deletePost($id, AccessControl $accessControl)
     {
+
+        if ($accessControl->isAdmin() === false) {
+
+            return new Response('', 303, ['redirect' => 'login']);
+        }
 
         $posts = $this->postRepository->delete($id);
 

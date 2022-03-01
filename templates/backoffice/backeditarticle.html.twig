@@ -23,12 +23,14 @@
 				<div class="col-lg-8 mx-auto">
 					<form action="http://localhost:8000/?action=backeditarticle&id={{post.id}}" method="POST">
 
+					<input type="hidden" value="{{ session.token }}" id="token" name="token">
+
 						<div class="control-group">
-
+	
 							<input type="hidden" value="{{ post.id}}" id="id" name="id" class="form-control">
-
+							<input type="hidden" value="{{ user.id == post.userId}}" id="id" name="id" class="form-control">
 							<div class="form-group floating-label-form-group controls mb-0 pb-2">
-								<label>Author</label>
+								<label>Auteur</label>
 
 								<input value="{{ post.username }}" class="form-control" type="text" id="author" name="author" required>
 								<p class="help-block text-danger"></p>
@@ -36,12 +38,18 @@
 
 							<div class="mb-3">
 								<label for="" class="form-label">Auteur</label>
-								<select name="role" required="required" class="form-select">
-									<option value="">---Choisir auteur---</option>
-									<option value="{{ post.username }}">{{ post.username }}</option>
-									<option value="{{ user.username }}">{{ user.username }}</option>
+								<select id="author" name="author" required="required" class="form-select">
+									{% for user in users %}
+										{% if post.userId == user.id %}
+											<option value="{{ user.id }}" name="user_id" selected>{{ user.username }}</option>
+										{% else %}
+											<option value="{{ user.id }}" name="user_id">{{ user.username }}</option>
+										{% endif %}
+									{% endfor %}
+
 								</select>
 							</div>
+
 
 							<div class="control-group">
 								<div class="form-group floating-label-form-group controls mb-0 pb-2">

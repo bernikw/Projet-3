@@ -13,6 +13,7 @@ use App\Service\Http\Session\Session;
 use App\Model\Entity\User;
 use App\Service\Validator\RegisterValidator;
 use App\Service\AccessControl;
+use App\Service\Tokencsrf;
 
 
 final class RegistrationController
@@ -20,12 +21,14 @@ final class RegistrationController
     private View $view;
     private Session $session;
     private UserRepository $userRepository;
+    private Tokencsrf $token;
 
-    public function __construct(View $view, Session $session, UserRepository $userRepository)
+    public function __construct(View $view, Session $session, UserRepository $userRepository, Tokencsrf $token)
     {
         $this->view = $view;
         $this->session = $session;
         $this->userRepository = $userRepository;
+        $this->token = $token;
     }
 
     public function displayRegistrationAction(Request $request, Mailer $mailer, RegisterValidator $registerValidator, AccessControl $accessControl): Response
@@ -38,6 +41,14 @@ final class RegistrationController
         $datas = [];
 
         if ($request->getMethod() === 'POST') {
+
+
+            if(!$this->token->isValid()){
+
+                $this->session->addFlashes('error', ['Token non valid']);
+                return new Response('', 303, ['redirect' => 'login']);
+
+            }
 
             $datas = $request->request()->all();
 
@@ -72,7 +83,8 @@ final class RegistrationController
 
         return new Response($this->view->render([
             'template' => 'registration',
-            'data' => ['datassaisi' => $datas],
+            'data' => ['token'=> $this->token->generate()]
         ]));
     }
 }
+//'data' => ['datassaisi' => $datas, 'datassaisi' => ['token'=> $this->token->generate()]],

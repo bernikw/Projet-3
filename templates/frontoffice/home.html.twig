@@ -6,7 +6,7 @@
 	<div class="container">
 		<div class="p-4 p-md-5 mb-4 text-center text-white rounded bg-secondary my-5">
 			<div class="col-md-12 px-0">
-				<h1 class="display-4">Bernadetta Sibe</h1>
+				<h1 class="display-4">Bernadetta Sibé</h1>
 				<p class="lead my-3">Développeuse PHP qui prends soin de détails.</p>
 			</div>
 		</div>
@@ -22,7 +22,7 @@
 				<h3>BS</h3>
 				<p>J'ai découvert un monde de développement web il y a cinq ans. J'ai commencé à coder et très vite ça devenue ma passion. Issue de milieu d'enseignement j'ai eu l'envie d'en faire mon métier! Je me suis formé chez G2R formation et maintenant chez Openclassrooms.</p>
 				<div class="text-center my-4">
-					<a class="btn btn-xl btn-outline-light" href="pdf/cvsibe.pdf">
+					<a class="btn btn-xl btn-outline-light" href="pdf/cvbernadetta.pdf">
 						<i class="fas fa-download mr-2"></i>
 						Mon CV
 					</a>
@@ -39,7 +39,7 @@
 		</div>
 		<div class="col-md-6">
 			<div class="h-100 bg-light border rounded-3">
-				<img src="images/bprojet.jpg" class="img-fluid img-thumbnail" alt="...">
+				<img src="images/cvphoto.jpg" class="img-fluid img-thumbnail" alt="...">
 			</div>
 		</div>
 	</div>
@@ -54,6 +54,8 @@
 			<div class="row">
 				<div class="col-lg-8 mx-auto">
 					<form method="POST">
+
+					<input type="hidden" value="{{ session.token }}" id="token" name="token">
 
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">Votre prénom</label>

@@ -8,7 +8,7 @@ use App\Model\Repository\UserRepository;
 
 class RegisterValidator extends BaseValidator
 {
-   private array $datas = [];
+   
    private UserRepository $userRepository;
 
    public function __construct(UserRepository $userRepository)

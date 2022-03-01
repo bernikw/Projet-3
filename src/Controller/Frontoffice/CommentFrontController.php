@@ -11,6 +11,7 @@ use App\Model\Repository\CommentRepository;
 use App\Service\Http\Request;
 use App\Service\Validator\CommentValidator;
 use App\Service\Http\Session\Session;
+use App\Service\Tokencsrf;
 
 
 
@@ -19,12 +20,14 @@ final class CommentFrontController
     private CommentRepository $commentRepository;
     private View $view;
     private Session $session;
+    private Tokencsrf $token;
 
-    public function __construct(CommentRepository $commentRepository, View $view, Session $session)
+    public function __construct(CommentRepository $commentRepository, View $view, Session $session, Tokencsrf $token)
     {
         $this->commentRepository = $commentRepository;
         $this->view = $view;
         $this->session = $session;
+        $this->token = $token;
     }
 
     public function displayAddComment(Request $request, CommentValidator $commentValidator): Response
@@ -32,15 +35,23 @@ final class CommentFrontController
         $datas = [];
 
         if ($request->getMethod() === 'POST') {
+
+
+           /* if(!$this->token->isValid()){
+
+                $this->session->addFlashes('error', ['Accees non autorisée']);
+                return new Response('', 303, ['redirect' => 'login']);
+
+            }*/
+
             $datas = $request->request()->all();
 
             if ($commentValidator->isValid($datas)) 
             {
 
                 $user = $this->session->get('user');
-               
 
-                $comment = new Comment(0, $user->getUsername(), $datas['text_comment'], (string)NULL, 0, 0, $user->getId());
+                $comment = new Comment(0, $user->getUsername(), $datas['text_comment'], (string)NULL, 0, $datas['article_id'], $user->getId());
 
             
                 $this->commentRepository->create($comment);
@@ -51,8 +62,7 @@ final class CommentFrontController
             } else {
 
                 $this->session->addFlashes('',
-                    $commentValidator->getErrors()
-                );
+                    $commentValidator->getErrors());
             }
         }
 
@@ -60,9 +70,7 @@ final class CommentFrontController
             [
                 'template' => 'post',
                 'data' => [
-                    'datassaisi.text' => $datas,
-                ],
-            ],
-        ));
+                    'datassaisi.text' => $datas]]));
+         //, 'data' => ['token'=> $this->token->generate()]            
     }
 }

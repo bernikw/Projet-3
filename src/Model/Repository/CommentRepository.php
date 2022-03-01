@@ -44,7 +44,7 @@ final class CommentRepository
 
         $comments = [];
         foreach ($data as $comment) {
-            $comments[] = new Comment((int)$comment['id'], (string) $comment['username'], (string) $comment['text_comment'], (string) $comment['date_comment'], (int)$comment['valid'], (int)$comment['article_id'], $comment['user_profile_id']);
+            $comments[] = new Comment((int)$comment['id'], (string) $comment['username'], (string) $comment['text_comment'], (string) $comment['date_comment'], (int)$comment['valid'], (int)$comment['article_id'],(int)$comment['user_profile_id']);
         }
 
         return $comments;
@@ -73,15 +73,15 @@ final class CommentRepository
     {
         $statement = $this->database->getConnection()->prepare('INSERT INTO comment (text_comment, date_comment, valid, article_id, user_profile_id ) VALUES (:text_comment, NOW(), :valid, :article_id, :user_profile_id)');
    
+        
       
        $statement->execute([
         ':text_comment' => $comment->getTextComment(),
         ':valid' => 0,
-        ':article_id' => 4,//$comment->getArticleId(),
+        ':article_id' => $comment->getArticleId(),
         ':user_profile_id' => $comment->getUserProfileId()
     ]); 
 
-      
 
         return true;
     }

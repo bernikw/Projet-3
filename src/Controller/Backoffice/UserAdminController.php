@@ -81,10 +81,10 @@ final class UserAdminController
 
         return new Response($this->view->render([
             'template' => 'backedituser',
-            'data' => ['user' => $user],
+            'data' => ['user' => $user, 'token'=> $this->token->generate()],
         ], 'backoffice'));
     }
-
+    
 
     public function deleteUser($id, AccessControl $accessControl)
     {

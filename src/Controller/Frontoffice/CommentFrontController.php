@@ -37,40 +37,37 @@ final class CommentFrontController
         if ($request->getMethod() === 'POST') {
 
 
-           /* if(!$this->token->isValid()){
+           /* if (!$this->token->isValid()) {
 
-                $this->session->addFlashes('error', ['Accees non autorisée']);
+                $this->session->addFlashes('error', ['Token non valid']);
                 return new Response('', 303, ['redirect' => 'login']);
-
             }*/
 
             $datas = $request->request()->all();
 
-            if ($commentValidator->isValid($datas)) 
-            {
+            if ($commentValidator->isValid($datas)) {
 
                 $user = $this->session->get('user');
 
-                $comment = new Comment(0, $user->getUsername(), $datas['text_comment'], (string)NULL, 0, $datas['article_id'], $user->getId());
+                $comment = new Comment(0, $user->getUsername(), $datas['text_comment'], (string)NULL, 0, (int)$datas['id'], $user->getId());
 
-            
                 $this->commentRepository->create($comment);
 
                 $this->session->addFlashes('success', ['Votre message a été posté']);
                 return new Response('', 303, ['redirect' => 'post']);
-                
-            } else {
-
-                $this->session->addFlashes('',
-                    $commentValidator->getErrors());
             }
+
+            $this->session->addFlashes(
+                '',
+                $commentValidator->getErrors()
+            );
         }
 
         return new Response($this->view->render(
             [
                 'template' => 'post',
-                'data' => [
-                    'datassaisi.text' => $datas]]));
-         //, 'data' => ['token'=> $this->token->generate()]            
+                'data' => ['datassaisi.text' => $datas]
+            ]
+        ));
     }
-}
+}//, 'token' => $this->token->generate()

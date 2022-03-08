@@ -83,8 +83,7 @@ final class RegistrationController
 
         return new Response($this->view->render([
             'template' => 'registration',
-            'data' => ['token'=> $this->token->generate()]
+            'data' => ['datassaisi' => $datas, 'token'=> $this->token->generate()]
         ]));
     }
 }
-//'data' => ['datassaisi' => $datas, 'datassaisi' => ['token'=> $this->token->generate()]],

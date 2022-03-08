@@ -79,12 +79,12 @@ final class UserRepository
         return $data === false ? null : new User((int) $data['id'], $data['username'], $data['email'], $data['password'], $data['role']);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): ?array
+    public function findByAdmin(): ?array
     {
 
-        $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE role = :role AND role = ADMIN');
+        $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE role=\'ADMIN\'');
 
-        $statement->execute($criteria);
+        $statement->execute();
         $data = $statement->fetchAll();
 
         if ($data === null) {
@@ -99,18 +99,6 @@ final class UserRepository
 
         return $users;
 
-
-    }
-
-    public function findByAdmin(string $role): ?User
-    {
-
-        $statement = $this->database->getConnection()->prepare('SELECT * FROM user WHERE role = :role AND role = ADMIN');
-
-        $statement->execute(['role' => $role]);
-        $data = $statement->fetch();
-
-        return $data === false ? null : new User((int) $data['id'], $data['username'], $data['email'], $data['password'], $data['role']);
 
     }
 

@@ -81,14 +81,14 @@ final class PostRepository
 
     public function update(object $post): bool
     {
-        $statement = $this->database->getConnection()->prepare('UPDATE article SET title = :title, chapo = :chapo, content = :content,  date_update = NOW() username = :username WHERE id = :id');
+        $statement = $this->database->getConnection()->prepare('UPDATE article SET title = :title, chapo = :chapo, content = :content,  date_update = NOW(), user_id = :user_id WHERE id = :id');
 
         $statement->execute([ 
             ':id' => $post->getId(),
             ':title' => $post->getTitle(),
             ':chapo' => $post->getChapo(),
             ':content' => $post->getContent(),
-            ':username' => $post->getUsername()
+            ':user_id' => $post->getUserId()
  ]);
 
         return true;

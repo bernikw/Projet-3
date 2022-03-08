@@ -56,7 +56,7 @@ final class ArticleController
 
         if ($request->getMethod() === 'POST') {
 
-            if(!$token->isValid()){
+          if(!$token->isValid()){
 
                 $this->session->addFlashes('error', ['Token non valid']);
                 return new Response('', 303, ['redirect' => 'login']);
@@ -75,21 +75,20 @@ final class ArticleController
 
                 $this->session->addFlashes('success', ['Votre post a été enregistré']);
                 return new Response('', 303, ['redirect' => 'backarticle']);
-            } else {
+            } 
 
                 $this->session->addFlashes(
                     'error',
                     $postValidator->getErrors()
                 );
-            }
+            
         }
 
         return new Response($this->view->render([
             'template' => 'backaddarticle',
-            'data' => ['datassaisi' => $datas],
+            'data' => ['datassaisi' => $datas, 'token'=> $this->token->generate()],
         ], 'backoffice'));
     }
-
 
 
     public function displayEditPostAction(Request $request, PostValidator $postValidator, UserRepository $userRepository, AccessControl $accessControl, Tokencsrf $token): Response
@@ -102,9 +101,8 @@ final class ArticleController
         $post = $this->postRepository->find((int)$request->query()->get('id'));
     
        
-        $users = $userRepository->findAll();
+        $users = $userRepository->findByAdmin();
 
-        $userRepository->find((int)$request->query()->get('id'));
      
         if ($request->getMethod() === 'POST') {
 
@@ -118,34 +116,34 @@ final class ArticleController
             $datas = $request->request()->all();
 
             if ($postValidator->isValid($datas)) {
+
           
                 $post->setTitle($datas['title']);
                 $post->setChapo($datas['chapo']);
                 $post->setContent($datas['content']);
-
-                
-                //$user->setUsername($datas['username']);
-                //$userRepository->updateAuthor($user);          
+                $post->setUserId((int)$datas['author']);
+           
+                     
                 $this->postRepository->update($post);
 
                 $this->session->addFlashes('success', ['Votre post a été modifiée']);
 
                 return new Response('', 303, ['redirect' => 'backarticle']);
 
-            } else {
+            } 
 
                 $this->session->addFlashes(
                     'error',
                     $postValidator->getErrors()
                 );
-            }
+            
         }
         return new Response($this->view->render([
             'template' => 'backeditarticle',
-            'data' => ['post' => $post, 'users' => $users],
+            'data' => ['post' => $post, 'users' => $users, 'token'=> $this->token->generate()],
         ], 'backoffice'));
     }
-
+   // , 'token'=> $this->token->generate()
 
     public function deletePost($id, AccessControl $accessControl)
     {

@@ -65,10 +65,10 @@ final class UserController
 
                 return new Response('', 303, ['redirect' => 'home']);
               
-            } else {
+            } 
 
                 $this->session->addFlashes('danger', $loginValidator->getErrors());
-            }
+           
         }
         
         return new Response($this->view->render(['template' => 'login', 'data' => ['token'=> $this->token->generate()]]));

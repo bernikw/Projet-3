@@ -33,12 +33,12 @@ final class HomeController
 
         if ($request->getMethod() === 'POST') {
 
-              /*  if(!$this->token->isValid()){
+              if(!$this->token->isValid()){
 
-                $this->session->addFlashes('error', ['Accees non autorisée']);
+                $this->session->addFlashes('error', ['Token non valid']);
                 return new Response('', 303, ['redirect' => 'login']);
 
-            }*/
+            }
 
             $datasForm = $request->request()->all();
 
@@ -59,16 +59,16 @@ final class HomeController
                 );
 
                 return new Response('', 303, ['redirect' => 'home']);
-            } else {
+            } 
 
                 $this->session->addFlashes('', $contactValidator->getErrors());
-            }
+            
         }
 
         return new Response($this->view->render([
             'template' => 'home',
-            'data' => ['datasin' => $datasForm],
+            'data' => ['datasin' => $datasForm, 'token'=> $this->token->generate()],
         ]));
-         //, 'data' => ['token'=> $this->token->generate()]
+        
     }
 }

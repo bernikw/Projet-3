@@ -81,7 +81,7 @@ final class UserAdminController
 
         return new Response($this->view->render([
             'template' => 'backedituser',
-            'data' => ['user' => $user, 'token'=> $this->token->generate()],
+            'data' => ['user' => $user, 'token'=> $token->generate()],
         ], 'backoffice'));
     }
     

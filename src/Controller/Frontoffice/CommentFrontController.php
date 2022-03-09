@@ -37,11 +37,11 @@ final class CommentFrontController
         if ($request->getMethod() === 'POST') {
 
 
-           /* if (!$this->token->isValid()) {
+          if (!$this->token->isValid()) {
 
                 $this->session->addFlashes('error', ['Token non valid']);
                 return new Response('', 303, ['redirect' => 'login']);
-            }*/
+            }
 
             $datas = $request->request()->all();
 
@@ -66,8 +66,8 @@ final class CommentFrontController
         return new Response($this->view->render(
             [
                 'template' => 'post',
-                'data' => ['datassaisi.text' => $datas]
+                'data' => ['datassaisi' => $datas, 'token'=> $this->token->generate()]
             ]
         ));
     }
-}//, 'token' => $this->token->generate()
+} 

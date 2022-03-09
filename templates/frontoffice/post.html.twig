@@ -61,12 +61,18 @@
 							{% if session.user is defined %}
 								<h1>{{ session.user.role }}</h1>
 								<form action="/?action=addcomment&id={{ post.id }}" method="POST">
+
+								<input type="hidden" value="{{ token }}" id="token" name="token">
+
 									<div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
 										<div class="d-flex flex-start w-100">
 											<div class="form-outline w-100">
-												<label class="form-label">Ajouter un commentaire</label>
-												<input type="hidden"id="id" name="id" value="{{post.id}}" class="form-control" required="required">
-												<textarea class="form-control" id="text_comment" name="text_comment" value="{{ datassaisi.textComment }}" rows="4" col="6" style="background: #fff;"></textarea>
+											
+											<label class="form-label">Ajouter un commentaire</label>
+
+											<input type="hidden" value="{{post.id}}" class="form-control" required="required" id="id" name="id">
+
+											<textarea class="form-control" id="text_comment" name="text_comment" value="{{ datassaisi.textComment }}" rows="4" col="6" style="background: #fff;"></textarea>
 											</div>
 										</div>
 										<div class="float-end mt-2 pt-1">

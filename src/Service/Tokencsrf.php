@@ -24,8 +24,6 @@ final class Tokencsrf
     public function generate(): string
     {
         $token =  bin2hex(random_bytes(32));
-        
-        //'25';//dynamique
 
         $this->session->set('token', $token);
 
@@ -35,6 +33,7 @@ final class Tokencsrf
     public function isValid(): bool
     {
         $datas = $this->request->request()->all();
+      
         if($this->session->get('token') !== $datas['token'])
         {
             return false;

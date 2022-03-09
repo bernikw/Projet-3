@@ -86,7 +86,7 @@ final class ArticleController
 
         return new Response($this->view->render([
             'template' => 'backaddarticle',
-            'data' => ['datassaisi' => $datas, 'token'=> $this->token->generate()],
+            'data' => ['datassaisi' => $datas, 'token'=> $token->generate()],
         ], 'backoffice'));
     }
 
@@ -140,10 +140,10 @@ final class ArticleController
         }
         return new Response($this->view->render([
             'template' => 'backeditarticle',
-            'data' => ['post' => $post, 'users' => $users, 'token'=> $this->token->generate()],
+            'data' => ['post' => $post, 'users' => $users, 'token'=> $token->generate()],
         ], 'backoffice'));
     }
-   // , 'token'=> $this->token->generate()
+   
 
     public function deletePost($id, AccessControl $accessControl)
     {

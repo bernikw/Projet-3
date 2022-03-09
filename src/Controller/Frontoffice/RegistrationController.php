@@ -74,10 +74,10 @@ final class RegistrationController
 
                 $this->session->addFlashes('success', ['Votre compte a été crée']);
                 return new Response('', 303, ['redirect' => 'login']);
-            } else {
+            }
 
                 $this->session->addFlashes('danger', $registerValidator->getErrors());
-            }
+            
         }
 
 

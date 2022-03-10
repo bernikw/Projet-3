@@ -20,24 +20,21 @@ final class CommentFrontController
     private CommentRepository $commentRepository;
     private View $view;
     private Session $session;
-    private Tokencsrf $token;
-
-    public function __construct(CommentRepository $commentRepository, View $view, Session $session, Tokencsrf $token)
+  
+    public function __construct(CommentRepository $commentRepository, View $view, Session $session)
     {
         $this->commentRepository = $commentRepository;
         $this->view = $view;
-        $this->session = $session;
-        $this->token = $token;
+        $this->session = $session;     
     }
 
-    public function displayAddComment(Request $request, CommentValidator $commentValidator): Response
+    public function displayAddComment(Request $request, CommentValidator $commentValidator, Tokencsrf $token): Response
     {
         $datas = [];
 
         if ($request->getMethod() === 'POST') {
 
-
-          if (!$this->token->isValid()) {
+            if (!$token->isValid()) {
 
                 $this->session->addFlashes('error', ['Token non valid']);
                 return new Response('', 303, ['redirect' => 'login']);
@@ -57,17 +54,15 @@ final class CommentFrontController
                 return new Response('', 303, ['redirect' => 'post']);
             }
 
-            $this->session->addFlashes(
-                '',
-                $commentValidator->getErrors()
-            );
+            $this->session->addFlashes('danger',
+                $commentValidator->getErrors());
         }
 
         return new Response($this->view->render(
             [
                 'template' => 'post',
-                'data' => ['datassaisi' => $datas, 'token'=> $this->token->generate()]
+                'data' => ['datassaisi' => $datas, 'token' => $token->generate()]
             ]
         ));
     }
-} 
+}

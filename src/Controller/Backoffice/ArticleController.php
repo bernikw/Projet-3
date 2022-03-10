@@ -77,11 +77,8 @@ final class ArticleController
                 return new Response('', 303, ['redirect' => 'backarticle']);
             } 
 
-                $this->session->addFlashes(
-                    'error',
-                    $postValidator->getErrors()
-                );
-            
+                $this->session->addFlashes('error',
+                    $postValidator->getErrors());         
         }
 
         return new Response($this->view->render([

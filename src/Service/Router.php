@@ -177,10 +177,10 @@ final class Router
         } elseif ($action === 'addcomment' && $this->request->query()->has('id')) {
 
             $commentRepo = new CommentRepository($this->database);
-            $controller = new CommentFrontController($commentRepo, $this->view, $this->session, $this->token);
+            $controller = new CommentFrontController($commentRepo, $this->view, $this->session);
             $commentValid = new CommentValidator($commentRepo); 
 
-            return $controller->displayAddComment($this->request, $commentValid,(int) $this->request->query()->get('id'));
+            return $controller->displayAddComment($this->request, $commentValid, $this->token);
    
 
              // *** @Route http://localhost:8000/?action=deletecomment ***

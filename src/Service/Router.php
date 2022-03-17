@@ -13,7 +13,6 @@ use App\Controller\Backoffice\AdminController;
 use App\Controller\Backoffice\AddpostController;
 use App\Controller\Backoffice\CommentController;
 use App\Controller\Backoffice\ArticleController;
-use App\Controller\Backoffice\EditpostController;
 use App\Controller\Backoffice\UserAdminController;
 use App\Model\Repository\PostRepository;
 use App\Model\Repository\CommentRepository;
@@ -35,7 +34,6 @@ use App\Service\Tokencsrf;
 final class Router
 {
 
-
     private Database $database;
     private View $view;
     private Request $request;
@@ -48,8 +46,7 @@ final class Router
 
     public function __construct(Request $request)
     {
-        // dépendance
-
+        
         $this->database = new Database('localhost', 'myblog','root','');
         $this->session = new Session();
         $this->view = new View($this->session);
@@ -72,11 +69,11 @@ final class Router
 
         $action = $this->request->query()->has('action') ? $this->request->query()->get('action') : 'home';
 
-        //Déterminer sur quelle route nous sommes // Attention algorithme naïf
+        
 
         // *** @Route http://localhost:8000/?action=posts ***
         if ($action === 'posts') {
-            //injection des dépendances et instanciation du controller
+           
             $postRepo = new PostRepository($this->database);
             $controller = new PostController($postRepo, $this->view);
 
@@ -84,12 +81,13 @@ final class Router
 
             // *** @Route http://localhost:8000/?action=post&id=5 ***
         } elseif ($action === 'post' && $this->request->query()->has('id')) {
-            //injection des dépendances et instanciation du controller
+           
             $postRepo = new PostRepository($this->database);
             $controller = new PostController($postRepo, $this->view);
             $commentRepo = new CommentRepository($this->database);
+            $commentValid = new CommentValidator($commentRepo);
 
-            return $controller->displayOneAction((int) $this->request->query()->get('id'), $commentRepo);
+            return $controller->displayOneAction((int) $this->request->query()->get('id'), $commentRepo,$this->request, $this->token, $commentValid, $this->session);
 
             // *** @Route http://localhost:8000/?action=login ***
         } elseif ($action === 'login') {
@@ -172,17 +170,7 @@ final class Router
 
             return $controller->displayAllComments($this->accessControl, $this->request);
 
-         
-            // *** @Route http://localhost:8000/?action=addcomment ***
-        } elseif ($action === 'addcomment' && $this->request->query()->has('id')) {
-
-            $commentRepo = new CommentRepository($this->database);
-            $controller = new CommentFrontController($commentRepo, $this->view, $this->session);
-            $commentValid = new CommentValidator($commentRepo); 
-
-            return $controller->displayAddComment($this->request, $commentValid, $this->token);
    
-
              // *** @Route http://localhost:8000/?action=deletecomment ***
         } elseif ($action === 'deletecomment' && $this->request->query()->has('id')) {
 

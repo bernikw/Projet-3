@@ -60,9 +60,11 @@
 
 							{% if session.user is defined %}
 								<h1>{{ session.user.role }}</h1>
-								<form action="/?action=addcomment&id={{ post.id }}" method="POST">
+								<form method="POST">
 
+								
 								<input type="hidden" value="{{ token }}" id="token" name="token">
+								
 
 									<div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
 										<div class="d-flex flex-start w-100">

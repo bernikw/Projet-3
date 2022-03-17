@@ -14,11 +14,13 @@ class CommentValidator extends BaseValidator
 
         $result = true; 
 
+       
         if(!$this->isValidInput($datas['text_comment'])) {
 
-        $this->errors['text_comment'] = 'Ce champ contient des caractères non autorisés';
-            $result = false;
-        }
+            $this->errors['text_comment'] = 'Ce champ contient des caractères non autorisés';
+                $result = false;
+            }
+             
          
         return $result;
     }

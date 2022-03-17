@@ -129,8 +129,7 @@ final class ArticleController
 
             } 
 
-                $this->session->addFlashes(
-                    'error',
+                $this->session->addFlashes('error',
                     $postValidator->getErrors()
                 );
             

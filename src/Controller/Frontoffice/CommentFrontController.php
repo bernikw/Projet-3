@@ -1,9 +1,5 @@
-<?php
 
-declare(strict_types=1);
-
-namespace App\Controller\Frontoffice;
-
+/*
 use App\View\View;
 use App\Service\Http\Response;
 use App\Model\Entity\Comment;
@@ -14,7 +10,7 @@ use App\Service\Http\Session\Session;
 use App\Service\Tokencsrf;
 
 
-
+/*
 final class CommentFrontController
 {
     private CommentRepository $commentRepository;
@@ -32,9 +28,9 @@ final class CommentFrontController
     {
         $datas = [];
 
-        if ($request->getMethod() === 'POST') {
+       /* if ($request->getMethod() === 'POST') {
 
-            if (!$token->isValid()) {
+           if (!$token->isValid()) {
 
                 $this->session->addFlashes('error', ['Token non valid']);
                 return new Response('', 303, ['redirect' => 'login']);
@@ -56,13 +52,12 @@ final class CommentFrontController
 
             $this->session->addFlashes('danger',
                 $commentValidator->getErrors());
-        }
+        }*/
 
-        return new Response($this->view->render(
+       /* return new Response($this->view->render(
             [
                 'template' => 'post',
-                'data' => ['datassaisi' => $datas, 'token' => $token->generate()]
-            ]
+                'data' => [ 'token' => $token->generate()]]
         ));
     }
 }

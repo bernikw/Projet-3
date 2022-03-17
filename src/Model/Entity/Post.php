@@ -17,8 +17,6 @@ final class Post
     private int $userId;
     private string $username;
  
-    
-    
 
     public function __construct(int $id, string $title, string $chapo, string $content, ?string $dateCreation, ?string $dateUpdate, int $userId, string $username)
     {

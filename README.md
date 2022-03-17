@@ -10,7 +10,8 @@ Configuration:
 
 Ce site a été réalisé sous PHP 8.0.13, Twig 3, Bootstrap 5, Composer.
 
-Installation
+Installation:
+
 •	Etape 1 : Clooner le repository dans le dossier racine de votre serveur.
 
 •   Etape 2: Lancer la commande "composer install" à la racine du projet
